@@ -1,0 +1,49 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use App\Receiver;
+
+class ReceiverController extends Controller
+{
+
+	public function index() {
+
+		$receivers = Receiver::orderBy('name')->paginate(15);
+
+		return view('pages.receivers.index', compact('receivers'));
+
+	}
+
+
+	public function store(Request $request) {
+
+		$data = $this->validate($request, [
+			'lname'			=> 'required' ,
+			'fname'			=> 'required' ,
+			'mname'			=> ''
+ 		]);
+		
+		$name = "{$data['lname']}, {$data['fname']} {$data['mname']}";
+
+		Receiver::create(['name' => strtoupper($name)]);
+
+		return redirect()->route('maintenance.receivers.index')->with('success', 'Receiver has been saved!!');
+
+	}
+
+
+	public function update($id, Request $request) {
+
+		$receiver = Receiver::find($id);
+
+		$receiver->update($request->except(['_method', '_token']));
+
+		return redirect()->route('maintenance.receivers.index')->with('success', 'Receiver has been updated!!');
+
+	}
+
+
+}

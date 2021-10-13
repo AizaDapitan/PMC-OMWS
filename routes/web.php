@@ -1,0 +1,106 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('/', function () {
+    if(Auth::user()) {
+    	return redirect('/dashboard');
+    }
+    return redirect('/login');
+});
+
+
+Auth::routes();
+
+
+
+Route::get('/close-open-sequence', 'SequenceController@closeOpenSequence')->name('sequence.close-open');
+
+Route::middleware(['auth'])->group(function () {
+
+	Route::resource('items', 'ItemsController');
+
+	Route::get('/dashboard', 'HomeController@index')->name('home');
+
+	Route::name('maintenance.')->group(function () {
+
+		Route::resource('costcodes', 'CostcodeController');
+		Route::resource('categories', 'CategoryController');
+		Route::resource('approvers', 'ApproverController');
+		Route::resource('receivers', 'ReceiverController');
+		Route::resource('cutoffs', 'CutoffController');
+
+		Route::resource('locations', 'LocationController');
+		Route::get('/locations/{id}/costcode/{costcodeID}/remove', 'LocationController@detachCostcode')->name('locations.detach-costcode');
+		Route::get('/locations/{id}/costcode/{costcodeID}/insert', 'LocationController@attachCostcode')->name('locations.attach-costcode');
+
+		Route::resource('contractors', 'ContractorController');
+		Route::get('/contractors/{id}/location/{locId}/remove', 'ContractorController@detachLocation')->name('contractors.detach-location');
+		Route::get('/contractors/{id}/location/{locId}/insert', 'ContractorController@attachLocation')->name('contractors.attach-location');
+		
+		Route::resource('sequence', 'SequenceController');
+
+		Route::post('sequence-action', 'SequenceController@getAction')->name('sequence.getAction');
+
+		// Route::get('fabricated/create', 'SequenceController@create')->name('fabricatednum.create');
+		Route::post('sequence/fabricated-store','SequenceController@storefabnum')->name('fabricatednum.store');
+		Route::get('/sequence/fabricated-update/{id}','SequenceController@updatefabnum')->name('fabricatednum.update');
+	});
+
+	Route::name('rpt.')->group(function () {
+
+		Route::get('transaction-all', 'ReportsController@all')->name('transaction-all');
+		Route::get('item-issuance', 'ReportsController@itemIssuance')->name('item-issuance');
+		Route::get('item-issuance-details', 'ReportsController@itemIssuanceDetails')->name('item-issuance-details');
+		Route::get('location-history', 'ReportsController@locationHistory')->name('location-history');
+		Route::get('contractor-history', 'ReportsController@contractorHistory')->name('contractor-history');	
+		Route::get('issuance-by-status', 'ReportsController@issuanceByStatus')->name('issuance-by-status');
+		Route::get('issuance-by-transactionID', 'ReportsController@issuanceByTransactionID')->name('issuance-by-transactionID');
+
+	});
+
+	Route::get('ppe-transactions', 'TransactionController@irmsTransactions')->name('ppe-transactions');
+	Route::get('transactions', 'TransactionController@transactions')->name('transactions');
+	Route::get('/transaction-new', 'TransactionController@createTransaction')->name('transaction-new');
+	Route::get('transaction/{id}/edit', 'TransactionController@editTransaction')->name('transaction.edit');
+	Route::get('/ppe-transaction/{id}', 'TransactionController@createIRMSTransaction')->name('ppe-transaction.create');
+	Route::get('item-no-par/{id}', 'TransactionController@updateNoPar')->name('item-no-par');
+	Route::get('/transaction-batch-per-id', 'TransactionController@postTransactionByID')->name('transaction-batch-per-id');
+	Route::get('/transaction-batch-per-date', 'TransactionController@postTransactionByDate')->name('transaction-batch-per-date');
+
+
+	Route::post('/ppe-transaction', 'TransactionController@storeIRMSTransaction')->name('ppe-transaction.store');
+	Route::post('/transaction', 'TransactionController@storeTransaction')->name('transaction.store');
+
+	Route::patch('/transaction/{id}', 'TransactionController@updateTransaction')->name('transaction.update');
+	Route::patch('/transactions/{id}', 'TransactionController@updateTransactionStatus')->name('transactions.update');
+	Route::patch('/transaction-batch-per-id/{id}', 'TransactionController@updateTransactionByID')->name('transaction-batch-per-id.update');
+	Route::patch('/transaction-batch-per-date/{id}', 'TransactionController@updateTransactionByDate')->name('transaction-batch-per-date.update');
+
+});
+
+
+Route::get('/manual', 'HomeController@manual')->name('manual');
+
+Route::get('/change-password', function() {
+
+    $id = \Auth::user()->id;
+
+    return view('pages.profile.change-pass', compact('id'));
+
+})->name('change-pass');
+
+Route::patch('/change-password', 'HomeController@updatePassword');
+
+Route::get('/ttt', 'TransactionController@getAllTransaction11');
