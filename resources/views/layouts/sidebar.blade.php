@@ -88,7 +88,7 @@
 						<a href="{{ route('maintenance.categories.index') }}">
 						<i class="fa fa-lock"></i>
 						Category</a>
-					</li>
+					</li>					
 					{{-- @if(\Auth::user()->can_open_sequence) --}}
 						<li class="@if (request()->routeIs('maintenance.sequence*')) active @endif">
 							<a href="{{ route('maintenance.sequence.index') }}">
@@ -96,6 +96,13 @@
 							Sequence Control</a>
 						</li>
 					{{-- @endif --}}
+
+					<li class="@if (request()->routeIs('maintenance.roles*')) active @endif">
+						<a href="{{ route('maintenance.roles.index') }}">
+						<i class="fa fa-lock"></i>
+						Roles</a>
+					</li>
+										
 				</ul>
 			</li>
 			

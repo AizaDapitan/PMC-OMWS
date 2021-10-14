@@ -56,6 +56,11 @@ Route::middleware(['auth'])->group(function () {
 		// Route::get('fabricated/create', 'SequenceController@create')->name('fabricatednum.create');
 		Route::post('sequence/fabricated-store','SequenceController@storefabnum')->name('fabricatednum.store');
 		Route::get('/sequence/fabricated-update/{id}','SequenceController@updatefabnum')->name('fabricatednum.update');
+
+		//Role Routes
+		Route::resource('roles', 'RoleController');
+		Route::post('/role-update','RoleController@role_update')->name('roles.update');
+
 	});
 
 	Route::name('rpt.')->group(function () {
