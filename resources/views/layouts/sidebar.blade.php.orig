@@ -86,9 +86,15 @@
 					</li>
 					<li class="@if (request()->routeIs('maintenance.categories*')) active @endif">
 						<a href="{{ route('maintenance.categories.index') }}">
+<<<<<<< HEAD
 							<i class="fa fa-lock"></i>
 							Category</a>
+					</li>
+=======
+						<i class="fa fa-lock"></i>
+						Category</a>
 					</li>					
+>>>>>>> 43e7bd14c9888433144a5b521dc12a7d14184592
 					{{-- @if(\Auth::user()->can_open_sequence) --}}
 					<li class="@if (request()->routeIs('maintenance.sequence*')) active @endif">
 						<a href="{{ route('maintenance.sequence.index') }}">
@@ -96,6 +102,7 @@
 							Sequence Control</a>
 					</li>
 					{{-- @endif --}}
+<<<<<<< HEAD
 					
 					<li class="@if (request()->routeIs('maintenance.users')) active @endif">
 						<a href="{{ route('maintenance.users.index') }}">
@@ -104,7 +111,9 @@
 							<span class="arrow hide"></span>
 						</a>
 					</li>
-							<li class="@if (request()->routeIs('maintenance.roles*')) active @endif">
+=======
+
+					<li class="@if (request()->routeIs('maintenance.roles*')) active @endif">
 						<a href="{{ route('maintenance.roles.index') }}">
 						<i class="fa fa-lock"></i>
 						Roles</a>
@@ -116,18 +125,13 @@
 						Permissions</a>
 					</li>
 
-					<li class="@if (request()->routeIs('maintenance.roleaccessrights*')) active @endif">
-						<a href="{{ route('maintenance.roleaccessrights.index') }}">
+					<li class="@if (request()->routeIs('pages.roleaccessrights*')) active @endif">
+						<a href="{{ route('pages.roleaccessrights') }}">
 						<i class="fa fa-lock"></i>
 						Role Access Rights</a>
-					</li>
-					
-					<li class="@if (request()->routeIs('maintenance.useraccessrights*')) active @endif">
-						<a href="{{ route('maintenance.useraccessrights.index') }}">
-						<i class="fa fa-lock"></i>
-						User Access Rights</a>
-					</li>						
+					</li>					
 										
+>>>>>>> 43e7bd14c9888433144a5b521dc12a7d14184592
 				</ul>
 			</li>
 

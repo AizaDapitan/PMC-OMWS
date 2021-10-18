@@ -1,26 +1,26 @@
-@extends('layouts.app')
 
-@section('pageCSS')
+
+<?php $__env->startSection('pageCSS'); ?>
 
     <link href="google.css" rel="stylesheet" type="text/css"/>
-    <link href="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-    <link href="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
-    <link href="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 
-    <link href="{{env('APP_URL')}}/themes/metronic/assets/global/css/components.css" rel="stylesheet" type="text/css"/>
-    <link href="{{env('APP_URL')}}/themes/metronic/assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
-    <link href="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
-    <link id="style_color" href="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/css/themes/default.css" rel="stylesheet" type="text/css"/>
-    <link href="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/css/components.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
+    <link id="style_color" href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/css/themes/default.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
     <style type="text/css">
         table td {
             padding-bottom: 10px; 
         }
     </style>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 
     <div class="row">
 
@@ -45,7 +45,7 @@
 
                 <div class="portlet-body">
 
-                    <form method="get" action="{{ route('maintenance.roles.index') }}">
+                    <form method="get" action="<?php echo e(route('maintenance.roles.index')); ?>">
                         <table width="100%">
                             <tr>
                                 <td>Search:<input type="hidden" name="action" value="search"></td>
@@ -69,28 +69,29 @@
                             </thead>
 
                             <tbody>
-                                @forelse($roles as $role)
+                                <?php $__empty_1 = true; $__currentLoopData = $roles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $role): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                     <tr>
 										<td>
-											{{ strtoupper($role->name) }}
+											<?php echo e(strtoupper($role->name)); ?>
+
 										</td>
-                                        <td>{{ ($role->description) }}</td>                
+                                        <td><?php echo e(($role->description)); ?></td>                
                                         <td> 
-                                            @if($role->active)
+                                            <?php if($role->active): ?>
                                             <i class="font-blue"> Active</i>
-                                            @else
+                                            <?php else: ?>
                                             <i class="font-red"> Inactive</i>
-                                            @endif
+                                            <?php endif; ?>
                                         </td>
                                         <td>
-                                            <a href="#" class="btn btn-success btn-xs edit_item" onclick="update_role('{{$role->id}}','{{$role->name}}','{{$role->description}}','{{$role->active}}')">Edit </a>
+                                            <a href="#" class="btn btn-success btn-xs edit_item" onclick="update_role('<?php echo e($role->id); ?>','<?php echo e($role->name); ?>','<?php echo e($role->description); ?>','<?php echo e($role->active); ?>')">Edit </a>
                                         </td>
                                     </tr>
-                                @empty
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                     <tr>
                                         <td class="text-center" colspan="4"> No roles Found </td>
                                     </tr>
-                                @endforelse
+                                <?php endif; ?>
                             </tbody>
 
                         </table>
@@ -100,11 +101,11 @@
                 </div>
                 
                 <div class="col-md-6" style="margin-top: 10px; padding-top: 10px;">
-                    Items {{ $roles->firstItem() }} - {{ $roles->lastItem() }}                        
+                    Items <?php echo e($roles->firstItem()); ?> - <?php echo e($roles->lastItem()); ?>                        
                 </div> 
 
                 <div class="col-md-6 text-right">
-                    {{ $roles->withQueryString()->links() }}                        
+                    <?php echo e($roles->withQueryString()->links()); ?>                        
                 </div>   
 
              </div>
@@ -115,8 +116,8 @@
 
     <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <form method="post" action="{{ route('maintenance.roles.store') }}">
-                @csrf
+            <form method="post" action="<?php echo e(route('maintenance.roles.store')); ?>">
+                <?php echo csrf_field(); ?>
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title" id="modal_title">Add New Role</h3>
@@ -157,8 +158,8 @@
 
     <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <form method="post" action="{{ route('maintenance.roles.update') }}">
-                @csrf
+            <form method="post" action="<?php echo e(route('maintenance.roles.update')); ?>">
+                <?php echo csrf_field(); ?>
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title" id="modal_title">Update Role</h3>
@@ -197,17 +198,17 @@
         </div>
     </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('pageJS')
+<?php $__env->startSection('pageJS'); ?>
     
-    <script src="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/jquery-1.11.0.min.js" type="text/javascript"></script>
-    <script src="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
-    <script src="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/jquery-1.11.0.min.js" type="text/javascript"></script>
+    <script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+    <script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 
-    <script src="{{env('APP_URL')}}/themes/metronic/assets/global/scripts/metronic.js" type="text/javascript"></script>
-    <script src="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
-    <script src="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
+    <script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/scripts/metronic.js" type="text/javascript"></script>
+    <script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
+    <script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
 
     <script type="text/javascript">
             
@@ -238,4 +239,6 @@
 
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\PERSONAL\SC\PMC PROJECT\omws\resources\views/pages/roles/index.blade.php ENDPATH**/ ?>

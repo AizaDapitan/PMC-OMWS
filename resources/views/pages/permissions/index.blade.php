@@ -26,11 +26,11 @@
 
         <div class="col-md-12">
 
-            <h3 class="page-title"> Role Maintenance </h3>
+            <h3 class="page-title"> Permission Maintenance </h3>
 
             <ul class="page-breadcrumb breadcrumb">
                 <li> 
-                    <a class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" onclick="addRole()" style="color:white;">Add New</a>                    
+                    <a class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" onclick="addPermission()" style="color:white;">Add New</a>                    
                 </li>
             </ul>
 
@@ -38,22 +38,22 @@
 
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class=" icon-list"></i> List of Roles
+                        <i class=" icon-list"></i> List of Permissions
                     </div>
                             
                 </div>
 
                 <div class="portlet-body">
 
-                    <form method="get" action="{{ route('maintenance.roles.index') }}">
+                    <form method="get" action="{{ route('maintenance.permissions.index') }}">
                         <table width="100%">
                             <tr>
                                 <td>Search:<input type="hidden" name="action" value="search"></td>
-                                <td><input type="text" name="searchtxt" id="searchtxt" class="form-control input " placeholder="Enter Name"></td>                                 
+                                <td><input type="text" name="searchtxt" id="searchtxt" class="form-control input " placeholder="Enter Description"></td>                                 
                                 <td align="left"><input type="submit" class="btn purple" value="Search"> </td>                                  
                             </tr>
                         </table>
-                    </form>                
+                    </form>
 
                     <div class="table-scrollable">
                         
@@ -61,7 +61,7 @@
 
                             <thead>
                                 <tr>                                    
-                                    <th>Name</th>
+                                    <th>Module</th>
                                     <th>Description</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -69,26 +69,26 @@
                             </thead>
 
                             <tbody>
-                                @forelse($roles as $role)
+                                @forelse($permissions as $permission)
                                     <tr>
 										<td>
-											{{ strtoupper($role->name) }}
+											{{ strtoupper($permission->module_type) }}
 										</td>
-                                        <td>{{ ($role->description) }}</td>                
+                                        <td>{{ ($permission->description) }}</td>                
                                         <td> 
-                                            @if($role->active)
+                                            @if($permission->active)
                                             <i class="font-blue"> Active</i>
                                             @else
                                             <i class="font-red"> Inactive</i>
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="#" class="btn btn-success btn-xs edit_item" onclick="update_role('{{$role->id}}','{{$role->name}}','{{$role->description}}','{{$role->active}}')">Edit </a>
+                                            <a href="#" class="btn btn-success btn-xs edit_item" onclick="update_permission('{{$permission->id}}','{{$permission->module_type}}','{{$permission->description}}','{{$permission->active}}')">Edit </a>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td class="text-center" colspan="4"> No roles Found </td>
+                                        <td class="text-center" colspan="4"> No permissions Found </td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -100,11 +100,11 @@
                 </div>
                 
                 <div class="col-md-6" style="margin-top: 10px; padding-top: 10px;">
-                    Items {{ $roles->firstItem() }} - {{ $roles->lastItem() }}                        
+                    Items {{ $permissions->firstItem() }} - {{ $permissions->lastItem() }}                        
                 </div> 
 
                 <div class="col-md-6 text-right">
-                    {{ $roles->withQueryString()->links() }}                        
+                    {{ $permissions->withQueryString()->links() }}                        
                 </div>   
 
              </div>
@@ -115,11 +115,11 @@
 
     <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <form method="post" action="{{ route('maintenance.roles.store') }}">
+            <form method="post" action="{{ route('maintenance.permissions.store') }}">
                 @csrf
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title" id="modal_title">Add New Role</h3>
+                    <h3 class="modal-title" id="modal_title">Add New Permission</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -134,12 +134,18 @@
                             <td><input type="checkbox" name="active" id="active"></td>                                     
                         </tr>                    
                         <tr>
-                            <td width="150"><label>Name <span class="required" aria-required="true"> * </span></label></td>
-                            <td><input type="text" class="form-control" id="role" name="role" placeholder="Role" required maxlength="30"></td>                                       
+                            <td width="150"><label>Module <span class="required" aria-required="true"> * </span></label></td>
+                            <td>
+                                <select required name="module_type" id="module_type" class="form-control"> 
+                                    @foreach($modules as $module)
+                                        <option value="{{ $module['description'] }}">{{ $module['description'] }}</option>
+                                    @endforeach
+                                </select>                                
+                            </td>
                         </tr>
                         <tr>
                             <td width="150"><label>Description <span class="required" aria-required="true"> * </span></label></td>
-                            <td><input type="text" class="form-control" id="description" name="description" placeholder="Description" required maxlength="50"></td>                                      
+                            <td><input type="text" class="form-control" id="description" name="description" placeholder="Description" required maxlength="50"></td>
                         </tr>
 
                     </table>
@@ -148,7 +154,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="modal_action">Save Role</button>
+                    <button type="submit" class="btn btn-primary" id="modal_action">Save Permission</button>
                 </div>
             </div>
             </form>
@@ -157,11 +163,11 @@
 
     <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <form method="post" action="{{ route('maintenance.roles.update') }}">
+            <form method="post" action="{{ route('maintenance.permissions.update') }}">
                 @csrf
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title" id="modal_title">Update Role</h3>
+                    <h3 class="modal-title" id="modal_title">Update Permission</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -176,21 +182,25 @@
                             <td><input type="checkbox" name="edit_active" id="edit_active"></td>
                         </tr>
                         <tr>
-                            <td width="150"><label>Name <span class="required" aria-required="true"> * </span></label></td>
-                            <td><input class="form-control" type="text" name="name" id="edit_name" placeholder="Role" required maxlength="30"></td>
+                            <td width="150"><label>Module <span class="required" aria-required="true"> * </span></label></td>
+                            <td>
+                                <select required name="module_type" id="edit_module_type" class="form-control"> 
+                                    @foreach($modules as $module)
+                                        <option value="{{ $module['description'] }}">{{ $module['description'] }}</option>
+                                    @endforeach
+                                </select>                                
+                            </td>
                         </tr>
-
                         <tr>
                             <td width="150"><label>Description <span class="required" aria-required="true"> * </span></label></td>
                             <td><input class="form-control" type="text" name="description" id="edit_description" placeholder="Description" required maxlength="50"></td>
                         </tr>                                                
                     </table>
-
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="modal_action">Update Role</button>
+                    <button type="submit" class="btn btn-primary" id="modal_action">Update Permission</button>
                 </div>
             </div>
             </form>
@@ -211,7 +221,7 @@
 
     <script type="text/javascript">
             
-		function update_role(id,name,description,status)
+		function update_permission(id,module_type,description,status)
 		{
 			if (status == "1")
 			{				
@@ -223,16 +233,16 @@
 			}
 
 			$('#nameid').val(id);			
-			$('#edit_name').val(name);
+			$('#edit_module_type').val(module_type);
 			$('#edit_description').val(description);
 			$('#modalEdit').modal('show');
 		}
 
 
-		function addRole() 
+		function addPermission() 
 		{										
 			$('#nameid').val('');
-			$('#role').val('');
+			$('#module_type').val('');
 			$('#description').val('');			
 		}        
 

@@ -54,45 +54,42 @@ Route::middleware(['auth'])->group(function () {
 		Route::post('sequence-action', 'SequenceController@getAction')->name('sequence.getAction');
 
 		// Route::get('fabricated/create', 'SequenceController@create')->name('fabricatednum.create');
+<<<<<<< HEAD
 		Route::post('sequence/fabricated-store', 'SequenceController@storefabnum')->name('fabricatednum.store');
 		Route::get('/sequence/fabricated-update/{id}', 'SequenceController@updatefabnum')->name('fabricatednum.update');
 
 		// Users
 		Route::group(['prefix' => 'users'], function () {
-			Route::get('/', 'UserController@index')->name('users.index');
-			Route::post('store', 'UserController@store')->name('users.store');
-			Route::any('search', 'UserController@search')->name('users.search');
-			Route::post('/edit', 'UserController@edit')->name('users.edit');
-			Route::put('update', 'UserController@update')->name('users.update');
-			Route::post('/user-change-status', 'UserController@change_status')->name('user.change-status');
-			Route::post('/user-reset-password', 'UserController@reset_password')->name('user.reset-password');
+		Route::get('/', 'UserController@index')->name('users.index');
+		Route::post('store', 'UserController@store')->name('users.store');
+		Route::any('search', 'UserController@search')->name('users.search');
+		Route::post('/edit', 'UserController@edit')->name('users.edit');
+		Route::put('update', 'UserController@update')->name('users.update');
+		Route::post('/user-change-status', 'UserController@change_status')->name('user.change-status');
+		Route::post('/user-reset-password', 'UserController@reset_password')->name('user.reset-password');
 		});
+=======
+		Route::post('sequence/fabricated-store','SequenceController@storefabnum')->name('fabricatednum.store');
+		Route::get('/sequence/fabricated-update/{id}','SequenceController@updatefabnum')->name('fabricatednum.update');
 
 		//Role Routes
 		Route::resource('roles', 'RoleController');
-		Route::post('/role-update', 'RoleController@role_update')->name('roles.update');
+		Route::post('/role-update','RoleController@role_update')->name('roles.update');
 
 		//Permission Routes
 		Route::resource('permissions', 'PermissionController');
-		Route::post('/permission-update', 'PermissionController@permission_update')->name('permissions.update');
+		Route::post('/permission-update','PermissionController@permission_update')->name('permissions.update');		
 
-
-		//Role Access right routes
-		Route::group(['prefix' => 'roleaccessrights'], function () {
-			Route::get('/', 'RoleRightController@index')->name('roleaccessrights.index');
-			Route::post('store', 'RoleRightController@store')->name('roleaccessrights.store');
-			Route::get('store', 'RoleRightController@store')->name('roleaccessrights.store');
-		});
-
-
-		//User Access right routes
-		Route::group(['prefix' => 'useraccessrights'], function () {
-			Route::get('/', 'UserRightController@index')->name('useraccessrights.index');
-			Route::post('store', 'UserRightController@store')->name('useraccessrights.store');
-			Route::get('store', 'UserRightController@store')->name('useraccessrights.store');
-		});
-
+>>>>>>> 43e7bd14c9888433144a5b521dc12a7d14184592
 	});
+
+	//Role Access right routes
+	Route::group(['prefix' => 'roleaccessrights'], function () {
+		Route::get('/', 'RoleRightController@index')->name('pages.roleaccessrights');
+		Route::post('store', 'RoleRightController@store')->name('pages.roleaccessrights.store');
+		Route::get('store', 'RoleRightController@store')->name('pages.roleaccessrights.store');
+	});   	
+
 	Route::name('rpt.')->group(function () {
 
 		Route::get('transaction-all', 'ReportsController@all')->name('transaction-all');

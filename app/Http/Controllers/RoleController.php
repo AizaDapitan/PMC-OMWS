@@ -10,36 +10,22 @@ use App\Role;
 class RoleController extends Controller
 {
 
-	public function index(Request $request) {
+	public function index(Request $request) 
+	{
 
-		if($request->name!=null || $request->name!='') {
-
-		$roles = Role::where('name','like','%' .$request->name. '%')->get();	
-
-		} else {
-
-		$roles = Role::orderBy('name')->get();
-
-		}
-
-		$perPage = 10;
-
-		$currentPage = LengthAwarePaginator::resolveCurrentPage();
-
-		if ($currentPage == 1) {
-		    $start = 0;
-		}
-		else {
-		    $start = ($currentPage - 1) * $perPage;
-		}
-
-		$currentPageCollection = $roles->slice($start, $perPage)->all();
-
-		$roles = new LengthAwarePaginator($currentPageCollection, count($roles), $perPage);
-
-		$roles->setPath(LengthAwarePaginator::resolveCurrentPath());
-
-		return view('pages.roles.index', compact('roles'));
+        $roles = Role::orderBy('name')
+        ->where(function($query) use ($request)
+        {
+			if($request->has('searchtxt') && $request->searchtxt != '') 
+			{
+				$query->where('name', 'like', '%'.$request->searchtxt.'%' )
+				->orderBy('name');
+        	}
+        })
+        
+        ->paginate(15);
+        
+        return view('pages.roles.index', compact('roles'));
 
 	}
 
