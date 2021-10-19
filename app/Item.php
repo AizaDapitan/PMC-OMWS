@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable  as AuditableContract;
+use OwenIt\Auditing\Auditable;
 
-class Item extends Model
+class Item extends Model implements AuditableContract
 {
+    use Auditable;
 
 	protected $dates = ['addedDate'];
 

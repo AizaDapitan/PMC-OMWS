@@ -232,6 +232,13 @@
 							<span class="arrow hide"></span>
 						</a>
 					</li>
+					<li class="@if (request()->routeIs('rpt.audit-logs')) active open @endif">
+						<a href="{{ route('rpt.audit-logs') }}">
+							<i class="fa fa-calendar"></i>
+							<span class="title">Audit Logs</span>
+							<span class="arrow hide"></span>
+						</a>
+					</li>
 				</ul>
 			</li>
 			<!--Added dated 11-30-2017 to cater the link for manual by AAG -->

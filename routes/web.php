@@ -13,18 +13,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-	if (Auth::user()) {
-		return redirect('/dashboard');
-	}
-	return redirect('/login');
-});
+// Route::get('/', function () {
+// 	if (Auth::user()) {
+// 		return redirect('/dashboard');
+// 	}
+// 	return redirect('/login');
+// });
 
 
 Auth::routes();
 
 
 
+Route::get('logout', 'Auth\LoginController@logout');
+Route::get('/','Auth\LoginController@index')->name('login');
+Route::post('login', 'Auth\LoginController@login')->name('login.submit'); // login submit
+
+
+Route::get('adminlogin/admin', 'Auth\LoginController@adminLogin')->name('login.adminLogin'); // login
+Route::post('adminsubmit/admin', 'Auth\LoginController@adminSubmit')->name('login.adminsubmit'); // login submit
 Route::get('/close-open-sequence', 'SequenceController@closeOpenSequence')->name('sequence.close-open');
 
 Route::middleware(['auth'])->group(function () {
@@ -102,6 +109,7 @@ Route::middleware(['auth'])->group(function () {
 		Route::get('contractor-history', 'ReportsController@contractorHistory')->name('contractor-history');
 		Route::get('issuance-by-status', 'ReportsController@issuanceByStatus')->name('issuance-by-status');
 		Route::get('issuance-by-transactionID', 'ReportsController@issuanceByTransactionID')->name('issuance-by-transactionID');
+		Route::get('audit-logs', 'ReportsController@auditLogs')->name('audit-logs');
 	});
 
 	Route::get('ppe-transactions', 'TransactionController@irmsTransactions')->name('ppe-transactions');

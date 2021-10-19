@@ -10,6 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <link href="google.css" rel="stylesheet" type="text/css"/>
+
     @yield('pageCSS')
 
     <style type="text/css">

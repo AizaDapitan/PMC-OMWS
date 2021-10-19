@@ -10,6 +10,7 @@
     <title><?php echo e(config('app.name', 'Laravel')); ?></title>
 
     <link href="google.css" rel="stylesheet" type="text/css"/>
+
     <?php echo $__env->yieldContent('pageCSS'); ?>
 
     <style type="text/css">

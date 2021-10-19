@@ -2,13 +2,33 @@
 
 @section('content')
 
-    <form method="POST" action="{{ route('login') }}" class="login-form">
+    <form method="POST" action="{{ route('login.submit') }}" class="login-form">
         @csrf
 
         <h3 class="form-title">
             <strong>Login to your domain</strong>
         </h3>
+        @if($message = Session::get('error'))
+            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                <i data-feather="alert-circle" class="mg-r-10"></i> {{ $message }}
+            </div>
+            @endif
 
+            @if($message = Session::get('success'))
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+                <i data-feather="alert-circle" class="mg-r-10"></i> {{ $message }}
+            </div>
+            @endif
+            @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <button class="close" data-close="alert"></button>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
         <div class="form-group @error('username') has-error @enderror">
 
             <div class="input-icon">
