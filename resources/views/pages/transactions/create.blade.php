@@ -26,7 +26,7 @@
 
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-gift"></i>Add Form
+                        <i class="fa fa-gift"></i>Add New Transaction
                     </div>                    
                 </div>
 

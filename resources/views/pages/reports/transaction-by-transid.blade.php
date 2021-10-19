@@ -25,7 +25,7 @@
 
         <div class="col-md-12">
             <div class="row">
-            <h3 class="page-title"> Issuance Report By Transaction ID </h3>
+            <h3 class="page-title"> Summary per Transaction # Report </h3>
 
             <form action="{{ route('rpt.issuance-by-transactionID') }}" method="get">
                 <table  width="100%">

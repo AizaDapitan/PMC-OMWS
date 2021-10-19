@@ -32,7 +32,7 @@
 
         <div class="col-md-12">
 
-            <h3 class="page-title"> Locations Maintenance </h3>
+            <h3 class="page-title"> Location Maintenance </h3>
 
             <ul class="page-breadcrumb breadcrumb">
                 <li> 

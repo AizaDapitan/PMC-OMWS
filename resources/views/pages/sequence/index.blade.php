@@ -30,7 +30,7 @@
 
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class=" icon-list"></i> Sequence List
+                        <i class=" icon-list"></i> List of Sequences
                     </div>
                     <div class="actions">
                         <a class="btn green btn-sm" data-toggle="modal" href="#fabricatedseqnum"> Add Fabricated Number <i class="fa fa-plus"></i> </a>

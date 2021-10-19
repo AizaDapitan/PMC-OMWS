@@ -33,7 +33,7 @@ list-style: none;
 
 <div class="col-md-12">
 
-<h3 class="page-title"> Contractors Maintenance </h3>
+<h3 class="page-title"> Contractor Maintenance </h3>
 
 <ul class="page-breadcrumb breadcrumb">
 <li>
@@ -57,7 +57,7 @@ list-style: none;
 <table width="100%">
 <tr>
 <td>Search:<input type="hidden" name="act" value="search"></td>
-<td><input type="text" name="searchtxt" id="searchtxt" class="form-control input " placeholder="Enter Fullname or Code.."></td>
+<td><input type="text" name="searchtxt" id="searchtxt" class="form-control input " placeholder="Enter Name or Code.."></td>
 <td align="left"><input type="submit" class="btn purple" value="Search"> </td>
 </tr>
 </table>
@@ -72,7 +72,7 @@ list-style: none;
 <tr>
 <th width="5%" style="text-align: center;">Edit</th>
 <th width="20%">Code</th>
-<th width="20%">Fullname</th>
+<th width="20%">Name</th>
 <th width="30%">Active Locations</th>
 <th width="35%">Assign New</th>
 </tr>

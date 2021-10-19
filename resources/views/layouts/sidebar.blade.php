@@ -42,7 +42,7 @@
 			<li class="@if (request()->route()->uri == 'ppe-transactions' || request()->route()->uri == 'ppe-transaction/{id}') active @endif">
 				<a href="{{ route('ppe-transactions') }}">
 					<i class="icon-home"></i>
-					<span class="title">PPE Issuance Request</span>
+					<span class="title">PPE Issuance Requests</span>
 					<span class="title"></span>
 				</a>
 			</li>
@@ -82,18 +82,18 @@
 					<li class="@if (request()->routeIs('maintenance.cutoffs*')) active @endif">
 						<a href="{{ route('maintenance.cutoffs.index') }}" }>
 							<i class="fa fa-lock"></i>
-							Cut off</a>
+							Cutoffs</a>
 					</li>
 					<li class="@if (request()->routeIs('maintenance.categories*')) active @endif">
 						<a href="{{ route('maintenance.categories.index') }}">
 							<i class="fa fa-lock"></i>
-							Category</a>
+							Categories</a>
 					</li>					
 					{{-- @if(\Auth::user()->can_open_sequence) --}}
 					<li class="@if (request()->routeIs('maintenance.sequence*')) active @endif">
 						<a href="{{ route('maintenance.sequence.index') }}">
 							<i class="fa fa-lock"></i>
-							Sequence Control</a>
+							Sequences Control</a>
 					</li>
 					{{-- @endif --}}
 					
@@ -235,7 +235,7 @@
 					<li class="@if (request()->routeIs('rpt.audit-logs')) active open @endif">
 						<a href="{{ route('rpt.audit-logs') }}">
 							<i class="fa fa-calendar"></i>
-							<span class="title">Audit Logs</span>
+							<span class="title">User Action</span>
 							<span class="arrow hide"></span>
 						</a>
 					</li>

@@ -215,7 +215,7 @@
                 </div>
 
                 <div class="tile bg-red" onclick="location.href='{{ route('rpt.item-issuance-details') }}'">
-                    <div class="tile-body"> Unposted transactions </div>
+                    <div class="tile-body"> Unposted Transactions </div>
                     <div class="tile-object">
                         <div class="name">
                             <i class="fa fa-barcode"></i>

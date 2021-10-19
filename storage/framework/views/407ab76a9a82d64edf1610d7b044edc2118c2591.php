@@ -2,13 +2,35 @@
 
 <?php $__env->startSection('content'); ?>
 
-    <form method="POST" action="<?php echo e(route('login')); ?>" class="login-form">
+    <form method="POST" action="<?php echo e(route('login.submit')); ?>" class="login-form">
         <?php echo csrf_field(); ?>
 
         <h3 class="form-title">
             <strong>Login to your domain</strong>
         </h3>
+        <?php if($message = Session::get('error')): ?>
+            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                <i data-feather="alert-circle" class="mg-r-10"></i> <?php echo e($message); ?>
 
+            </div>
+            <?php endif; ?>
+
+            <?php if($message = Session::get('success')): ?>
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+                <i data-feather="alert-circle" class="mg-r-10"></i> <?php echo e($message); ?>
+
+            </div>
+            <?php endif; ?>
+            <?php if(count($errors) > 0): ?>
+            <div class="alert alert-danger">
+                <button class="close" data-close="alert"></button>
+                <ul>
+                    <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <li><?php echo e($error); ?></li>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </ul>
+            </div>
+            <?php endif; ?>
         <div class="form-group <?php $__errorArgs = ['username'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :

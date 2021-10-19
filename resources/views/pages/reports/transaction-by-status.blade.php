@@ -25,7 +25,7 @@
 
 <div class="col-md-12">
 <div class="row">
-<h3 class="page-title"> Issuance Report By Status - {{ ucfirst(request()->status) }} </h3>
+<h3 class="page-title"> Unposted Transactions Report </h3>
 
 <form action="{{ route('rpt.issuance-by-status') }}" method="get">
 <input type="hidden" name="act" value="gen">

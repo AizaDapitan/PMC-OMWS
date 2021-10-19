@@ -23,7 +23,7 @@
 
         <div class="col-md-12">
 
-            <h3 class="page-title"> Transaction Report </h3>
+            <h3 class="page-title"> Item Issuance Details Report </h3>
 
             <div class="col-md-12">
                 <div class="row">

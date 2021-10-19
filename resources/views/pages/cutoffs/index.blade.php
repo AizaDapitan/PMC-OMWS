@@ -34,7 +34,7 @@
 
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class=" icon-list"></i> List of Cutoff
+                        <i class=" icon-list"></i> List of Cutoffs
                     </div>
                             
                 </div>

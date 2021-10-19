@@ -61,7 +61,7 @@
                                     <th>UOM</th>
                                     <th>Category</th>                                   
                                     <th>Unit Cost</th>
-                                    <th>Actions</th>                    
+                                    <th>Action</th>                    
                                 </tr>
                             </thead>
 

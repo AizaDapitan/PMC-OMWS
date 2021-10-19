@@ -21,7 +21,7 @@
 
         <div class="col-md-12">
 
-            <h3 class="page-title"> Issuance Request Lists </h3>            
+            <h3 class="page-title"> Issuance Requests List </h3>            
 
             <form method="get">
                 <ul class="page-breadcrumb breadcrumb">                     
@@ -64,7 +64,7 @@
                                 <th>Document Date</th>      
                                 <th>Location</th>                           
                                 <th>Status</th>
-                                <th>Actions</th>                                
+                                <th>Action</th>                                
                             </tr>
                         </thead>
                         <tbody>

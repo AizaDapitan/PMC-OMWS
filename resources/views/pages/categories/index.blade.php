@@ -36,7 +36,7 @@
 
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class=" icon-list"></i> List of Category
+                        <i class=" icon-list"></i> List of Categories
                     </div>
                             
                 </div>
