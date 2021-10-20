@@ -120,7 +120,13 @@
 						<a href="<?php echo e(route('maintenance.roleaccessrights.index')); ?>">
 						<i class="fa fa-lock"></i>
 						Role Access Rights</a>
-					</li>					
+					</li>
+					
+					<li class="<?php if(request()->routeIs('maintenance.useraccessrights*')): ?> active <?php endif; ?>">
+						<a href="<?php echo e(route('maintenance.useraccessrights.index')); ?>">
+						<i class="fa fa-lock"></i>
+						User Access Rights</a>
+					</li>						
 										
 				</ul>
 			</li>
@@ -230,6 +236,13 @@
 						<a href="<?php echo e(route('rpt.audit-logs')); ?>">
 							<i class="fa fa-calendar"></i>
 							<span class="title">Audit Logs</span>
+							<span class="arrow hide"></span>
+						</a>
+					</li>
+					<li class="<?php if(request()->routeIs('rpt.error-logs')): ?> active open <?php endif; ?>">
+						<a href="<?php echo e(route('rpt.error-logs')); ?>">
+							<i class="fa fa-calendar"></i>
+							<span class="title">Error Logs</span>
 							<span class="arrow hide"></span>
 						</a>
 					</li>

@@ -19,16 +19,12 @@
 @endsection
 @section('content')
 
-
 <!-- BEGIN SIDEBAR CONTENT LAYOUT -->
 
-<!-- BEGIN PAGE HEADER-->
-
-<div class=" row">
-
+<!-- END BREADCRUMBS -->
+<div class="row">
     <div class="col-md-12">
-
-        <h3 class="page-title"> User Action Report </h3>
+        <h3 class="page-title"> Error Logs Report </h3>
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
         <div class="portlet light bordered">
             <div class="portlet-title">
@@ -62,84 +58,38 @@
                                     </button>
                                 </span> -->
                         </div>
-                        <label class="control-label" style="margin-right:5px">User Name</label>
-                        <select required name="userid" id="userid" class="form-control select2">
-                            <option value="0">-- Select All -- </option>
-                            @foreach($users as $user)
-                            <option value="{{ $user['id'] }}">{{ $user['username'] }}</option>
-                            @endforeach
-                        </select>
+                        <input type="submit" name="filter_submit" class="btn btn-success" value="Filter" />
                     </div>
-                    <input type="submit" name="filter_submit" class="btn btn-success" value="Filter" />
-                    <!-- <button type="button" class="btn green" onclick="window.open('/admin/booking/mondayprint','displayWindow','toolbar=no,scrollbars=yes,width=1000')";><i class="fa fa-print"></i> Print</button> -->
-
-                </div>
-
             </form>
-
             <div class="portlet-body">
-            <br>
+                <br>
+                <table class="table table-striped table-hover" id="sample_1">
+                    <thead>
+                        <tr>
+                            <th style="width: 10%">ID</th>
+                            <th style="width: 20%">Message</th>
+                            <th style="width: 8%">Level</th>
+                            <th style="width: 8%">Level Name</th>
+                            <th style="width: 10%">DateTime</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($error_list as $error)
+                        <tr>
+                            <td style="width: 10%">{{ $error->id }}</td>
+                            <td style="width: 20%">{{ $error->message }}</td>
+                            <td style="width: 8%">{{ $error->level }}</td>
+                            <td style="width: 10%">{{ $error->level_name  }}</td>
+                            <td style="width: 10%">{{ $error->datetime  }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
-            <table class="table table-striped table-hover" id="sample_1">
-                <thead>
-                    <tr>
-                        <th style="width: 10%">Model</th>
-                        <th style="width: 7%">Action</th>
-                        <th style="width: 8%">User</th>
-                        <th style="width: 10%">Date</th>
-                        <th>Old Values</th>
-                        <th>New Values</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($audits as $audit)
-                    <tr>
-                        <td style="width: 10%">{{ $audit->auditable_type }} (id: {{ $audit->auditable_id }})</td>
-                        <td style="width: 7%">{{ $audit->event }}</td>
-                        @if($audit->user)
-                        <td style="width: 8%">{{ $audit->user->name }}</td>
-                        @else
-                        <td style="width: 8%">No User Name</td>
-                        @endif
-
-                        <td style="width: 10%">{{ $audit->created_at }}</td>
-                        <td>
-                            @foreach($audit->old_values as $attribute => $value)
-                            <b>{{ $attribute }}</b></br>
-                            {{ $value }}
-                            @endforeach
-                            <!-- <table class="table">
-                                                    @foreach($audit->old_values as $attribute => $value)
-                                                    <tr>
-                                                        <td><b>{{ $attribute }}</b></td>
-                                                        <td>{{ $value }}</td>
-                                                    </tr>
-                                                    @endforeach
-                                                </table> -->
-                        </td>
-                        <td>
-                            @foreach($audit->new_values as $attribute => $value)
-                            <b>{{ $attribute }}</b></br>
-                            {{ $value }}
-                            @endforeach
-                            <!-- <table class="table">
-                                                    @foreach($audit->new_values as $attribute => $value)
-                                                    <tr>
-                                                        <td><b>{{ $attribute }}</b></td>
-                                                        <td>{{ $value }}</td>
-                                                    </tr>
-                                                    @endforeach
-                                                </table> -->
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
         </div>
-
+        <!-- END EXAMPLE TABLE PORTLET-->
     </div>
-    <!-- END EXAMPLE TABLE PORTLET-->
-</div>
 </div>
 <!-- END PAGE BASE CONTENT -->
 </div>
@@ -187,30 +137,6 @@
         $('#dateFrom').val(dateFrom);
         $('#dateTo').val(dateTo);
         $('#userid').val(userid);
-
-        // let dateInterval = getQueryParameter('dateFrom','dateTo','userid');
-
     });
-
-    function getQueryParameter(datefrom, dateto, userid) {
-
-
-
-        // const url = window.location.href;
-        // name = name.replace(/[\[\]]/g, "\\$&");
-        // const regex = new RegExp("[?&]" + datefrom + "(=([^&#]*)|&|#|$)"),
-        //     results = regex.exec(url);
-
-        // var dateFrom = decodeURIComponent(results[0].replace(/\+/g, " "));
-        // var dateTo = decodeURIComponent(results[1].replace(/\+/g, " "));
-        // var userid = decodeURIComponent(results[2].replace(/\+/g, " "));
-        // alert(dateFrom);
-        // alert(dateTo);
-        // alert(userid);
-        // // alert(decodeURIComponent(results[1].replace(/\+/g, " ")));
-        // if (!results) return null;
-        // if (!results[2]) return '';
-        // return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
 </script>
 @stop

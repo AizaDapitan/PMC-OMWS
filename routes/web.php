@@ -110,6 +110,7 @@ Route::middleware(['auth'])->group(function () {
 		Route::get('issuance-by-status', 'ReportsController@issuanceByStatus')->name('issuance-by-status');
 		Route::get('issuance-by-transactionID', 'ReportsController@issuanceByTransactionID')->name('issuance-by-transactionID');
 		Route::get('audit-logs', 'ReportsController@auditLogs')->name('audit-logs');
+		Route::get('error-logs', 'ReportsController@errorLogs')->name('error-logs');
 	});
 
 	Route::get('ppe-transactions', 'TransactionController@irmsTransactions')->name('ppe-transactions');

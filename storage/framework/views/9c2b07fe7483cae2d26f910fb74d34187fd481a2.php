@@ -77,7 +77,9 @@
 
             </form>
 
+            <div class="portlet-body">
             <br>
+
             <table class="table table-striped table-hover" id="sample_1">
                 <thead>
                     <tr>
