@@ -40,6 +40,7 @@ class UserController extends Controller
 
 
         $roles = Role::where('active', '1')->get();        
+<<<<<<< HEAD
         $users = User::where('role', '<>', 'admin')->orderBy('name')->where(function($query) use ($request)
         {
 			if($request->has('searchtxt') && $request->searchtxt != '') 
@@ -50,6 +51,11 @@ class UserController extends Controller
         })
         
         ->paginate(15);;
+=======
+        $users = User::orderBy('name');
+
+        $users = $users->paginate($pagination);
+>>>>>>> a6d11e7b85ca45ac84ca03f42faed8a648ed29cc
         return view('pages.users.index', compact('users','roles', 'create', 'edit', 'delete'));
     }
 

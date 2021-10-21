@@ -1,26 +1,26 @@
-@extends('layouts.app')
 
-@section('pageCSS')
+
+<?php $__env->startSection('pageCSS'); ?>
 
 <link href="google.css" rel="stylesheet" type="text/css" />
-<link href="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-<link href="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
-<link href="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 
-<link href="{{env('APP_URL')}}/themes/metronic/assets/global/css/components.css" rel="stylesheet" type="text/css" />
-<link href="{{env('APP_URL')}}/themes/metronic/assets/global/css/plugins.css" rel="stylesheet" type="text/css" />
-<link href="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css" />
-<link id="style_color" href="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/css/themes/default.css" rel="stylesheet" type="text/css" />
-<link href="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/css/components.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/css/plugins.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css" />
+<link id="style_color" href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/css/themes/default.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
     table td {
         padding-bottom: 10px;
     }
 </style>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <div class="row">
 
@@ -35,15 +35,14 @@
                     <i class=" icon-list"></i> User Access Rights
                 </div>
             </div>
-            </div>
 
 
 
             <div class="portlet-body">
-                <form id="form" action="{{ route('maintenance.useraccessrights.store') }}" method="POST">
+                <form id="form" action="<?php echo e(route('maintenance.useraccessrights.store')); ?>" method="POST">
 
                     <input type="hidden" name="users_permissions" id="users_permissions" value="">
-                    @csrf
+                    <?php echo csrf_field(); ?>
 
 
                     <div class="actions">
@@ -51,24 +50,23 @@
                             <label class="control-label" style="margin-right:20px">User Name </label>
 
                             <select required name="userid" id="userid" class="form-control select2">
-                                @foreach($users as $user)
-                                <option value="{{ $user['id'] }}">{{ $user['username'] }}</option>
-                                @endforeach
+                                <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($user['id']); ?>"><?php echo e($user['username']); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </select>
 
                         </div>
-                        @if($create)
+                        <?php if($create): ?>
                         <button type="submit" class="btn blue" id="saveUserPermission">
                             <i class="fa fa-save"></i>&nbsp; Save Changes
                         </button>
-                        @else
+                        <?php else: ?>
                         <button disabled type="submit" class="btn blue" id="saveUserPermission">
                             <i class="fa fa-save"></i>&nbsp; Save Changes
                         </button>
-                        @endif
+                        <?php endif; ?>
                     </div>
                 </form>
-
                 <div class="table-scrollable">
                     <table class="table table-striped table-bordered table-advance table-hover">
                         <thead>
@@ -97,17 +95,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($modules as $module)
+                            <?php $__currentLoopData = $modules; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $module): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
                                 <td width="50%">
                                     <div class="caption custom-padding">
-                                        <span class="caption-subject font-green bold uppercase">{{ strtoupper($module['description'])}}</span>
+                                        <span class="caption-subject font-green bold uppercase"><?php echo e(strtoupper($module['description'])); ?></span>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="md-checkbox custom-padding">
-                                        <input type="checkbox" class="md-check" data-role="{{$module['id']}}_view" data-module="{{$module['id']}}_view" onclick="checkPermission(this.id)" id="{{$module['id']}}_view">
-                                        <label for="{{$module['id']}}_view">
+                                        <input type="checkbox" class="md-check" data-role="<?php echo e($module['id']); ?>_view" data-module="<?php echo e($module['id']); ?>_view" onclick="checkPermission(this.id)" id="<?php echo e($module['id']); ?>_view">
+                                        <label for="<?php echo e($module['id']); ?>_view">
                                             <span></span>
                                             <span span class="check"></span>
                                             <span class="box"></span>
@@ -116,8 +114,8 @@
                                 </td>
                                 <td>
                                     <div class="md-checkbox custom-padding">
-                                        <input type="checkbox" class="md-check" data-role="{{$module['id']}}_create" data-module="{{$module['id']}}_create" onclick="checkPermission(this.id)" id="{{$module['id']}}_create">
-                                        <label for="{{$module['id']}}_create">
+                                        <input type="checkbox" class="md-check" data-role="<?php echo e($module['id']); ?>_create" data-module="<?php echo e($module['id']); ?>_create" onclick="checkPermission(this.id)" id="<?php echo e($module['id']); ?>_create">
+                                        <label for="<?php echo e($module['id']); ?>_create">
                                             <span></span>
                                             <span span class="check"></span>
                                             <span class="box"></span>
@@ -126,8 +124,8 @@
                                 </td>
                                 <td>
                                     <div class="md-checkbox custom-padding">
-                                        <input type="checkbox" class="md-check" data-role="{{$module['id']}}_edit" data-module="{{$module['id']}}_edit" id="{{$module['id']}}_edit" onclick="checkPermission(this.id)">
-                                        <label for="{{$module['id']}}_edit">
+                                        <input type="checkbox" class="md-check" data-role="<?php echo e($module['id']); ?>_edit" data-module="<?php echo e($module['id']); ?>_edit" id="<?php echo e($module['id']); ?>_edit" onclick="checkPermission(this.id)">
+                                        <label for="<?php echo e($module['id']); ?>_edit">
                                             <span></span>
                                             <span class="check"></span>
                                             <span class="box"></span>
@@ -136,8 +134,8 @@
                                 </td>
                                 <td>
                                     <div class="md-checkbox custom-padding">
-                                        <input type="checkbox" class="md-check" data-role="{{$module['id']}}_delete" data-module="{{$module['id']}}_delete" id="{{$module['id']}}_delete" onclick="checkPermission(this.id)">
-                                        <label for="{{$module['id']}}_delete">
+                                        <input type="checkbox" class="md-check" data-role="<?php echo e($module['id']); ?>_delete" data-module="<?php echo e($module['id']); ?>_delete" id="<?php echo e($module['id']); ?>_delete" onclick="checkPermission(this.id)">
+                                        <label for="<?php echo e($module['id']); ?>_delete">
                                             <span></span>
                                             <span class="check"></span>
                                             <span class="box"></span>
@@ -146,8 +144,8 @@
                                 </td>
                                 <td>
                                     <div class="md-checkbox custom-padding">
-                                        <input type="checkbox" class="md-check" data-role="{{$module['id']}}_print" data-module="{{$module['id']}}_print" id="{{$module['id']}}_print" onclick="checkPermission(this.id)">
-                                        <label for="{{$module['id']}}_print">
+                                        <input type="checkbox" class="md-check" data-role="<?php echo e($module['id']); ?>_print" data-module="<?php echo e($module['id']); ?>_print" id="<?php echo e($module['id']); ?>_print" onclick="checkPermission(this.id)">
+                                        <label for="<?php echo e($module['id']); ?>_print">
                                             <span></span>
                                             <span class="check"></span>
                                             <span class="box"></span>
@@ -156,8 +154,8 @@
                                 </td>
                                 <td>
                                     <div class="md-checkbox custom-padding">
-                                        <input type="checkbox" class="md-check" data-role="{{$module['id']}}_upload" data-module="{{$module['id']}}_upload" id="{{$module['id']}}_upload" onclick="checkPermission(this.id)">
-                                        <label for="{{$module['id']}}_upload">
+                                        <input type="checkbox" class="md-check" data-role="<?php echo e($module['id']); ?>_upload" data-module="<?php echo e($module['id']); ?>_upload" id="<?php echo e($module['id']); ?>_upload" onclick="checkPermission(this.id)">
+                                        <label for="<?php echo e($module['id']); ?>_upload">
                                             <span></span>
                                             <span class="check"></span>
                                             <span class="box"></span>
@@ -165,16 +163,17 @@
                                     </div>
                                 </td>
                             </tr>
-                            @foreach($permissions as $permission)
-                            @if(strtoupper($permission['module_type']) == strtoupper($module['description']) )
+                            <?php $__currentLoopData = $permissions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $permission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php if(strtoupper($permission['module_type']) == strtoupper($module['description']) ): ?>
                             <tr>
                                 <td>
-                                    {{ strtoupper($permission['description']) }}
+                                    <?php echo e(strtoupper($permission['description'])); ?>
+
                                 </td>
                                 <td>
                                     <div class="md-checkbox">
-                                        <input type="checkbox" class="md-check" data-role="{{$permission['id']}}_{{$module['id']}}_view" data-module="{{$permission['id']}}_{{$module['id']}}_view" id="{{$permission['id']}}_{{$module['id']}}_view" onchange="storeID(this.id)">
-                                        <label for="{{$permission['id']}}_{{$module['id']}}_view">
+                                        <input type="checkbox" class="md-check" data-role="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_view" data-module="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_view" id="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_view" onchange="storeID(this.id)">
+                                        <label for="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_view">
                                             <span></span>
                                             <span class="check"></span>
                                             <span class="box"></span>
@@ -183,8 +182,8 @@
                                 </td>
                                 <td>
                                     <div class="md-checkbox">
-                                        <input type="checkbox" class="md-check" data-role="{{$permission['id']}}_{{$module['id']}}_create" data-module="{{$permission['id']}}_{{$module['id']}}_create" id="{{$permission['id']}}_{{$module['id']}}_create" onchange="storeID(this.id)">
-                                        <label for="{{$permission['id']}}_{{$module['id']}}_create">
+                                        <input type="checkbox" class="md-check" data-role="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_create" data-module="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_create" id="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_create" onchange="storeID(this.id)">
+                                        <label for="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_create">
                                             <span></span>
                                             <span class="check"></span>
                                             <span class="box"></span>
@@ -193,8 +192,8 @@
                                 </td>
                                 <td>
                                     <div class="md-checkbox">
-                                        <input type="checkbox" class="md-check" data-role="{{$permission['id']}}_{{$module['id']}}_edit" data-module="{{$permission['id']}}_{{$module['id']}}_edit" id="{{$permission['id']}}_{{$module['id']}}_edit" onchange="storeID(this.id)">
-                                        <label for="{{$permission['id']}}_{{$module['id']}}_edit">
+                                        <input type="checkbox" class="md-check" data-role="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_edit" data-module="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_edit" id="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_edit" onchange="storeID(this.id)">
+                                        <label for="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_edit">
                                             <span></span>
                                             <span class="check"></span>
                                             <span class="box"></span>
@@ -203,8 +202,8 @@
                                 </td>
                                 <td>
                                     <div class="md-checkbox">
-                                        <input type="checkbox" class="md-check" data-role="{{$permission['id']}}_{{$module['id']}}_delete" data-module="{{$permission['id']}}_{{$module['id']}}_delete" id="{{$permission['id']}}_{{$module['id']}}_delete" onchange="storeID(this.id)">
-                                        <label for="{{$permission['id']}}_{{$module['id']}}_delete">
+                                        <input type="checkbox" class="md-check" data-role="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_delete" data-module="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_delete" id="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_delete" onchange="storeID(this.id)">
+                                        <label for="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_delete">
                                             <span></span>
                                             <span class="check"></span>
                                             <span class="box"></span>
@@ -213,8 +212,8 @@
                                 </td>
                                 <td>
                                     <div class="md-checkbox">
-                                        <input type="checkbox" class="md-check" data-role="{{$permission['id']}}_{{$module['id']}}_print" data-module="{{$permission['id']}}_{{$module['id']}}_print" id="{{$permission['id']}}_{{$module['id']}}_print" onchange="storeID(this.id)">
-                                        <label for="{{$permission['id']}}_{{$module['id']}}_print">
+                                        <input type="checkbox" class="md-check" data-role="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_print" data-module="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_print" id="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_print" onchange="storeID(this.id)">
+                                        <label for="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_print">
                                             <span></span>
                                             <span class="check"></span>
                                             <span class="box"></span>
@@ -223,8 +222,8 @@
                                 </td>
                                 <td>
                                     <div class="md-checkbox">
-                                        <input type="checkbox" class="md-check" data-role="{{$permission['id']}}_{{$module['id']}}_upload" data-module="{{$permission['id']}}_{{$module['id']}}_upload" id="{{$permission['id']}}_{{$module['id']}}_upload" onchange="storeID(this.id)">
-                                        <label for="{{$permission['id']}}_{{$module['id']}}_upload">
+                                        <input type="checkbox" class="md-check" data-role="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_upload" data-module="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_upload" id="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_upload" onchange="storeID(this.id)">
+                                        <label for="<?php echo e($permission['id']); ?>_<?php echo e($module['id']); ?>_upload">
                                             <span></span>
                                             <span class="check"></span>
                                             <span class="box"></span>
@@ -232,9 +231,9 @@
                                     </div>
                                 </td>
                             </tr>
-                            @endif
-                            @endforeach
-                            @endforeach
+                            <?php endif; ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
                     </table>
                 </div>
@@ -246,17 +245,17 @@
 
 </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('pageJS')
+<?php $__env->startSection('pageJS'); ?>
 
-<script src="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/jquery-1.11.0.min.js" type="text/javascript"></script>
-<script src="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
-<script src="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/jquery-1.11.0.min.js" type="text/javascript"></script>
+<script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+<script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 
-<script src="{{env('APP_URL')}}/themes/metronic/assets/global/scripts/metronic.js" type="text/javascript"></script>
-<script src="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
-<script src="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
+<script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/scripts/metronic.js" type="text/javascript"></script>
+<script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
+<script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
 
 
 <script type="text/javascript">
@@ -272,7 +271,7 @@
         document.querySelectorAll('input[type=checkbox]').forEach(el => el.checked = false)
         $("#users_permissions").val("");
         $.ajax({
-            url: '{!! route('maintenance.useraccessrights.store') !!}',
+            url: '<?php echo route('maintenance.useraccessrights.store'); ?>',
             type: 'get',
 
             data: {
@@ -335,4 +334,5 @@
     }
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\PERSONAL\SC\PMC PROJECT\omws\resources\views/pages/useraccessrights.blade.php ENDPATH**/ ?>

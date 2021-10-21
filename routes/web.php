@@ -101,7 +101,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 		// Application routes
-		Route::group(['prefix' => 'application'], function () {
+		Route::group(['prefix' => 'application/maintenance'], function () {
 			Route::get('/', 'ApplicationController@index')->name('application.index');
 			Route::post('store', 'ApplicationController@store')->name('application.store');
 			Route::post('edit', 'ApplicationController@edit')->name('application.edit');

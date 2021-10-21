@@ -42,7 +42,7 @@
 			<li class="<?php if(request()->route()->uri == 'ppe-transactions' || request()->route()->uri == 'ppe-transaction/{id}'): ?> active <?php endif; ?>">
 				<a href="<?php echo e(route('ppe-transactions')); ?>">
 					<i class="icon-home"></i>
-					<span class="title">PPE Issuance Request</span>
+					<span class="title">PPE Issuance Requests</span>
 					<span class="title"></span>
 				</a>
 			</li>
@@ -82,18 +82,18 @@
 					<li class="<?php if(request()->routeIs('maintenance.cutoffs*')): ?> active <?php endif; ?>">
 						<a href="<?php echo e(route('maintenance.cutoffs.index')); ?>" }>
 							<i class="fa fa-lock"></i>
-							Cut off</a>
+							Cutoffs</a>
 					</li>
 					<li class="<?php if(request()->routeIs('maintenance.categories*')): ?> active <?php endif; ?>">
 						<a href="<?php echo e(route('maintenance.categories.index')); ?>">
 							<i class="fa fa-lock"></i>
-							Category</a>
+							Categories</a>
 					</li>					
 					
 					<li class="<?php if(request()->routeIs('maintenance.sequence*')): ?> active <?php endif; ?>">
 						<a href="<?php echo e(route('maintenance.sequence.index')); ?>">
 							<i class="fa fa-lock"></i>
-							Sequence Control</a>
+							Sequences Control</a>
 					</li>
 					
 					
@@ -126,7 +126,13 @@
 						<a href="<?php echo e(route('maintenance.useraccessrights.index')); ?>">
 						<i class="fa fa-lock"></i>
 						User Access Rights</a>
-					</li>						
+					</li>
+					
+					<li class="<?php if(request()->routeIs('maintenance.application*')): ?> active <?php endif; ?>">
+						<a href="<?php echo e(route('maintenance.application.index')); ?>">
+						<i class="fa fa-lock"></i>
+						Application</a>
+					</li>					
 										
 				</ul>
 			</li>
@@ -235,7 +241,7 @@
 					<li class="<?php if(request()->routeIs('rpt.audit-logs')): ?> active open <?php endif; ?>">
 						<a href="<?php echo e(route('rpt.audit-logs')); ?>">
 							<i class="fa fa-calendar"></i>
-							<span class="title">Audit Logs</span>
+							<span class="title">User Action</span>
 							<span class="arrow hide"></span>
 						</a>
 					</li>

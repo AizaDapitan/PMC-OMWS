@@ -46,7 +46,15 @@
                 </div>
 
                 <div class="portlet-body">
-
+                <form method="get" action="{{ route('maintenance.users.index') }}">
+                        <table width="100%">
+                            <tr>
+                                <td>Search:<input type="hidden" name="action" value="search"></td>
+                                <td><input type="text" name="searchtxt" id="searchtxt" class="form-control input " placeholder="Enter Name"></td>                                 
+                                <td align="left"><input type="submit" class="btn purple" value="Search"> </td>                                  
+                            </tr>
+                        </table>
+                    </form>    
                     <div class="table-scrollable">
                         
                         <table class="table table-hover">

@@ -77,10 +77,11 @@ class LoginController extends Controller
         $checker = auth()->attempt([
             'username' => $request->username,
             'password' => $request->password,
-            'status' => 'ACTIVE',
+            'active' => 1,
         ]);
         if ($checker) {
-            if(auth()->user()->role == "ADMIN"){
+            // dd(auth()->user()->role);
+            if(auth()->user()->role == "ADMIN" || auth()->user()->role == "admin" ){
                 // $saveLogs = $this->auditService->create($request,"Login User : ". auth()->user()->username,"Admin Login");      
                 return redirect()->route('maintenance.application.index');
             }
