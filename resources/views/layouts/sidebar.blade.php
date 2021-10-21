@@ -126,7 +126,13 @@
 						<a href="{{ route('maintenance.useraccessrights.index') }}">
 						<i class="fa fa-lock"></i>
 						User Access Rights</a>
-					</li>						
+					</li>
+					
+					<li class="@if (request()->routeIs('maintenance.application*')) active @endif">
+						<a href="{{ route('maintenance.application.index') }}">
+						<i class="fa fa-lock"></i>
+						Application</a>
+					</li>					
 										
 				</ul>
 			</li>

@@ -508,6 +508,7 @@ class ComposerStaticInit0d9fc956b41c6878bc2829cf0e955e5e
     );
 
     public static $classMap = array (
+        'App\\Application' => __DIR__ . '/../..' . '/app/Application.php',
         'App\\Approver' => __DIR__ . '/../..' . '/app/Approver.php',
         'App\\Category' => __DIR__ . '/../..' . '/app/Category.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
@@ -517,6 +518,7 @@ class ComposerStaticInit0d9fc956b41c6878bc2829cf0e955e5e
         'App\\CostcodeLocation' => __DIR__ . '/../..' . '/app/CostcodeLocation.php',
         'App\\Cutoff' => __DIR__ . '/../..' . '/app/Cutoff.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Http\\Controllers\\ApplicationController' => __DIR__ . '/../..' . '/app/Http/Controllers/ApplicationController.php',
         'App\\Http\\Controllers\\ApproverController' => __DIR__ . '/../..' . '/app/Http/Controllers/ApproverController.php',
         'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
@@ -554,6 +556,7 @@ class ComposerStaticInit0d9fc956b41c6878bc2829cf0e955e5e
         'App\\IRMSTransactionDetail' => __DIR__ . '/../..' . '/app/IRMSTransactionDetail.php',
         'App\\Item' => __DIR__ . '/../..' . '/app/Item.php',
         'App\\Location' => __DIR__ . '/../..' . '/app/Location.php',
+        'App\\Log' => __DIR__ . '/../..' . '/app/Log.php',
         'App\\Module' => __DIR__ . '/../..' . '/app/Module.php',
         'App\\Notifications\\EmailNotification' => __DIR__ . '/../..' . '/app/Notifications/EmailNotification.php',
         'App\\Notifications\\ShutdownNotification' => __DIR__ . '/../..' . '/app/Notifications/ShutdownNotification.php',

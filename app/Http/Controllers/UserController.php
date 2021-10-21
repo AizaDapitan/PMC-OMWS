@@ -41,7 +41,7 @@ class UserController extends Controller
         $pagination = 15;
 
         $roles = Role::where('active', '1')->get();        
-        $users = User::where('role', '<>', 'admin')->orderBy('name');
+        $users = User::orderBy('name');
 
         $users = $users->paginate($pagination);
         return view('pages.users.index', compact('users','roles', 'create', 'edit', 'delete'));

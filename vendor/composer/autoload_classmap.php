@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Application' => $baseDir . '/app/Application.php',
     'App\\Approver' => $baseDir . '/app/Approver.php',
     'App\\Category' => $baseDir . '/app/Category.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
@@ -15,6 +16,7 @@ return array(
     'App\\CostcodeLocation' => $baseDir . '/app/CostcodeLocation.php',
     'App\\Cutoff' => $baseDir . '/app/Cutoff.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
+    'App\\Http\\Controllers\\ApplicationController' => $baseDir . '/app/Http/Controllers/ApplicationController.php',
     'App\\Http\\Controllers\\ApproverController' => $baseDir . '/app/Http/Controllers/ApproverController.php',
     'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
     'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
@@ -52,6 +54,7 @@ return array(
     'App\\IRMSTransactionDetail' => $baseDir . '/app/IRMSTransactionDetail.php',
     'App\\Item' => $baseDir . '/app/Item.php',
     'App\\Location' => $baseDir . '/app/Location.php',
+    'App\\Log' => $baseDir . '/app/Log.php',
     'App\\Module' => $baseDir . '/app/Module.php',
     'App\\Notifications\\EmailNotification' => $baseDir . '/app/Notifications/EmailNotification.php',
     'App\\Notifications\\ShutdownNotification' => $baseDir . '/app/Notifications/ShutdownNotification.php',

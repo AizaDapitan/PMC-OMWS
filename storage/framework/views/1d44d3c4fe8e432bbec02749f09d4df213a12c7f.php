@@ -35,7 +35,9 @@
                         <i class=" icon-list"></i> User Access Rights
                     </div>                            
                 </div>
+            </div>
 
+            <div class="portlet box">
                 <div class="portlet">
                     <form id="form" action="<?php echo e(route('maintenance.useraccessrights.store')); ?>" method="POST">
                     
@@ -46,9 +48,9 @@
 
                         <div class="actions">
                             <div class="form-group form-inline" style="display:inline;margin-right:10px">
-                                <label class="control-label" style="margin-right:20px">User Name </label>
+                                <label class="control-label" style="margin-right:20px; margin-left:20px ">User Name </label>
                                 
-                                <select required name="userid" id="userid" class="form-control select2">
+                                <select required name="userid" id="userid" class="form-control select2" >
                                     <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <option value="<?php echo e($user['id']); ?>"><?php echo e($user['username']); ?></option>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -64,9 +66,9 @@
                                     <i class="fa fa-save"></i>&nbsp; Save Changes
                                 </button>
                             <?php endif; ?>
-                        </div>                
-
+                        </div>
                     </div>
+
                     <div class="portlet-body">
                         <div class="table-scrollable">
                             <table class="table table-striped table-bordered table-advance table-hover">

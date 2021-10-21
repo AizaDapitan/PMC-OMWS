@@ -99,6 +99,21 @@ Route::middleware(['auth'])->group(function () {
 			Route::get('store', 'UserRightController@store')->name('useraccessrights.store');
 		});
 
+
+		// Application routes
+		Route::group(['prefix' => 'application'], function () {
+			Route::get('/', 'ApplicationController@index')->name('application.index');
+			Route::post('store', 'ApplicationController@store')->name('application.store');
+			Route::post('edit', 'ApplicationController@edit')->name('application.edit');
+			Route::put('update', 'ApplicationController@update')->name('application.update');
+			Route::delete('{id}/destroy', 'ApplicationController@destroy')->name('application.destroy');
+			Route::any('/search', 'ApplicationController@search')->name('application.search');
+			Route::get('{id}/destroy', 'ApplicationController@destroy')->name('application.destroy');
+			Route::get('systemDown', 'ApplicationController@systemDown')->name('application.systemDown');
+			Route::get('systemUp', 'ApplicationController@systemUp')->name('application.systemUp');
+			Route::get('create_indexing', 'ApplicationController@create_indexing')->name('application.create_indexing');
+		}); 		
+
 	});
 	Route::name('rpt.')->group(function () {
 
