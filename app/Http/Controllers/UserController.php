@@ -39,8 +39,9 @@ class UserController extends Controller
         $delete =true;
 
 
-        $roles = Role::where('active', '1')->get();        
-        $users = User::where('role', '<>', 'admin')->orderBy('name')->where(function($query) use ($request)
+        $roles = Role::where('active', '1')->get();  
+        $users = User::orderBy('name')->where(function($query) use ($request)      
+        // $users = User::where('role', '<>', 'admin')->orderBy('name')->where(function($query) use ($request)
         {
 			if($request->has('searchtxt') && $request->searchtxt != '') 
 			{

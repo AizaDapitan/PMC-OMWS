@@ -224,8 +224,8 @@
 							<span class="arrow hide"></span>
 						</a>
 					</li>
-					<li class="@if (request()->routeIs('rpt.issuance-by-status')) active open @endif">
-						<a href="{{ route('rpt.issuance-by-status') }}?status=saved">
+					<li class="@if (request()->routeIs('rpt.unposted-transactions')) active open @endif">
+						<a href="{{ route('rpt.unposted-transactions') }}?status=saved">
 							<i class="fa fa-calendar"></i>
 							<span class="title">Unposted Transactions</span>
 							<span class="arrow hide"></span>

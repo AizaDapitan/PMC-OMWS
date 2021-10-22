@@ -122,7 +122,7 @@ Route::middleware(['auth'])->group(function () {
 		Route::get('item-issuance-details', 'ReportsController@itemIssuanceDetails')->name('item-issuance-details');
 		Route::get('location-history', 'ReportsController@locationHistory')->name('location-history');
 		Route::get('contractor-history', 'ReportsController@contractorHistory')->name('contractor-history');
-		Route::get('issuance-by-status', 'ReportsController@issuanceByStatus')->name('issuance-by-status');
+		Route::get('unposted-transactions', 'ReportsController@issuanceByStatus')->name('unposted-transactions');
 		Route::get('issuance-by-transactionID', 'ReportsController@issuanceByTransactionID')->name('issuance-by-transactionID');
 		Route::get('audit-logs', 'ReportsController@auditLogs')->name('audit-logs');
 		Route::get('error-logs', 'ReportsController@errorLogs')->name('error-logs');

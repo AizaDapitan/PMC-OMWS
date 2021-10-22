@@ -11,14 +11,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>OMSW - Item Issuance Report</title>
+	<title>OMSW - Item Issuance Details Report</title>
 </head>
 <body>
 
 	<table width="100%" style="font: 14px arial, sans-serif;">
 		<tr>
 			<td colspan="2" align="center">
-				<font style="font: bold 30px arial, sans-serif;">Item Issuance Report</font>
+				<font style="font: bold 30px arial, sans-serif;">Item Issuance Details Report</font>
 				<br> 
 				{{ request()->has('start') ? request()->start : \Carbon\Carbon::now()->format('Y-m-d') }} 
 				to  
