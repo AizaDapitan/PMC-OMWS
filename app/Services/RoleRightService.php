@@ -113,7 +113,7 @@ class RoleRightService
         $data = collect();
         $access = false;
         $role = auth()->user()->role;
-        if ($role == "ADMIN") {
+        if ($role == "ADMIN" || $role == "admin")   {
             $access = true;
         }
         $create = $access;

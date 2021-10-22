@@ -28,7 +28,11 @@
 
             <ul class="page-breadcrumb breadcrumb">
                 <li> 
-                    <a class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" style="color:white;">Add New</a>
+                @if($create)
+                <a class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" style="color:white;">Add New</a>
+                @else
+                <button disabled class="btn blue" data-backdrop="static" style="color:white;">Add New</button>
+                @endif
                 </li>
             </ul>
 

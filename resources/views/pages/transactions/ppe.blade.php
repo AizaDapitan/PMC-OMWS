@@ -80,8 +80,14 @@
                                     <td>{{ $transaction->location }}</td>
                                     <td>{{ $qty_delevered }} / {{ $qty_ordered }} </td>
                                     <td>
-                                        @if( $qty_ordered > $qty_delevered )
-                                            <a href="{{ route('ppe-transaction.create', $transaction->id) }}" class="btn btn-xs green-jungle">Process</a>
+                                        @if($create)
+                                            @if( $qty_ordered > $qty_delevered )
+                                                <a href="{{ route('ppe-transaction.create', $transaction->id) }}" class="btn btn-xs green-jungle">Process</a>
+                                            @endif
+                                        @else
+                                            @if( $qty_ordered > $qty_delevered )
+                                                <button disabled class="btn btn-xs green-jungle">Process</button>
+                                            @endif
                                         @endif
                                     </td>
                                 </tr>

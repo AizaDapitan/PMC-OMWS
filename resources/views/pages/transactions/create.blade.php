@@ -265,7 +265,7 @@
             if(contractorID == "") { contractorID = 0; }
             $.ajax({
                type:'GET',
-               url:'/api/contractor-locations/'+contractorID,
+               url:"{{env('APP_URL')}}/api/contractor-locations/"+contractorID,
                data:'_token = <?php echo csrf_token(); ?>',
                success:function(data) {
 
@@ -305,7 +305,7 @@
 
             $.ajax({
                type:'GET',
-               url:'/api/get-item/'+itemname,
+               url:"{{env('APP_URL')}}/api/get-item/"+itemname,
                data:'_token = <?php echo csrf_token(); ?>',
                success:function(data) {
                     let result = "";
@@ -397,7 +397,7 @@
             costCodes = [];
             $.ajax({
                type:'GET',
-               url:'/api/location-costcodes/'+$(this).val(),
+               url:"{{env('APP_URL')}}/api/location-costcodes/"+$(this).val(),
                data:'_token = <?php echo csrf_token(); ?>',
                success:function(data) {
                     costCodes = data;

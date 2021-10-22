@@ -32,6 +32,11 @@ class ReportsController extends Controller
 	}
 	public function all(Request $request)
 	{
+		$rolesPermissions = $this->roleRightService->hasPermissions("Issuance Report");
+		
+		if (!$rolesPermissions['view']) {
+			abort(401);
+		}
 		ini_set('max_execution_time', '0');
 		$locations = Location::where('isActive', 1)->get();
 		$contractors = Contractor::where('isActive', 1)->get();
@@ -106,6 +111,11 @@ class ReportsController extends Controller
 
 	public function itemIssuance(Request $request)
 	{
+		$rolesPermissions = $this->roleRightService->hasPermissions("Item Issuance Summary");
+		
+		if (!$rolesPermissions['view']) {
+			abort(401);
+		}
 		ini_set('max_execution_time', '0');
 		$locations = Location::where('isActive', 1)->get();
 		$contractors = Contractor::where('isActive', 1)->get();
@@ -156,6 +166,11 @@ class ReportsController extends Controller
 
 	public function itemIssuanceDetails(Request $request)
 	{
+		$rolesPermissions = $this->roleRightService->hasPermissions("Item Issuance Details");
+		
+		if (!$rolesPermissions['view']) {
+			abort(401);
+		}
 		ini_set('max_execution_time', '0');
 		$locations = Location::where('isActive', 1)->get();
 		$contractors = Contractor::where('isActive', 1)->get();
@@ -205,6 +220,11 @@ class ReportsController extends Controller
 
 	public function locationHistory(Request $request)
 	{
+		$rolesPermissions = $this->roleRightService->hasPermissions("Location History");
+		
+		if (!$rolesPermissions['view']) {
+			abort(401);
+		}
 
 		$locs = Location::where('isActive', 1)->get();
 		$locations = Location::where('isActive', 1)
@@ -232,6 +252,11 @@ class ReportsController extends Controller
 
 	public function contractorHistory(Request $request)
 	{
+		$rolesPermissions = $this->roleRightService->hasPermissions("Contractor History");
+		
+		if (!$rolesPermissions['view']) {
+			abort(401);
+		}
 		$conts = Contractor::where('isActive', 1)->get();
 		$contractors = Contractor::where('isActive', 1)
 			->where(function ($query) use ($request) {
@@ -259,6 +284,11 @@ class ReportsController extends Controller
 
 	public function issuanceByStatus(Request $request)
 	{
+		$rolesPermissions = $this->roleRightService->hasPermissions("Unposted Transactions");
+		
+		if (!$rolesPermissions['view']) {
+			abort(401);
+		}
 		$transactions = Transaction::where('status', $request->status)
 			->where(function ($query) use ($request) {
 				if (!is_null($request->start) && !is_null($request->end)) {
@@ -282,6 +312,11 @@ class ReportsController extends Controller
 
 	public function issuanceByTransactionID(Request $request)
 	{
+		$rolesPermissions = $this->roleRightService->hasPermissions("Summary per Transaction #");
+		
+		if (!$rolesPermissions['view']) {
+			abort(401);
+		}
 		$trans_id = '0';
 
 		if (!is_null($request->trans_id)) {
@@ -313,10 +348,10 @@ class ReportsController extends Controller
 
 	public function auditLogs(Request $request)
 	{
-		// $rolesPermissions = $this->roleRightService->hasPermissions("Audit Logs");
-		// if (!$rolesPermissions['view']) {
-		//     abort(401);
-		// }
+		$rolesPermissions = $this->roleRightService->hasPermissions("Audit Logs");
+		if (!$rolesPermissions['view']) {
+		    abort(401);
+		}
 		$dateFrom = now()->toDateString();
 		$dateTo = now()->toDateString();
 		$userid = 0;
@@ -352,11 +387,11 @@ class ReportsController extends Controller
 	}
 	public function errorLogs(Request $request)
     {
-        // $rolesPermissions = $this->roleRightService->hasPermissions("Error Logs");
+        $rolesPermissions = $this->roleRightService->hasPermissions("Error Logs");
 
-        // if (!$rolesPermissions['view']) {
-        //     abort(401);
-        // }
+        if (!$rolesPermissions['view']) {
+            abort(401);
+        }
         $dateFrom = now()->toDateString();
         $dateTo = now()->toDateString();
         if (isset($request->dateFrom)) {

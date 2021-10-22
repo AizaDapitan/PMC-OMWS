@@ -30,7 +30,11 @@
 
             <ul class="page-breadcrumb breadcrumb">
                 <li>                            
-                    <a class="btn blue" href="{{ route('transaction-new') }}" style="color:white;">Add New</a>                            
+                    @if($create)
+                    <a class="btn blue" href="{{ route('transaction-new') }}" style="color:white;">Add New</a>  
+                    @else
+                    <button disabled class="btn blue" href="{{ route('transaction-new') }}" style="color:white;">Add New</button>  
+                    @endif                          
                 </li>                       
             </ul>
 
@@ -93,16 +97,32 @@
                                 <td>
 
                                     @if($transaction->status == 'SAVED')
-                                    <a href="{{ route('transaction.edit', $transaction->id) }}" class="btn green btn-xs" title="Edit Issuance"><i class="fa fa-edit"></i> </a>
+                                    @if($edit)
+                                        <a href="{{ route('transaction.edit', $transaction->id) }}" class="btn green btn-xs" title="Edit Issuance"><i class="fa fa-edit"></i> </a>
+                                        <a href="#modalPost" data-id="{{$transaction->id}}" data-toggle="modal" data-backdrop="static" class="btn blue postb btn-xs btn-post" title="POST Transaction" ><i class="fa fa-check-circle-o"></i> </a>
                                     
-                                    <a href="#modalPost" data-id="{{$transaction->id}}" data-toggle="modal" data-backdrop="static" class="btn blue postb btn-xs btn-post" title="POST Transaction" ><i class="fa fa-check-circle-o"></i> </a>
+                                    @else
+                                        <button disabled href="{{ route('transaction.edit', $transaction->id) }}" class="btn green btn-xs" title="Edit Issuance"><i class="fa fa-edit"></i> </button>
+                                        <button disabled href="#modalPost" data-id="{{$transaction->id}}" data-toggle="modal" data-backdrop="static" class="btn blue postb btn-xs btn-post" title="POST Transaction" ><i class="fa fa-check-circle-o"></i> </button>
                                     
-                                    <a href="#modalPost" data-id="{{$transaction->id}}" class="btn red btn-cancel btn-xs" title="CANCEL Transaction" data-toggle="modal" data-backdrop="static"><i class="fa fa-times"></i> </a>
+                                    @endif
+                                        @if($delete)
+                                            <a href="#modalPost" data-id="{{$transaction->id}}" class="btn red btn-cancel btn-xs" title="CANCEL Transaction" data-toggle="modal" data-backdrop="static"><i class="fa fa-times"></i> </a>
+                                        @else
+                                            <button disabled href="#modalPost" data-id="{{$transaction->id}}" class="btn red btn-cancel btn-xs" title="CANCEL Transaction" data-toggle="modal" data-backdrop="static"><i class="fa fa-times"></i> </button>
+                                        @endif
                                     @endif      
-                                    @if($transaction->status != 'CANCELLED')                                                              
-                                    <a href="{{ route('transactions') }}?print=true&transId={{$transaction->id}}" target="_blank" class="btn purple btn-xs" title="Print Issuance"><i class="fa fa-print"></i> </a>
-
-                                    <a data-toggle="modal" href="#modalClassic" data-id="{{$transaction->id}}" data-rq="{{$transaction->rq}}" data-transac="{{$transaction->transId}}" data-batch="{{$transaction->batch}}" class="btn green btn-xs btn-classic" title="Update Classic Info"><i class="fa fa-info"></i> Classic</a>
+                                    @if($transaction->status != 'CANCELLED')   
+                                        @if($print)                                                           
+                                            <a href="{{ route('transactions') }}?print=true&transId={{$transaction->id}}" target="_blank" class="btn purple btn-xs" title="Print Issuance"><i class="fa fa-print"></i> </a>
+                                        @else
+                                            <button disabled href="{{ route('transactions') }}?print=true&transId={{$transaction->id}}" target="_blank" class="btn purple btn-xs" title="Print Issuance"><i class="fa fa-print"></i> </button>
+                                        @endif
+                                        @if($edit)
+                                            <a data-toggle="modal" href="#modalClassic" data-id="{{$transaction->id}}" data-rq="{{$transaction->rq}}" data-transac="{{$transaction->transId}}" data-batch="{{$transaction->batch}}" class="btn green btn-xs btn-classic" title="Update Classic Info"><i class="fa fa-info"></i> Classic</a>
+                                        @else
+                                            <button disabled data-toggle="modal" href="#modalClassic" data-id="{{$transaction->id}}" data-rq="{{$transaction->rq}}" data-transac="{{$transaction->transId}}" data-batch="{{$transaction->batch}}" class="btn green btn-xs btn-classic" title="Update Classic Info"><i class="fa fa-info"></i> Classic</button>
+                                        @endif
                                     @endif
                                 </td>
                             </tr>

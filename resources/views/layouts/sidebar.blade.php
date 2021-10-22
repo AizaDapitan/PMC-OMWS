@@ -32,7 +32,7 @@
 
 			</li>
 			<li class="start @if (request()->route()->uri == 'dashboard') active @endif">
-				<a href="{{ env('APP_URL')}}">
+				<a href="{{ route('home') }}">
 					<i class="icon-home"></i>
 					<span class="title">Home</span>
 					<span class="selected"></span>

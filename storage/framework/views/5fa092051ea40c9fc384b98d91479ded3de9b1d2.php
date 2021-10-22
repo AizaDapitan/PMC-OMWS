@@ -30,7 +30,11 @@
 
             <ul class="page-breadcrumb breadcrumb">
                 <li> 
-                    <a class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" onclick="addRole()" style="color:white;">Add New</a>                    
+                    <?php if($create): ?>
+                        <a class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" onclick="addRole()" style="color:white;">Add New</a>    
+                    <?php else: ?>
+                        <button disabled class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" onclick="addRole()" style="color:white;">Add New</button>
+                    <?php endif; ?>                
                 </li>
             </ul>
 
@@ -84,7 +88,11 @@
                                             <?php endif; ?>
                                         </td>
                                         <td>
-                                            <a href="#" class="btn btn-success btn-xs edit_item" onclick="update_role('<?php echo e($role->id); ?>','<?php echo e($role->name); ?>','<?php echo e($role->description); ?>','<?php echo e($role->active); ?>')">Edit </a>
+                                            <?php if($edit): ?>
+                                                <a href="#" class="btn btn-success btn-xs edit_item" onclick="update_role('<?php echo e($role->id); ?>','<?php echo e($role->name); ?>','<?php echo e($role->description); ?>','<?php echo e($role->active); ?>')">Edit </a>
+                                            <?php else: ?>
+                                                <button disabled href="#" class="btn btn-success btn-xs edit_item">Edit </button>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>

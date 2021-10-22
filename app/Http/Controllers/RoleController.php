@@ -6,12 +6,27 @@ use Illuminate\Http\Request;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Role;
+use App\Services\RoleRightService;
 
 class RoleController extends Controller
 {
+    public function __construct(
+        RoleRightService $roleRightService
+    ) {
+        $this->roleRightService = $roleRightService;
+    }
 
 	public function index(Request $request) 
 	{
+        $rolesPermissions = $this->roleRightService->hasPermissions("Roles Maintenance");
+
+        if (!$rolesPermissions['view']) {
+            abort(401);
+        }
+
+        $create = $rolesPermissions['create'];
+        $edit = $rolesPermissions['edit'];
+        $delete = $rolesPermissions['delete'];
 
         $roles = Role::orderBy('name')
         ->where(function($query) use ($request)
@@ -25,7 +40,7 @@ class RoleController extends Controller
         
         ->paginate(15);
         
-        return view('pages.roles.index', compact('roles'));
+        return view('pages.roles.index', compact('roles', 'create', 'edit', 'delete'));
 
 	}
 

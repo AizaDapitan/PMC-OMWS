@@ -32,7 +32,11 @@
 
             <ul class="page-breadcrumb breadcrumb">
                 <li> 
-                    <a class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" style="color:white;" onclick="addUser()">Add New</a>
+                    <?php if($create): ?>
+                        <a class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" style="color:white;" onclick="addUser()">Add New</a>
+                    <?php else: ?>
+                        <button disabled class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" style="color:white;" onclick="addUser()">Add New</button>
+                    <?php endif; ?>
                 </li>
             </ul>
 
@@ -93,7 +97,7 @@
 											<?php endif; ?>
 										<?php else: ?>
 											<?php if($user->active): ?>
-											<button disabled href="<?php echo e(route('users.edit',$user->id)); ?>" class="btn btn-xs blue">Edit</button>
+											<button disabled class="btn btn-xs blue">Edit</button>
 											<button disabled href="#" class="btn btn-xs red" onclick="change_status('<?php echo e($user->id); ?>','INACTIVE')">Deactivate</button>
 											<button disabled href="#" class="btn btn-xs green" onclick="reset_password('<?php echo e($user->id); ?>')">Reset Password</button>
 											<?php else: ?>

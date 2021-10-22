@@ -1,26 +1,26 @@
-@extends('layouts.app')
 
-@section('pageCSS')
+
+<?php $__env->startSection('pageCSS'); ?>
 
 <link href="google.css" rel="stylesheet" type="text/css" />
-<link href="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-<link href="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
-<link href="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 
-<link href="{{env('APP_URL')}}/themes/metronic/assets/global/css/components.css" rel="stylesheet" type="text/css" />
-<link href="{{env('APP_URL')}}/themes/metronic/assets/global/css/plugins.css" rel="stylesheet" type="text/css" />
-<link href="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css" />
-<link id="style_color" href="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/css/themes/default.css" rel="stylesheet" type="text/css" />
-<link href="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/css/components.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/css/plugins.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css" />
+<link id="style_color" href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/css/themes/default.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
     table td {
         padding-bottom: 10px;
     }
 </style>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <div class="row">
 
@@ -30,11 +30,11 @@
 
         <ul class="page-breadcrumb breadcrumb">
             <li>
-                @if($create)
+                <?php if($create): ?>
                 <a class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" style="color:white;">Add New</a>
-                @else
+                <?php else: ?>
                 <button disabled class="btn blue" data-backdrop="static" style="color:white;">Add New</button>
-                @endif
+                <?php endif; ?>
             </li>
         </ul>
 
@@ -50,7 +50,7 @@
 
             <div class="portlet-body">
 
-                <form method="get" action="{{ route('maintenance.costcodes.index') }}">
+                <form method="get" action="<?php echo e(route('maintenance.costcodes.index')); ?>">
                     <table width="100%">
                         <tr>
                             <td>Search:<input type="hidden" name="action" value="search"></td>
@@ -74,50 +74,50 @@
                         </thead>
 
                         <tbody>
-                            @forelse($costcodes as $costcode)
+                            <?php $__empty_1 = true; $__currentLoopData = $costcodes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $costcode): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                             <tr>
                                 <td>
-                                    @if($edit)
-                                        <a class="edit_item" data-toggle="modal" data-backdrop="static" href="#modalEdit" data-href="{{ route('maintenance.costcodes.update', $costcode->id) }}" data-name="{{ $costcode->name }}" data-description="{{ $costcode->description }}">
+                                    <?php if($edit): ?>
+                                        <a class="edit_item" data-toggle="modal" data-backdrop="static" href="#modalEdit" data-href="<?php echo e(route('maintenance.costcodes.update', $costcode->id)); ?>" data-name="<?php echo e($costcode->name); ?>" data-description="<?php echo e($costcode->description); ?>">
                                             <i class='fa fa-pencil'></i>
                                         </a>
-                                    @else
-                                        <button disabled class="edit_item" data-toggle="modal" data-backdrop="static" href="#modalEdit" data-href="{{ route('maintenance.costcodes.update', $costcode->id) }}" data-name="{{ $costcode->name }}" data-description="{{ $costcode->description }}">
+                                    <?php else: ?>
+                                        <button disabled class="edit_item" data-toggle="modal" data-backdrop="static" href="#modalEdit" data-href="<?php echo e(route('maintenance.costcodes.update', $costcode->id)); ?>" data-name="<?php echo e($costcode->name); ?>" data-description="<?php echo e($costcode->description); ?>">
                                             <i class='fa fa-pencil'></i>
                                         </button> 
-                                    @endif
+                                    <?php endif; ?>
                                 </td>
-                                <td>{{ $costcode->name }}</td>
-                                <td>{{ $costcode->description }}</td>
+                                <td><?php echo e($costcode->name); ?></td>
+                                <td><?php echo e($costcode->description); ?></td>
                                 <td>
-                                    <form action="{{ route('maintenance.costcodes.update', $costcode->id) }}" method="POST">
-                                        @csrf
-                                        @method('patch')
-                                        @if($edit)
-                                            @if( $costcode->isActive )
+                                    <form action="<?php echo e(route('maintenance.costcodes.update', $costcode->id)); ?>" method="POST">
+                                        <?php echo csrf_field(); ?>
+                                        <?php echo method_field('patch'); ?>
+                                        <?php if($edit): ?>
+                                            <?php if( $costcode->isActive ): ?>
                                             <input type="hidden" name="isActive" value="0">
                                             <button type="submit" class="btn red btn-xs"> Deactivate </button>
-                                            @else
+                                            <?php else: ?>
                                             <input type="hidden" name="isActive" value="1">
                                             <button type="submit" class="btn blue btn-xs"> Activate </button>
-                                            @endif
-                                        @else
-                                            @if( $costcode->isActive )
+                                            <?php endif; ?>
+                                        <?php else: ?>
+                                            <?php if( $costcode->isActive ): ?>
                                             <input type="hidden" name="isActive" value="0">
                                             <button disabled type="submit" class="btn red btn-xs"> Deactivate </button>
-                                            @else
+                                            <?php else: ?>
                                             <input type="hidden" name="isActive" value="1">
                                             <button disabled type="submit" class="btn blue btn-xs"> Activate </button>
-                                            @endif
-                                        @endif
+                                            <?php endif; ?>
+                                        <?php endif; ?>
                                     </form>
                                 </td>
                             </tr>
-                            @empty
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                             <tr>
                                 <td class="text-center" colspan="4"> No Cost Code Found </td>
                             </tr>
-                            @endforelse
+                            <?php endif; ?>
                         </tbody>
 
                     </table>
@@ -127,11 +127,13 @@
             </div>
 
             <div class="col-md-6" style="margin-top: 10px; padding-top: 10px;">
-                Items {{ $costcodes->firstItem() }} - {{ $costcodes->lastItem() }}
+                Items <?php echo e($costcodes->firstItem()); ?> - <?php echo e($costcodes->lastItem()); ?>
+
             </div>
 
             <div class="col-md-6 text-right">
-                {{ $costcodes->withQueryString()->links() }}
+                <?php echo e($costcodes->withQueryString()->links()); ?>
+
             </div>
 
         </div>
@@ -142,8 +144,8 @@
 
 <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form method="post" action="{{ route('maintenance.costcodes.store') }}">
-            @csrf
+        <form method="post" action="<?php echo e(route('maintenance.costcodes.store')); ?>">
+            <?php echo csrf_field(); ?>
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title" id="modal_title">Add New Costcode</h3>
@@ -181,8 +183,8 @@
 <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form method="post" action="" id="form_item_edit">
-            @csrf
-            @method('patch')
+            <?php echo csrf_field(); ?>
+            <?php echo method_field('patch'); ?>
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title" id="modal_title">Edit Costcode</h3>
@@ -217,17 +219,17 @@
     </div>
 </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('pageJS')
+<?php $__env->startSection('pageJS'); ?>
 
-<script src="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/jquery-1.11.0.min.js" type="text/javascript"></script>
-<script src="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
-<script src="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/jquery-1.11.0.min.js" type="text/javascript"></script>
+<script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+<script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 
-<script src="{{env('APP_URL')}}/themes/metronic/assets/global/scripts/metronic.js" type="text/javascript"></script>
-<script src="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
-<script src="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
+<script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/scripts/metronic.js" type="text/javascript"></script>
+<script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
+<script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -247,4 +249,5 @@
     });
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\PERSONAL\SC\PMC PROJECT\omws\resources\views/pages/costcodes/index.blade.php ENDPATH**/ ?>

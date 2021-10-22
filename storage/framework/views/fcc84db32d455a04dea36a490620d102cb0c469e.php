@@ -32,7 +32,7 @@
 
 			</li>
 			<li class="start <?php if(request()->route()->uri == 'dashboard'): ?> active <?php endif; ?>">
-				<a href="<?php echo e(env('APP_URL')); ?>">
+				<a href="<?php echo e(route('home')); ?>">
 					<i class="icon-home"></i>
 					<span class="title">Home</span>
 					<span class="selected"></span>

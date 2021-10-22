@@ -30,7 +30,11 @@
 
             <ul class="page-breadcrumb breadcrumb">
                 <li> 
-                    <a class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" style="color:white;">Add New</a>
+                @if($create)
+                <a class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" style="color:white;">Add New</a>
+                @else
+                <button disabled class="btn blue" data-backdrop="static" style="color:white;">Add New</button>
+                @endif
                 </li>
             </ul>
 
@@ -61,6 +65,7 @@
                                     <tr>
                                         <td>{{ $receiver->name }}</td>
                                         <td>
+                                            @if($edit)
                                             <button class="btn btn-success btn-xs edit_item" data-toggle="modal" data-backdrop="static" 
                                                 href="#modalEdit" data-href="{{ route('maintenance.receivers.update', $receiver->id) }}" 
                                                 data-name="{{ $receiver->name }}" > Edit </button> 
@@ -76,6 +81,22 @@
                                                     <button type="submit" class="btn blue btn-xs">Activate</button>
                                                 @endif
                                             </form>
+                                            @else
+                                            <button disabled class="btn btn-success btn-xs edit_item" data-toggle="modal" data-backdrop="static" 
+                                                href="#modalEdit" data-href="{{ route('maintenance.receivers.update', $receiver->id) }}" 
+                                                data-name="{{ $receiver->name }}" > Edit </button> 
+                                            
+                                            <form method="POST" action="{{ route('maintenance.receivers.update', $receiver->id ) }}" style="display: inline-block;">
+                                                @csrf
+                                                @method('patch')
+                                                @if( $receiver->isActive)
+                                                    <input type="hidden"  name="isActive" value="0">
+                                                    <button disabled type="submit" class="btn red btn-xs">Deactivate</button>
+                                                @else
+                                                    <input type="hidden" name="isActive" value="1">
+                                                    <button disabled type="submit" class="btn blue btn-xs">Activate</button>
+                                                @endif
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty

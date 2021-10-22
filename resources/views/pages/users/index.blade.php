@@ -32,7 +32,11 @@
 
             <ul class="page-breadcrumb breadcrumb">
                 <li> 
-                    <a class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" style="color:white;" onclick="addUser()">Add New</a>
+                    @if($create)
+                        <a class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" style="color:white;" onclick="addUser()">Add New</a>
+                    @else
+                        <button disabled class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" style="color:white;" onclick="addUser()">Add New</button>
+                    @endif
                 </li>
             </ul>
 
@@ -93,7 +97,7 @@
 											@endif
 										@else
 											@if($user->active)
-											<button disabled href="{{ route('users.edit',$user->id) }}" class="btn btn-xs blue">Edit</button>
+											<button disabled class="btn btn-xs blue">Edit</button>
 											<button disabled href="#" class="btn btn-xs red" onclick="change_status('{{$user->id}}','INACTIVE')">Deactivate</button>
 											<button disabled href="#" class="btn btn-xs green" onclick="reset_password('{{$user->id}}')">Reset Password</button>
 											@else

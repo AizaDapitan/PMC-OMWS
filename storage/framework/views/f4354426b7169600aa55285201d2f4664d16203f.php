@@ -35,6 +35,7 @@
                     <i class=" icon-list"></i> User Access Rights
                 </div>
             </div>
+            </div>
 
 
 
@@ -67,6 +68,7 @@
                         <?php endif; ?>
                     </div>
                 </form>
+
                 <div class="table-scrollable">
                     <table class="table table-striped table-bordered table-advance table-hover">
                         <thead>

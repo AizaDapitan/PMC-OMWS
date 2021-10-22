@@ -39,6 +39,7 @@
 
 
             <div class="portlet-body">
+
                 <form id="form" action="<?php echo e(route('maintenance.roleaccessrights.store')); ?>" method="POST">
 
                     <input type="hidden" name="roles_permissions" id="roles_permissions" value="">
@@ -47,7 +48,7 @@
 
                     <div class="actions">
                         <div class="form-group form-inline" style="display:inline;margin-right:10px">
-                            <label class="control-label" style="margin-right:20px">Role </label>
+                                <label class="control-label" style="margin-right:20px; margin-left:20px">Role </label>
 
                             <select required name="roleid" id="roleid" class="form-control">
                                 <?php $__currentLoopData = $roles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $role): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

@@ -16,28 +16,23 @@ use App\Services\RoleRightService;
 class UserController extends Controller
 {
     public function __construct(
-        UserService $userService
-        // RoleRightService $roleRightService
+        UserService $userService,
+        RoleRightService $roleRightService
     ) {
         $this->userService = $userService;
-        // $this->roleRightService = $roleRightService;
+        $this->roleRightService = $roleRightService;
     }
     public function index(Request $request)
     {
-        // $rolesPermissions = $this->roleRightService->hasPermissions("Users Maintenance");
+        $rolesPermissions = $this->roleRightService->hasPermissions("Users Maintenance");
 
-        // if (!$rolesPermissions['view']) {
-        //     abort(401);
-        // }
+        if (!$rolesPermissions['view']) {
+            abort(401);
+        }
 
-        // $create = $rolesPermissions['create'];
-        // $edit = $rolesPermissions['edit'];
-        // $delete = $rolesPermissions['delete'];
-
-        $create = true;
-        $edit = true;
-        $delete =true;
-
+        $create = $rolesPermissions['create'];
+        $edit = $rolesPermissions['edit'];
+        $delete = $rolesPermissions['delete'];
 
         $roles = Role::where('active', '1')->get();  
         $users = User::orderBy('name')->where(function($query) use ($request)      

@@ -42,8 +42,12 @@
                                 <form method="POST" action="{{ route('transaction-batch-per-id.update', request()->transaction_id) }}">
                                     @csrf
                                     @method('PATCH')
+                                    @if($create)
                                     <input type="hidden" name="seq" value="{{ request()->transaction_id }}">
                                     <button class="btn blue text-right" type="submit" style="margin-top: 17px;"> Post All </button>
+                                    @else
+                                    <button disabled class="btn blue text-right" type="submit" style="margin-top: 17px;"> Post All </button>
+                                    @endif
                                 </form>
                             @endif
                         </div>

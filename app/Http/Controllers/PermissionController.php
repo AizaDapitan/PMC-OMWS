@@ -7,12 +7,26 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Permission;
 use App\Module;
+use App\Services\RoleRightService;
 
 class PermissionController extends Controller
 {
-
+    public function __construct(
+        RoleRightService $roleRightService
+    ) {
+        $this->roleRightService = $roleRightService;
+    }
 	public function index(Request $request) 
     {
+        $rolesPermissions = $this->roleRightService->hasPermissions("Permissions Maintenance");
+
+        if (!$rolesPermissions['view']) {
+            abort(401);
+        }
+
+        $create = $rolesPermissions['create'];
+        $edit = $rolesPermissions['edit'];
+        $delete = $rolesPermissions['delete'];
 
         $permissions = Permission::orderBy('module_type')
         ->orderBy('description')
@@ -29,7 +43,7 @@ class PermissionController extends Controller
 
         $modules = Module::orderBy('description','asc')->get();
         
-        return view('pages.permissions.index', compact('permissions','modules'));
+        return view('pages.permissions.index', compact('permissions','modules','create', 'edit', 'delete'));
     
 	}
 

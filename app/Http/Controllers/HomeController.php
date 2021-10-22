@@ -3,12 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\RoleRightService;
 
 class HomeController extends Controller
 {
 
-
+    public function __construct(
+        RoleRightService $roleRightService
+    ) {
+        $this->roleRightService = $roleRightService;
+    }
 	public function index() {
+    $rolesPermissions = $this->roleRightService->hasPermissions("Dashboard");
+
+            if (!$rolesPermissions['view']) {
+                abort(401);
+            }
 
 		return view('dashboard');
 

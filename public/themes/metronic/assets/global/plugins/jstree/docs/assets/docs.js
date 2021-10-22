@@ -93,7 +93,7 @@
 				if(f && f.length && false) {
 					d.push('f=' + f);
 				}
-				$.address.value('/api/' + (d.length ? '?' + d.join('&') : ''));
+				$.address.value('{{env("APP_URL")}}/api/' + (d.length ? '?' + d.join('&') : ''));
 			}, 250);
 		});
 

@@ -1,27 +1,27 @@
-@extends('layouts.app')
 
-@section('pageCSS')
+
+<?php $__env->startSection('pageCSS'); ?>
 
     <link href="google.css" rel="stylesheet" type="text/css"/>
-    <link href="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-    <link href="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
-    <link href="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <link href="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/select2/select2.css" rel="stylesheet" type="text/css" />
-    <link href="{{env('APP_URL')}}/themes/metronic/assets/global/css/components.css" rel="stylesheet" type="text/css"/>
-    <link href="{{env('APP_URL')}}/themes/metronic/assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
-    <link href="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
-    <link id="style_color" href="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/css/themes/default.css" rel="stylesheet" type="text/css"/>
-    <link href="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
-    <link href="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/bootstrap-datepicker/css/datepicker.css"/ rel="stylesheet" type="text/css">
+    <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/select2/select2.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/css/components.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
+    <link id="style_color" href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/css/themes/default.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/bootstrap-datepicker/css/datepicker.css"/ rel="stylesheet" type="text/css">
     <style type="text/css">
         .form-group {
             margin-bottom: 0;
         }
     </style>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 
     <div class="row">
 
@@ -40,15 +40,15 @@
                     <div class="portlet-body form">
                         
                         <!-- BEGIN FORM-->
-                        <form action="{{ route('transaction.update', $transaction->id) }}" id="issuance-update" method="post" class="horizontal-form" enctype="multipart/form-data" >
-                            @csrf
-                            @method('PATCH')
+                        <form action="<?php echo e(route('transaction.update', $transaction->id)); ?>" id="issuance-update" method="post" class="horizontal-form" enctype="multipart/form-data" >
+                            <?php echo csrf_field(); ?>
+                            <?php echo method_field('PATCH'); ?>
 
                             <input type="hidden" name="itemss" id="itemss">
                             <input type="hidden" name="deleted_items" id="deleted_items">
                             <input type="hidden" name="deducted_items" id="deducted_items">
                             <input type="hidden" name="t1" id="t1">
-                            <input type="hidden" name="t2" id="t2" value="{{ old('t2','[]') }}">
+                            <input type="hidden" name="t2" id="t2" value="<?php echo e(old('t2','[]')); ?>">
 
                             <div class="form-body">                                 
                                 <div class="row">
@@ -64,11 +64,12 @@
                                                                     <div class="form-group">              
                                                                     <select class="form-control select2me" name='contractor' id="contractor" data-placeholder="Select..." onchange="getLocation($(this).val())">
                                                                         <option></option>
-                                                                        @foreach( $contractors as $contractor )
-                                                                            <option value="{{ $contractor->id }}"
-                                                                                @if($contractor->id == old('contractor',$transaction->contractor_id)) selected @endif>{{ $contractor->code }} - {{ $contractor->lname }}, {{ $contractor->fname }} {{ $contractor->mname }}
+                                                                        <?php $__currentLoopData = $contractors; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $contractor): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                            <option value="<?php echo e($contractor->id); ?>"
+                                                                                <?php if($contractor->id == old('contractor',$transaction->contractor_id)): ?> selected <?php endif; ?>><?php echo e($contractor->code); ?> - <?php echo e($contractor->lname); ?>, <?php echo e($contractor->fname); ?> <?php echo e($contractor->mname); ?>
+
                                                                             </option>
-                                                                        @endforeach
+                                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                     </select>  
                                                                     </div>
                                                                     <br>
@@ -80,11 +81,11 @@
                                                                     <div class="form-group">
                                                                     <select class="form-control select2me" name='location' id="location" data-placeholder="Select...">
                                                                         <option></option>
-                                                                        @foreach( $locations as $location )
-																			@if($location->pivot->isActive == 1)
-                                                                            <option value="{{ $location->id}}" @if($location->id == old('location', $transaction->location_id)) selected @endif>{{ $location->name }}</option>
-																			@endif
-                                                                        @endforeach
+                                                                        <?php $__currentLoopData = $locations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $location): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+																			<?php if($location->pivot->isActive == 1): ?>
+                                                                            <option value="<?php echo e($location->id); ?>" <?php if($location->id == old('location', $transaction->location_id)): ?> selected <?php endif; ?>><?php echo e($location->name); ?></option>
+																			<?php endif; ?>
+                                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                     </select> 
                                                                     </div>
                                                                     <br>
@@ -96,7 +97,7 @@
                                                                     
                                                                     <div class="form-group">                                                                                
                                                                         <div class="input-group date date-picker margin-bottom-5" data-date-format="yyyy-mm-dd" data-date-start-date="">
-                                                                            <input type="text" class="form-control form-filter" readonly name="docdate" id="docdate" value="{{ \Carbon\Carbon::parse(old('docdate',$transaction->docDate))->format('Y-m-d') }}">
+                                                                            <input type="text" class="form-control form-filter" readonly name="docdate" id="docdate" value="<?php echo e(\Carbon\Carbon::parse(old('docdate',$transaction->docDate))->format('Y-m-d')); ?>">
                                                                             <span class="input-group-btn">
                                                                             <button class="btn  default" type="button"><i class="fa fa-calendar"></i></button>
                                                                             </span>
@@ -110,7 +111,7 @@
                                                                 <td valign="top">Transaction#:&nbsp;&nbsp;&nbsp;<span style="color: red;">*</span></td>
                                                                 <td>
                                                                     <div class="form-group">
-                                                                        <input class="form-control" name="seq" id="seq" value="{{ old('seq',$transaction->seq) }}">                 
+                                                                        <input class="form-control" name="seq" id="seq" value="<?php echo e(old('seq',$transaction->seq)); ?>">                 
                                                                     </div> <br>
                                                                 </td>                                                       
                                                             </tr>                                                           
@@ -118,10 +119,10 @@
                                                                 <td>Files:&nbsp;&nbsp;&nbsp;</td>
                                                                 <td>
                                                                     <div class="form-group">
-                                                                    <input type="file" id="file" class="form-control" name="files" accept="image/*" value="{{ $transaction->files }}" />
-                                                                    <input type="hidden" name="fild_path" value="{{ $transaction->files }}">
-                                                                    <a href="{{ $transaction->files }}">
-                                                                        <img src="{{ $transaction->files }}" width="250" />
+                                                                    <input type="file" id="file" class="form-control" name="files" accept="image/*" value="<?php echo e($transaction->files); ?>" />
+                                                                    <input type="hidden" name="fild_path" value="<?php echo e($transaction->files); ?>">
+                                                                    <a href="<?php echo e($transaction->files); ?>">
+                                                                        <img src="<?php echo e($transaction->files); ?>" width="250" />
                                                                     </a>
                                                                     </div>
                                                                 </td>                                                       
@@ -135,7 +136,7 @@
                                                                 <td valign="top">MWS#:&nbsp;&nbsp;&nbsp;<span style="color: red;">*</span></td>
                                                                 <td>
                                                                     <div class="form-group">
-                                                                        <input class="form-control" name="mws" id="mws" value="{{ old('mws',$transaction->mws) }}">             
+                                                                        <input class="form-control" name="mws" id="mws" value="<?php echo e(old('mws',$transaction->mws)); ?>">             
                                                                     </div>
                                                                     <br>
                                                                 </td>                                                       
@@ -144,7 +145,7 @@
                                                                 <td valign="top">Receiver:&nbsp;&nbsp;&nbsp;<span style="color: red;">*</span></td>
                                                                 <td>
                                                                     <div class="form-group">
-                                                                        <input type="text" name="receiver" class="form-control" value="{{ old('receiver',$transaction->receiver) }}">
+                                                                        <input type="text" name="receiver" class="form-control" value="<?php echo e(old('receiver',$transaction->receiver)); ?>">
                                                                     </div> <br>
                                                                 </td>                                                       
                                                             </tr>
@@ -154,9 +155,9 @@
                                                                     <div class="form-group">             
                                                                     <select class="form-control select2me" name='approver' id="approver" data-placeholder="Select...">
                                                                         <option></option>
-                                                                        @foreach( $approvers as $approver )
-                                                                            <option value="{{ $approver->name }}" @if($approver->name == old('approver', $transaction->approver)) selected @endif>{{ $approver->name }}</option>
-                                                                        @endforeach
+                                                                        <?php $__currentLoopData = $approvers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $approver): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                            <option value="<?php echo e($approver->name); ?>" <?php if($approver->name == old('approver', $transaction->approver)): ?> selected <?php endif; ?>><?php echo e($approver->name); ?></option>
+                                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                     </select> 
                                                                 </div> <br> 
                                                                 </td>                                                       
@@ -165,7 +166,7 @@
                                                                 <td valign="top">Issuer:&nbsp;&nbsp;&nbsp;<span style="color: red;">*</span></td>
                                                                 <td>
                                                                     <div class="form-group">
-                                                                        <input class="form-control" name="issuer" id="issuer" value="{{ old('issuer',$transaction->issuer) }}">
+                                                                        <input class="form-control" name="issuer" id="issuer" value="<?php echo e(old('issuer',$transaction->issuer)); ?>">
                                                                     </div> <br>
                                                                 </td>                                                       
                                                             </tr>
@@ -173,7 +174,7 @@
                                                                 <td valign="top">Remarks:&nbsp;&nbsp;&nbsp;</td>
                                                                 <td>
                                                                     <div class="form-group">
-                                                                        <textarea class="form-control" name="remarks" id="remarks" rows="5">{{ old('remarks', $transaction->remarks) }}</textarea>     
+                                                                        <textarea class="form-control" name="remarks" id="remarks" rows="5"><?php echo e(old('remarks', $transaction->remarks)); ?></textarea>     
                                                                     </div>
                                                                 </td>                                                       
                                                             </tr>
@@ -213,38 +214,38 @@
                                                         </tr>
                                                         </thead>
                                                         <tbody class="e_items_table">
-                                                            @foreach($transaction->details as $detail)
-                                                                <tr data-id="{{$detail->id}}" data-code="{{$detail->itemz? $detail->itemz->code:''}}">
+                                                            <?php $__currentLoopData = $transaction->details; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $detail): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <tr data-id="<?php echo e($detail->id); ?>" data-code="<?php echo e($detail->itemz? $detail->itemz->code:''); ?>">
                                                                     <td>
                                                                         <div class="checker" style="text-align: center;">
                                                                             <span>
-                                                                            <input type="checkbox" data-id="{{ $detail->id }}" name="delete{{$detail->id}}" id="isDEL{{$detail->id}}" class="del_items">
+                                                                            <input type="checkbox" data-id="<?php echo e($detail->id); ?>" name="delete<?php echo e($detail->id); ?>" id="isDEL<?php echo e($detail->id); ?>" class="del_items">
                                                                             </span>
                                                                         </div>
                                                                     </td>
-                                                                    <td id="isCODE{{$detail->id}}">{{ $detail->itemz ? $detail->itemz->code : '' }}</td>
-                                                                    <td id="isNAME{{$detail->id}}">{{ $detail->itemz ? $detail->itemz->name : '' }}</td>
+                                                                    <td id="isCODE<?php echo e($detail->id); ?>"><?php echo e($detail->itemz ? $detail->itemz->code : ''); ?></td>
+                                                                    <td id="isNAME<?php echo e($detail->id); ?>"><?php echo e($detail->itemz ? $detail->itemz->name : ''); ?></td>
                                                                     <td>
                                                                         <div class="form-group">
-                                                                            <select class="form-control" id="isCCODE{{$detail->id}}" name="ccode{{$detail->id}}">
-                                                                                @foreach($costcodes1 as $costcode)
-                                                                                    <option value="{{$costcode->name}}" @if($costcode->name == $detail->cost_code) selected @endif>{{ $costcode->code }} - {{ $costcode->name }}</option>
-                                                                                @endforeach
+                                                                            <select class="form-control" id="isCCODE<?php echo e($detail->id); ?>" name="ccode<?php echo e($detail->id); ?>">
+                                                                                <?php $__currentLoopData = $costcodes1; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $costcode): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                                    <option value="<?php echo e($costcode->name); ?>" <?php if($costcode->name == $detail->cost_code): ?> selected <?php endif; ?>><?php echo e($costcode->code); ?> - <?php echo e($costcode->name); ?></option>
+                                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                             </select>
                                                                         </div>
                                                                     </td>
                                                                     <td>
                                                                         <div class="form-goup">
-                                                                            <input type="text" id="isQTY{{$detail->id}}" name="qty{{$detail->id}}" value="{{$detail->qty}}" class="form-control" style="text-align: right;">
+                                                                            <input type="text" id="isQTY<?php echo e($detail->id); ?>" name="qty<?php echo e($detail->id); ?>" value="<?php echo e($detail->qty); ?>" class="form-control" style="text-align: right;">
                                                                         </div>
                                                                     </td>
                                                                     <td>
                                                                         <div class="form-group" style="text-align: center;">
-                                                                            <input type="checkbox" id="isDDUC{{$detail->id}}" name="is_deduction{{$detail->id}}" @if($detail->is_deducted ==1) checked @endif class="deduc_items" data-id="{{$detail->id}}">
+                                                                            <input type="checkbox" id="isDDUC<?php echo e($detail->id); ?>" name="is_deduction<?php echo e($detail->id); ?>" <?php if($detail->is_deducted ==1): ?> checked <?php endif; ?> class="deduc_items" data-id="<?php echo e($detail->id); ?>">
                                                                         </div>
                                                                     </td>
                                                                 </tr>
-                                                            @endforeach
+                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                         
                                                         <tr><td colspan="6"><hr></td></tr>
                                                         
@@ -308,7 +309,7 @@
                                 
                             </div>
                             <div class="form-actions right">
-                                <a href="{{ route('transactions') }}"><button type="button" class="btn default">Cancel</button></a>
+                                <a href="<?php echo e(route('transactions')); ?>"><button type="button" class="btn default">Cancel</button></a>
                                 <button type="button" id="issuance-edit" class="btn blue"><i class="fa fa-check"></i> Save</button>
                             </div>
                         </form>
@@ -323,21 +324,21 @@
 
     
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('pageJS')
+<?php $__env->startSection('pageJS'); ?>
     
-    <script src="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/jquery-1.11.0.min.js" type="text/javascript"></script>
-    <script src="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
-    <script src="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/select2/select2.min.js"></script>
-    <script src="{{env('APP_URL')}}/themes/metronic/assets/global/scripts/metronic.js" type="text/javascript"></script>
-    <script src="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
-    <script src="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
-    <script src="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/jquery-1.11.0.min.js" type="text/javascript"></script>
+    <script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+    <script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/select2/select2.min.js"></script>
+    <script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/scripts/metronic.js" type="text/javascript"></script>
+    <script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
+    <script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
+    <script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 
     <script type="text/javascript">
-        var costCodes = {!! $costcodes !!};
+        var costCodes = <?php echo $costcodes; ?>;
         var trans_item = [];
         var del_item = [];
         var deduc_item = [];
@@ -683,4 +684,6 @@
 
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\PERSONAL\SC\PMC PROJECT\omws\resources\views/pages/transactions/transaction-edit.blade.php ENDPATH**/ ?>

@@ -30,7 +30,11 @@
 
             <ul class="page-breadcrumb breadcrumb">
                 <li> 
-                    <a class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" onclick="addPermission()" style="color:white;">Add New</a>                    
+                    <?php if($create): ?>
+                        <a class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" onclick="addPermission()" style="color:white;">Add New</a>   
+                    <?php else: ?>
+                        <button disabled class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" onclick="addPermission()" style="color:white;">Add New</button>   
+                     <?php endif; ?>                 
                 </li>
             </ul>
 
@@ -84,7 +88,11 @@
                                             <?php endif; ?>
                                         </td>
                                         <td>
-                                            <a href="#" class="btn btn-success btn-xs edit_item" onclick="update_permission('<?php echo e($permission->id); ?>','<?php echo e($permission->module_type); ?>','<?php echo e($permission->description); ?>','<?php echo e($permission->active); ?>')">Edit </a>
+                                            <?php if($edit): ?>
+                                                <a href="#" class="btn btn-success btn-xs edit_item" onclick="update_permission('<?php echo e($permission->id); ?>','<?php echo e($permission->module_type); ?>','<?php echo e($permission->description); ?>','<?php echo e($permission->active); ?>')">Edit </a>
+                                            <?php else: ?>
+                                                <button disabled href="#" class="btn btn-success btn-xs edit_item" onclick="update_permission('<?php echo e($permission->id); ?>','<?php echo e($permission->module_type); ?>','<?php echo e($permission->description); ?>','<?php echo e($permission->active); ?>')">Edit </button>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>

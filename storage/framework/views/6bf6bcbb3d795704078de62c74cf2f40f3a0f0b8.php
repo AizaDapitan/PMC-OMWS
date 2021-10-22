@@ -1,26 +1,26 @@
-@extends('layouts.app')
 
-@section('pageCSS')
+
+<?php $__env->startSection('pageCSS'); ?>
 
     <link href="google.css" rel="stylesheet" type="text/css"/>
-    <link href="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-    <link href="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
-    <link href="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 
-    <link href="{{env('APP_URL')}}/themes/metronic/assets/global/css/components.css" rel="stylesheet" type="text/css"/>
-    <link href="{{env('APP_URL')}}/themes/metronic/assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
-    <link href="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
-    <link id="style_color" href="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/css/themes/default.css" rel="stylesheet" type="text/css"/>
-    <link href="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/css/components.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
+    <link id="style_color" href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/css/themes/default.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
     <style type="text/css">
         table td {
             padding-bottom: 10px; 
         }
     </style>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 
     <div class="row">
 
@@ -30,11 +30,11 @@
 
             <ul class="page-breadcrumb breadcrumb">
                 <li> 
-                @if($create)
+                <?php if($create): ?>
                 <a class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" style="color:white;">Add New</a>
-                @else
+                <?php else: ?>
                 <button disabled class="btn blue" data-backdrop="static" style="color:white;">Add New</button>
-                @endif
+                <?php endif; ?>
                 </li>
             </ul>
 
@@ -61,50 +61,50 @@
                             </thead>
 
                             <tbody>
-                                @forelse($approvers as $approver)
+                                <?php $__empty_1 = true; $__currentLoopData = $approvers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $approver): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                     <tr>
-                                        <td>{{ $approver->name }}</td>
+                                        <td><?php echo e($approver->name); ?></td>
                                         <td>
-                                            @if($edit)
+                                            <?php if($edit): ?>
                                             <button class="btn btn-success btn-xs edit_item" data-toggle="modal" data-backdrop="static" 
-                                                href="#modalEdit" data-href="{{ route('maintenance.approvers.update', $approver->id) }}" 
-                                                data-name="{{ $approver->name }}" > Edit </button> 
+                                                href="#modalEdit" data-href="<?php echo e(route('maintenance.approvers.update', $approver->id)); ?>" 
+                                                data-name="<?php echo e($approver->name); ?>" > Edit </button> 
                                             
-                                            <form method="POST" action="{{ route('maintenance.approvers.update', $approver->id ) }}" style="display: inline-block;">
-                                                @csrf
-                                                @method('patch')
-                                                @if( $approver->isActive)
+                                            <form method="POST" action="<?php echo e(route('maintenance.approvers.update', $approver->id )); ?>" style="display: inline-block;">
+                                                <?php echo csrf_field(); ?>
+                                                <?php echo method_field('patch'); ?>
+                                                <?php if( $approver->isActive): ?>
                                                     <input type="hidden"  name="isActive" value="0">
                                                     <button type="submit" class="btn red btn-xs">Deactivate</button>
-                                                @else
+                                                <?php else: ?>
                                                     <input type="hidden" name="isActive" value="1">
                                                     <button type="submit" class="btn blue btn-xs">Activate</button>
-                                                @endif
+                                                <?php endif; ?>
                                             </form>
-                                            @else
+                                            <?php else: ?>
                                             <button disabled class="btn btn-success btn-xs edit_item" data-toggle="modal" data-backdrop="static" 
-                                                href="#modalEdit" data-href="{{ route('maintenance.approvers.update', $approver->id) }}" 
-                                                data-name="{{ $approver->name }}" > Edit </button> 
+                                                href="#modalEdit" data-href="<?php echo e(route('maintenance.approvers.update', $approver->id)); ?>" 
+                                                data-name="<?php echo e($approver->name); ?>" > Edit </button> 
                                             
-                                            <form method="POST" action="{{ route('maintenance.approvers.update', $approver->id ) }}" style="display: inline-block;">
-                                                @csrf
-                                                @method('patch')
-                                                @if( $approver->isActive)
+                                            <form method="POST" action="<?php echo e(route('maintenance.approvers.update', $approver->id )); ?>" style="display: inline-block;">
+                                                <?php echo csrf_field(); ?>
+                                                <?php echo method_field('patch'); ?>
+                                                <?php if( $approver->isActive): ?>
                                                     <input type="hidden"  name="isActive" value="0">
                                                     <button disabled type="submit" class="btn red btn-xs">Deactivate</button>
-                                                @else
+                                                <?php else: ?>
                                                     <input type="hidden" name="isActive" value="1">
                                                     <button disabled type="submit" class="btn blue btn-xs">Activate</button>
-                                                @endif
+                                                <?php endif; ?>
                                             </form>
-                                            @endif
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
-                                @empty
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                     <tr>
                                         <td class="text-center" colspan="2"> No Approvers Found </td>
                                     </tr>
-                                @endforelse
+                                <?php endif; ?>
                             </tbody>
 
                         </table>
@@ -114,11 +114,11 @@
                 </div>
                 
                 <div class="col-md-6" style="margin-top: 10px; padding-top: 10px;">
-                    Items {{ $approvers->firstItem() }} - {{ $approvers->lastItem() }}                        
+                    Items <?php echo e($approvers->firstItem()); ?> - <?php echo e($approvers->lastItem()); ?>                        
                 </div> 
 
                 <div class="col-md-6 text-right">
-                    {{ $approvers->withQueryString()->links() }}                        
+                    <?php echo e($approvers->withQueryString()->links()); ?>                        
                 </div>   
 
              </div>
@@ -129,8 +129,8 @@
 
     <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <form method="post" action="{{ route('maintenance.approvers.store') }}">
-                @csrf
+            <form method="post" action="<?php echo e(route('maintenance.approvers.store')); ?>">
+                <?php echo csrf_field(); ?>
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title" id="modal_title">Add New Approver</h3>
@@ -176,8 +176,8 @@
     <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <form method="post" action="" id="edit_form">
-                @csrf
-                @method('PATCH')
+                <?php echo csrf_field(); ?>
+                <?php echo method_field('PATCH'); ?>
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title" id="modal_title">Update Approver</h3>
@@ -203,17 +203,17 @@
         </div>
     </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('pageJS')
+<?php $__env->startSection('pageJS'); ?>
     
-    <script src="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/jquery-1.11.0.min.js" type="text/javascript"></script>
-    <script src="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
-    <script src="{{env('APP_URL')}}/themes/metronic/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/jquery-1.11.0.min.js" type="text/javascript"></script>
+    <script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+    <script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 
-    <script src="{{env('APP_URL')}}/themes/metronic/assets/global/scripts/metronic.js" type="text/javascript"></script>
-    <script src="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
-    <script src="{{env('APP_URL')}}/themes/metronic/assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
+    <script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/global/scripts/metronic.js" type="text/javascript"></script>
+    <script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
+    <script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
 
     <script type="text/javascript">
             
@@ -233,4 +233,6 @@
 
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\PERSONAL\SC\PMC PROJECT\omws\resources\views/pages/approvers/index.blade.php ENDPATH**/ ?>

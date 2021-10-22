@@ -6,12 +6,26 @@ use Illuminate\Http\Request;
 
 use App\Item;
 use App\Category;
+use App\Services\RoleRightService;
 
 class ItemsController extends Controller
 {
 
-
+	public function __construct(
+        RoleRightService $roleRightService
+    ) {
+        $this->roleRightService = $roleRightService;
+    }
 	public function index(Request $request) {
+		$rolesPermissions = $this->roleRightService->hasPermissions("Items");
+
+        if (!$rolesPermissions['view']) {
+            abort(401);
+        }
+
+        $create = $rolesPermissions['create'];
+        $edit = $rolesPermissions['edit'];
+        $delete = $rolesPermissions['delete'];
 
 		$items = Item::where('isNotActive', 0)->latest()
 			->where(function($query) use ($request){
@@ -25,7 +39,7 @@ class ItemsController extends Controller
 
 		$categories = Category::all();
 
-		return view('pages.items.index', compact('items','categories'));
+		return view('pages.items.index', compact('items','categories','create', 'edit', 'delete'));
 
 	}
 

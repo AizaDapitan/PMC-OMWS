@@ -33,7 +33,11 @@
                         <i class=" icon-list"></i> List of Sequences
                     </div>
                     <div class="actions">
-                        <a class="btn green btn-sm" data-toggle="modal" href="#fabricatedseqnum"> Add Fabricated Number <i class="fa fa-plus"></i> </a>
+                        @if($create)
+                            <a class="btn green btn-sm" data-toggle="modal" href="#fabricatedseqnum"> Add Fabricated Number <i class="fa fa-plus"></i> </a>
+                        @else
+                            <button disabled class="btn green btn-sm" data-toggle="modal" href="#fabricatedseqnum"> Add Fabricated Number <i class="fa fa-plus"></i> </button>
+                        @endif
                     </div>
                             
                 </div>
@@ -62,7 +66,13 @@
                                         <td><span id="seq_stat{{$sequence->id}}" class="label {{ $sequence->is_open ? 'label-success':'label-default' }} ">{{ $sequence->is_open ? 'Open':'Close' }}</span></td>
                                         <td align="center"> @if ($sequence->is_fabricated == 1) <span class="badge badge-primary">FABRICATED</span> <br> added by: {{ $sequence->created_by }} @endif</td>
                                         <td> @if(\Auth::user()->can_open_sequence) <button class="btn btn-primary btnToggleAction" data-id="{{ $sequence->id }}">{{ $sequence->is_open ? 'Close':'Open' }}</button> @endif 
-                                            @if ($sequence->is_fabricated == 1) <button class="btn btn-warning editfabricatednum" href="#fabricatedseqnumedit" data-id="{{ $sequence->id }}" data-seqnum="{{ $sequence->sequence_id }}"> EDIT </button> @endif
+                                            @if ($sequence->is_fabricated == 1) 
+                                                @if($edit)
+                                                    <button class="btn btn-warning editfabricatednum" href="#fabricatedseqnumedit" data-id="{{ $sequence->id }}" data-seqnum="{{ $sequence->sequence_id }}"> EDIT </button> 
+                                                @else
+                                                    <button disabled class="btn btn-warning editfabricatednum" href="#fabricatedseqnumedit" data-id="{{ $sequence->id }}" data-seqnum="{{ $sequence->sequence_id }}"> EDIT </button> 
+                                                @endif
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty
