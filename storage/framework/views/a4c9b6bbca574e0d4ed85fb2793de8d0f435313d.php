@@ -28,7 +28,7 @@
 
     <div class="col-md-12">
 
-        <h3 class="page-title"> User Action Report </h3>
+        <h3 class="page-title"> Unposted Transactions Report </h3>
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
         <div class="portlet light bordered">
             <div class="portlet-title">
@@ -41,40 +41,33 @@
             <form action="" method="get">
                 <div class="actions">
                     <div class="form-group form-inline" style="display:inline;margin-right:10px">
-                        <label class="control-label">Date From</label>
-
-
+                        <label class="control-label">Start<span class="required"> * </span></label>                        
                         <div class="input-group input-medium date date-picker" data-date="<?php echo e(today()); ?>" data-date-format="yyyy-mm-dd" data-date-viewmode="years">
-                            <input type="date" name="dateFrom" id="dateFrom" class="form-control">
-                            <!-- <span class="input-group-btn">
-                                <button class="btn default" type="button">
-                                    <i class="fa fa-calendar"></i>
-                                </button>
-                            </span> -->
+                            
+                            <input type="text" class="form-control form-filter" readonly name="start" id="start" value="<?php echo e(request()->has('start') ? request()->start : date('Y-m-d')); ?>">
+                            <span class="input-group-btn">
+                                <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+                            </span>
                         </div>
-                        <label class="control-label">Date To</label>
 
+                        <label class="control-label">End:<span class="required"> * </span></label>
                         <div class="input-group input-medium date date-picker" data-date="<?php echo e(today()); ?>" data-date-format="yyyy-mm-dd" data-date-viewmode="years">
-                            <input type="date" name="dateTo" id="dateTo" class="form-control">
-                            <!-- <span class="input-group-btn">
-                                    <button class="btn default" type="button">
-                                        <i class="fa fa-calendar"></i>
-                                    </button>
-                                </span> -->
+                            <input type="text" class="form-control form-filter" readonly name="end" id="end" value="<?php echo e(request()->has('end') ? request()->end : date('Y-m-d')); ?>">
+                            <span class="input-group-btn">
+                                <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+                            </span>
                         </div>
-                        <label class="control-label" style="margin-right:5px">User Name</label>
-                        <select required name="userid" id="userid" class="form-control select2">
-                            <option value="0">-- Select All -- </option>
-                            <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <option value="<?php echo e($user['id']); ?>"><?php echo e($user['username']); ?></option>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                        <label class="control-label"> Status <span class="required"> * </span></label>
+                        <select class="form-control" name="status">
+                            <option value="saved" <?php if(request()->status == "saved"): ?> selected <?php endif; ?>>SAVED</option>
+                            <option value="posted" <?php if(request()->status == "posted"): ?> selected <?php endif; ?>>POSTED</option>
+                            <option value="cancelled" <?php if(request()->status == "cancelled"): ?> selected <?php endif; ?>>CANCELLED</option>
                         </select>
                     </div>
-                    <input type="submit" name="filter_submit" class="btn btn-success" value="Filter" />
-                    <!-- <button type="button" class="btn green" onclick="window.open('/admin/booking/mondayprint','displayWindow','toolbar=no,scrollbars=yes,width=1000')";><i class="fa fa-print"></i> Print</button> -->
-
+                    <input type="submit" name="filter_submit" class="btn btn-success" value="Generate" />
+                    
                 </div>
-
             </form>
 
             <div class="portlet-body">
@@ -83,57 +76,44 @@
             <table class="table table-striped table-hover" id="sample_1">
                 <thead>
                     <tr>
-                        <th style="width: 10%">Model</th>
-                        <th style="width: 7%">Action</th>
-                        <th style="width: 8%">User</th>
-                        <th style="width: 10%">Date</th>
-                        <th>Old Values</th>
-                        <th>New Values</th>
+                        <th>Date</th>
+                        <th>Transaction #</th>
+                        <th>Contractor Code</th>
+                        <th>Name</th>
+                        <th>Location</th>
+                        <th>Cost Code</th>
+                        <th>Item Code</th>
+                        <th>Description</th>
+                        <th>Qty</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $__currentLoopData = $audits; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $audit): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php $total = 0; ?>
+                    <?php $__currentLoopData = $transactions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $transaction): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php $__currentLoopData = $transaction->details; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $transac_d): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php $total = $total + $transac_d->qty; ?>
                     <tr>
-                        <td style="width: 10%"><?php echo e($audit->auditable_type); ?> (id: <?php echo e($audit->auditable_id); ?>)</td>
-                        <td style="width: 7%"><?php echo e($audit->event); ?></td>
-                        <?php if($audit->user): ?>
-                        <td style="width: 8%"><?php echo e($audit->user->name); ?></td>
-                        <?php else: ?>
-                        <td style="width: 8%">No User Name</td>
-                        <?php endif; ?>
+                    <td><?php echo e($transaction->docDate); ?></td>
+                    <td><?php echo e($transaction->transId); ?></td>
+                    <td>
+                    <?php if( $transaction->contractor ): ?>
+                    <?php echo e($transaction->contractor->code); ?>
 
-                        <td style="width: 10%"><?php echo e($audit->created_at); ?></td>
-                        <td>
-                            <?php $__currentLoopData = $audit->old_values; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attribute => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <b><?php echo e($attribute); ?></b></br>
-                            <?php echo e($value); ?>
+                    <?php endif; ?>
+                    </td>
+                    <td>
+                    <?php if( $transaction->contractor ): ?>
+                    <?php echo e($transaction->contractor->lname); ?>, <?php echo e($transaction->contractor->fname); ?> <?php echo e($transaction->contractor->mname); ?>
 
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            <!-- <table class="table">
-                                                    <?php $__currentLoopData = $audit->old_values; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attribute => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                    <tr>
-                                                        <td><b><?php echo e($attribute); ?></b></td>
-                                                        <td><?php echo e($value); ?></td>
-                                                    </tr>
-                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                </table> -->
-                        </td>
-                        <td>
-                            <?php $__currentLoopData = $audit->new_values; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attribute => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <b><?php echo e($attribute); ?></b></br>
-                            <?php echo e($value); ?>
-
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            <!-- <table class="table">
-                                                    <?php $__currentLoopData = $audit->new_values; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attribute => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                    <tr>
-                                                        <td><b><?php echo e($attribute); ?></b></td>
-                                                        <td><?php echo e($value); ?></td>
-                                                    </tr>
-                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                </table> -->
-                        </td>
+                    <?php endif; ?>
+                    </td>
+                    <td><?php echo e($transaction->locationz? $transaction->locationz->name:''); ?></td>
+                    <td><?php echo e($transac_d->cost_code); ?></td>
+                    <td><?php echo e($transac_d->itemz ? $transac_d->itemz->code: ''); ?></td>
+                    <td><?php echo e($transac_d->itemz ? $transac_d->itemz->name: ''); ?></td>
+                    <td><?php echo e($transac_d->qty); ?></td>
                     </tr>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </tbody>
             </table>
@@ -216,4 +196,4 @@
     }
 </script>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\omws\resources\views/pages/reports/audits.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\omws\resources\views/pages/reports/transaction-by-status.blade.php ENDPATH**/ ?>

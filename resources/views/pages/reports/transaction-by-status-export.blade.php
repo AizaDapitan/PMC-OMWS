@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>OMWS - Issuance Report By Status </title>
+<title>OMWS - Unposted Transactions Report </title>
 </head>
 <body>
 
 <table width="100%" style="font: 14px arial, sans-serif;">
 <tr>
 <td colspan="2" align="center">
-<font style="font: bold 30px arial, sans-serif;">Issuance Report By Status</font>
+<font style="font: bold 30px arial, sans-serif;">Unposted Transactions Report</font>
 <br>
 {{ request()->has('start') ? request()->start : \Carbon\Carbon::now()->format('Y-m-d') }}
 to

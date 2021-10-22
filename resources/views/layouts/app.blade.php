@@ -159,6 +159,14 @@
                         </div>
                     </div>
                     @endif
+
+                    @if(session('down'))
+                        <div id="errdiv" class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+                            <span class="fa fa-exclamation"></span>                
+                            {!! session('down') !!}
+                        </div>
+                    @endif                    
                    
                     @yield('content')
 
