@@ -32,7 +32,7 @@
 
 			</li>
 			<li class="start <?php if(request()->route()->uri == 'dashboard'): ?> active <?php endif; ?>">
-				<a href="<?php echo e(env('APP_URL')); ?>">
+				<a href="<?php echo e(route('home')); ?>">
 					<i class="icon-home"></i>
 					<span class="title">Home</span>
 					<span class="selected"></span>
@@ -104,7 +104,8 @@
 							<span class="arrow hide"></span>
 						</a>
 					</li>
-							<li class="<?php if(request()->routeIs('maintenance.roles*')): ?> active <?php endif; ?>">
+					
+					<li class="<?php if(request()->routeIs('maintenance.roles*')): ?> active <?php endif; ?>">
 						<a href="<?php echo e(route('maintenance.roles.index')); ?>">
 						<i class="fa fa-lock"></i>
 						Roles</a>

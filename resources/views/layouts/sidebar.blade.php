@@ -104,7 +104,8 @@
 							<span class="arrow hide"></span>
 						</a>
 					</li>
-							<li class="@if (request()->routeIs('maintenance.roles*')) active @endif">
+					
+					<li class="@if (request()->routeIs('maintenance.roles*')) active @endif">
 						<a href="{{ route('maintenance.roles.index') }}">
 						<i class="fa fa-lock"></i>
 						Roles</a>

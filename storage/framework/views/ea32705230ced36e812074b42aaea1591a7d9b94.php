@@ -14,7 +14,7 @@
     <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
     <style type="text/css">
         table td {
-            padding-bottom: 10px;
+            padding-bottom: 10px; 
         }
     </style>
 
@@ -30,16 +30,19 @@
 
             <ul class="page-breadcrumb breadcrumb">
                 <li> 
-                    <a class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" style="color:white;">Add New</a>
+                    <?php if($create): ?>
+                        <a class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" onclick="addCostCode()" style="color:white;">Add New</a>    
+                    <?php else: ?>
+                        <button disabled class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" onclick="addCostCode()" style="color:white;">Add New</button>
+                    <?php endif; ?>                
                 </li>
             </ul>
 
             <div class="portlet box blue">
-                
+
                 <div class="portlet-title">
-                
                     <div class="caption">
-                        <i class=" icon-list"></i>List Of Cost Codes
+                        <i class=" icon-list"></i> List of Cost Codes
                     </div>
                             
                 </div>
@@ -50,52 +53,62 @@
                         <table width="100%">
                             <tr>
                                 <td>Search:<input type="hidden" name="action" value="search"></td>
-                                <td><input type="text" name="searchtxt" id="searchtxt" class="form-control input " placeholder="Enter any part of costcode.."></td>
+                                <td><input type="text" name="searchtxt" id="searchtxt" class="form-control input " placeholder="Enter Name"></td>                                 
                                 <td align="left"><input type="submit" class="btn purple" value="Search"> </td>                                  
                             </tr>
                         </table>
-                    </form>
+                    </form>                
 
                     <div class="table-scrollable">
                         
                         <table class="table table-hover">
 
                             <thead>
-                                <tr>                                    
-                                    <th>Action</th>
-                                    <th>Code</th>                                   
+                                <tr>               
+                                    <th>Action</th>                                                         
+                                    <th>Code</th>
                                     <th>Description</th>
-                                    <th>Status</th>                     
+                                    <th>Status</th>                                    
                                 </tr>
                             </thead>
 
                             <tbody>
                                 <?php $__empty_1 = true; $__currentLoopData = $costcodes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $costcode): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                     <tr>
-                                        <td><a class="edit_item" data-toggle="modal" data-backdrop="static" href="#modalEdit" 
-                                            data-href="<?php echo e(route('maintenance.costcodes.update', $costcode->id)); ?>" data-name="<?php echo e($costcode->name); ?>"
-                                            data-description="<?php echo e($costcode->description); ?>"> 
-                                            <i class='fa fa-pencil'></i>
-                                        </a></td>
-                                        <td><?php echo e($costcode->name); ?></td>
-                                        <td><?php echo e($costcode->description); ?></td>
                                         <td>
-                                            <form action="<?php echo e(route('maintenance.costcodes.update', $costcode->id)); ?>" method="POST">
-                                                <?php echo csrf_field(); ?>
-                                                <?php echo method_field('patch'); ?> 
-                                                <?php if( $costcode->isActive ): ?>
-                                                    <input type="hidden" name="isActive" value="0">
-                                                    <button type="submit" class="btn red btn-xs"> Deactivate </button>
+                                            <?php if($edit): ?>
+                                                <a href="#" class="btn btn-success btn-xs edit_item" onclick="update_costcode('<?php echo e($costcode->id); ?>','<?php echo e($costcode->name); ?>','<?php echo e($costcode->description); ?>')"><i class='fa fa-pencil'></i> </a>
+                                            <?php else: ?>
+                                                <button disabled href="#" class="btn btn-success btn-xs edit_item"><i class='fa fa-pencil'></i> </button>
+                                            <?php endif; ?>                                    
+                                        </td>
+										<td>
+                                            <?php echo e($costcode->name); ?>
+
+										</td>
+                                        <td>
+                                            <?php echo e($costcode->description); ?>
+
+                                        </td>                
+                                        <td> 
+                                            <?php if($edit): ?>
+                                                <?php if($costcode->isActive): ?>                                                    
+                                                    <a href="#" class="btn btn-xs red" onclick="change_status('<?php echo e($costcode->id); ?>',0)">Deactivate</a>                                            
                                                 <?php else: ?>
-                                                    <input type="hidden" name="isActive" value="1">
-                                                    <button type="submit" class="btn blue btn-xs"> Activate </button>
+                                                    <a href="#" class="btn btn-xs green" onclick="change_status('<?php echo e($costcode->id); ?>',1)">Activate</a>
                                                 <?php endif; ?>
-                                            </form>
+                                            <?php else: ?>
+                                                <?php if($costcode->isActive): ?>                                                                                                        
+                                                    <button disabled href="#" class="btn btn-xs red" onclick="change_status('<?php echo e($costcode->id); ?>','INACTIVE')">Deactivate</button>                                                
+                                                <?php else: ?>
+                                                    <button disabled href="#" class="btn btn-xs green" onclick="change_status('<?php echo e($costcode->id); ?>','ACTIVE')">Activate</button>
+                                                <?php endif; ?>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                     <tr>
-                                        <td class="text-center" colspan="4"> No Cost Code Found </td>
+                                        <td class="text-center" colspan="4"> No costcodes Found </td>
                                     </tr>
                                 <?php endif; ?>
                             </tbody>
@@ -105,7 +118,7 @@
                     </div>
 
                 </div>
-
+                
                 <div class="col-md-6" style="margin-top: 10px; padding-top: 10px;">
                     Items <?php echo e($costcodes->firstItem()); ?> - <?php echo e($costcodes->lastItem()); ?>                        
                 </div> 
@@ -114,7 +127,7 @@
                     <?php echo e($costcodes->withQueryString()->links()); ?>                        
                 </div>   
 
-            </div>
+             </div>
 
         </div>
 
@@ -135,16 +148,18 @@
                 <div class="modal-body">
 
                     <table width="100%">
+                    
                         <tr>
-                            <td width="150"><label>Code:</label></td>
-                            <td><input type="text" name="name" class="form-control col-md-4 input inline" placeholder="Code"></td>                                      
+                            <td width="150"><label>Code <span class="required" aria-required="true"> * </span></label></td>
+                            <td><input type="text" class="form-control" id="name" name="name" placeholder="Code" required maxlength="30"></td>                                       
                         </tr>
                         <tr>
-                            <td width="150"><label>Description:</label></td>
+                            <td width="150"><label>Description <span class="required" aria-required="true"> * </span></label></td>
                             <td>
-                                <textarea name="description" class="form-control col-md-4 input inline" placeholder="Description" rows="5"></textarea>
+                                <textarea name="description" id="description" class="form-control col-md-4 input inline" placeholder="Description" rows="5" required maxlength="50"></textarea>
                             </td>
                         </tr>
+
                     </table>
 
                 </div>
@@ -160,30 +175,29 @@
 
     <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <form method="post" action="" id="form_item_edit">
+            <form method="post" action="<?php echo e(route('maintenance.costcodes.update')); ?>">
                 <?php echo csrf_field(); ?>
-                <?php echo method_field('patch'); ?>
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title" id="modal_title">Edit Costcode</h3>
+                    <h3 class="modal-title" id="modal_title">Update Costcode</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
             
-                <div class="modal-body">
-
+                <div class="modal-body">                    
+                    <input type="hidden" name="nameid" id="nameid">
                     <table width="100%">
+                        
                         <tr>
-                            <td width="150"><label>Code:</label></td>
-                            <td><input type="text" id="edit_name" name="name" class="form-control col-md-4 input inline" placeholder="Code"></td>                                      
+                            <td width="150"><label>Code <span class="required" aria-required="true"> * </span></label></td>
+                            <td><input class="form-control" type="text" name="name" id="edit_name" placeholder="Code" required maxlength="30"></td>
                         </tr>
+
                         <tr>
-                            <td width="150"><label>Description:</label></td>
-                            <td>
-                                <textarea id="edit_description" name="description" class="form-control col-md-4 input inline" placeholder="Description" rows="5"></textarea>
-                            </td>
-                        </tr>
+                            <td width="150"><label>Description <span class="required" aria-required="true"> * </span></label></td>
+                            <td><input class="form-control col-md-4 input inline" rows="5" type="text" name="description" id="edit_description" placeholder="Description" required maxlength="50"></td>
+                        </tr>                                                
                     </table>
 
                 </div>
@@ -192,10 +206,40 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary" id="modal_action">Update Costcode</button>
                 </div>
-
             </div>
+            </form>
         </div>
     </div>
+
+	<div class="modal fade" id="name-status" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+			
+		<form method="post" action="<?php echo e(route('maintenance.costcode.change-status')); ?>">
+			<?php echo csrf_field(); ?>
+			<div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Confirmation</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+				<div class="modal-body">
+					<p>
+						You are about to change the status of the selected costcode into						
+						<b><span id="name_status"></span></b>. Do you want to continue?
+					</p>
+				</div>
+				<div class="modal-footer">
+					<input type="hidden" name="costcodeid" id="costcodeid">
+					<input type="hidden" name="namestatus" id="namestatus">
+					<button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
+					<button type="submit" class="btn" id="btnStatus">Yes, <span id="status_btn"></span>!</button>
+				</div>
+			</div>
+		</form>
+		</div>
+	</div>
+
 
 <?php $__env->stopSection(); ?>
 
@@ -210,22 +254,47 @@
     <script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
 
     <script type="text/javascript">
-        
-        $(document).ready(function() {
+            
+		function update_costcode(id,name,description)
+		{
+			$('#nameid').val(id);			
+			$('#edit_name').val(name);
+			$('#edit_description').val(description);
+			$('#modalEdit').modal('show');
+		}
 
-            $('.edit_item').click(function() {
 
-                let route = $(this).data('href');
-                let name = $(this).data('name');
-                let description = $(this).data('description');
+		function addCostCode() 
+		{										
+			$('#nameid').val('');
+			$('#name').val('');
+			$('#description').val('');			
+		}        
 
-                $('#edit_name').val(name);
-                $('#edit_description').val(description);
-                $('#form_item_edit').attr('action',route);
+		function change_status(id,status)
+        {
+			$('#costcodeid').val(id);
+			$('#namestatus').val(status);
+			var status_str = "INACTIVE";
+			if(status == 1)
+			{
+				status_str = "ACTIVE";
+			}
+			$('#name_status').html(status_str);
 
-            });          
+			if(status == 1){
+				$('#status_btn').html('activate');
+				$('#btnStatus').addClass('green');
+				$('#btnStatus').removeClass('red');
+			} else {
+				$('#status_btn').html('deactivate');
+				$('#btnStatus').addClass('red');
+				$('#btnStatus').removeClass('green');
+			}
 
-        });
+			$('#name-status').modal('show');
+		}
+
 
     </script>
 

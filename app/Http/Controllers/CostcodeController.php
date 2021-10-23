@@ -31,7 +31,8 @@ class CostcodeController extends Controller
 		$costcodes = Costcode::latest()
 			->where(function ($query) use ($request) {
 				if ($request->has('searchtxt') && $request->searchtxt != '') {
-					$query->where('name', 'like', '%' . $request->searchtxt . '%');
+					$query->where('name', 'like', '%' . $request->searchtxt . '%')
+					->orWhere('description', 'like', '%'.$request->searchtxt.'%');
 				}
 			})
 			->paginate(15);
@@ -59,15 +60,44 @@ class CostcodeController extends Controller
 	}
 
 
-	public function update($id, Request $request)
+	// public function update($id, Request $request)
+	// {
+
+	// 	$costcode = Costcode::find($id);
+
+	// 	$costcode->update($request->except('_token', '_method'));
+
+	// 	return redirect()->route('maintenance.costcodes.index')->with('success', 'Costcode has been updated!!');
+	// }
+
+	public function costcode_update(Request $request)
 	{
 
-		$costcode = Costcode::find($id);
+		$costcode = Costcode::find($request->nameid);
+		$data = $this->validate($request, [
+			'name'			=> 'required' ,
+			'description'   => ''
+		]);
 
-		$costcode->update($request->except('_token', '_method'));
+		$costcode->update($data);
 
 		return redirect()->route('maintenance.costcodes.index')->with('success', 'Costcode has been updated!!');
-	}
+	}	
+
+    public function change_status(Request $request)
+    {
+        
+		Costcode::find($request->costcodeid)->update(['isActive' => $request->namestatus]);
+
+        $status = "INACTIVE";
+
+        if($request->namestatus == 1)
+		{
+            $status = "ACTIVE";
+        }
+				
+        return back()->with('success', 'Costcode status has been changed into ' . $status);
+    }	
 
 
 	public function getLocationCostcode($id)

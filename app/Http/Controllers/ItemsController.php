@@ -16,8 +16,10 @@ class ItemsController extends Controller
     ) {
         $this->roleRightService = $roleRightService;
     }
-	public function index(Request $request) {
-		$rolesPermissions = $this->roleRightService->hasPermissions("Items");
+	public function index(Request $request) 
+	{
+
+        $rolesPermissions = $this->roleRightService->hasPermissions("Items");
 
         if (!$rolesPermissions['view']) {
             abort(401);
@@ -31,20 +33,20 @@ class ItemsController extends Controller
 			->where(function($query) use ($request){
 				if($request->has('searchtxt') && $request->searchtxt != '') {
 					$query->where('name', 'like', '%'.$request->searchtxt.'%' )
-						->orWhere('code', 'like', '%'.$request->searchtxt.'%');
+						->orWhere('code', 'like', '%'.$request->searchtxt.'%')
+						->orWhere('category', 'like', '%'.$request->searchtxt.'%');
 				}
 			})
 			->orderBy('id','DESC')
 			->paginate(15);
-
-		$categories = Category::all();
-
-		return view('pages.items.index', compact('items','categories','create', 'edit', 'delete'));
-
+        
+		$categories = Category::all();			
+        return view('pages.items.index', compact('items','categories','create', 'edit', 'delete'));
 	}
 
 
-	public function store(Request $request) {
+	public function store(Request $request) 
+	{
 
 		$data = $this->validate($request, [
 			'code'			=> 'required' ,
@@ -67,6 +69,25 @@ class ItemsController extends Controller
 	public function update($id, Request $request) {
 
 		$item = Item::find($id);
+
+		$data = $this->validate($request, [
+			'code'			=> 'required' ,
+			'name'			=> 'required' ,
+			'uom'			=> 'required' ,
+			'category'		=> 'required' ,
+			'unit_cost'		=> 'required' ,
+		]);
+
+		$item->update($data);
+
+		return redirect()->route('items.index')->with('success', 'Item has been updated!!');
+
+	}
+
+	public function item_update(Request $request) 
+	{
+
+		$item = Item::find($request->nameid);
 
 		$data = $this->validate($request, [
 			'code'			=> 'required' ,

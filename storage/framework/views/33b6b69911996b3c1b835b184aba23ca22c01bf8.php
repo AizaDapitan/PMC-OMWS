@@ -30,7 +30,11 @@
 
             <ul class="page-breadcrumb breadcrumb">
                 <li> 
-                    <a class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" style="color:white;">Add New</a>
+                <?php if($create): ?>
+                <a class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" style="color:white;">Add New</a>
+                <?php else: ?>
+                <button disabled class="btn blue" data-backdrop="static" style="color:white;">Add New</button>
+                <?php endif; ?>
                 </li>
             </ul>
 
@@ -61,6 +65,7 @@
                                     <tr>
                                         <td><?php echo e($receiver->name); ?></td>
                                         <td>
+                                            <?php if($edit): ?>
                                             <button class="btn btn-success btn-xs edit_item" data-toggle="modal" data-backdrop="static" 
                                                 href="#modalEdit" data-href="<?php echo e(route('maintenance.receivers.update', $receiver->id)); ?>" 
                                                 data-name="<?php echo e($receiver->name); ?>" > Edit </button> 
@@ -76,6 +81,22 @@
                                                     <button type="submit" class="btn blue btn-xs">Activate</button>
                                                 <?php endif; ?>
                                             </form>
+                                            <?php else: ?>
+                                            <button disabled class="btn btn-success btn-xs edit_item" data-toggle="modal" data-backdrop="static" 
+                                                href="#modalEdit" data-href="<?php echo e(route('maintenance.receivers.update', $receiver->id)); ?>" 
+                                                data-name="<?php echo e($receiver->name); ?>" > Edit </button> 
+                                            
+                                            <form method="POST" action="<?php echo e(route('maintenance.receivers.update', $receiver->id )); ?>" style="display: inline-block;">
+                                                <?php echo csrf_field(); ?>
+                                                <?php echo method_field('patch'); ?>
+                                                <?php if( $receiver->isActive): ?>
+                                                    <input type="hidden"  name="isActive" value="0">
+                                                    <button disabled type="submit" class="btn red btn-xs">Deactivate</button>
+                                                <?php else: ?>
+                                                    <input type="hidden" name="isActive" value="1">
+                                                    <button disabled type="submit" class="btn blue btn-xs">Activate</button>
+                                                <?php endif; ?>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>

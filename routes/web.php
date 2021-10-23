@@ -36,13 +36,19 @@ Route::get('/close-open-sequence', 'SequenceController@closeOpenSequence')->name
 
 Route::middleware(['auth'])->group(function () {
 
-	Route::resource('items', 'ItemsController');
-
 	Route::get('/dashboard', 'HomeController@index')->name('home');
+
+	//Route::resource('items', 'ItemsController');
+
+	//Item Routes
+	Route::resource('items', 'ItemsController');
+	Route::post('/item-update', 'ItemsController@item_update')->name('items.update');	
+
+	
 
 	Route::name('maintenance.')->group(function () {
 
-		Route::resource('costcodes', 'CostcodeController');
+		
 		Route::resource('categories', 'CategoryController');
 		Route::resource('approvers', 'ApproverController');
 		Route::resource('receivers', 'ReceiverController');
@@ -57,12 +63,12 @@ Route::middleware(['auth'])->group(function () {
 		Route::get('/contractors/{id}/location/{locId}/insert', 'ContractorController@attachLocation')->name('contractors.attach-location');
 
 		Route::resource('sequence', 'SequenceController');
-
-		Route::post('sequence-action', 'SequenceController@getAction')->name('sequence.getAction');
-
-		// Route::get('fabricated/create', 'SequenceController@create')->name('fabricatednum.create');
+		Route::post('sequence-action', 'SequenceController@getAction')->name('sequence.getAction');		
 		Route::post('sequence/fabricated-store', 'SequenceController@storefabnum')->name('fabricatednum.store');
 		Route::get('/sequence/fabricated-update/{id}', 'SequenceController@updatefabnum')->name('fabricatednum.update');
+
+
+
 
 		// Users
 		Route::group(['prefix' => 'users'], function () {
@@ -74,6 +80,11 @@ Route::middleware(['auth'])->group(function () {
 			Route::post('/user-change-status', 'UserController@change_status')->name('user.change-status');
 			Route::post('/user-reset-password', 'UserController@reset_password')->name('user.reset-password');
 		});
+
+		//Cost Code Routes		
+		Route::resource('costcodes', 'CostcodeController');
+		Route::post('/costcode-update', 'CostcodeController@costcode_update')->name('costcodes.update');			
+		Route::post('/costcode-change-status', 'CostcodeController@change_status')->name('costcode.change-status');			
 
 		//Role Routes
 		Route::resource('roles', 'RoleController');
