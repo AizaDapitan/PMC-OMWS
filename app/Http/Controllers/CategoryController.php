@@ -15,7 +15,7 @@ class CategoryController extends Controller
 		$this->roleRightService = $roleRightService;
 	}
 
-	public function index()
+	public function index(Request $request)
 	{
 
 		$rolesPermissions = $this->roleRightService->hasPermissions("Categories");
@@ -28,37 +28,53 @@ class CategoryController extends Controller
 		$edit = $rolesPermissions['edit'];
 		$delete = $rolesPermissions['delete'];
 
-		$categories = Category::orderBy('id', 'DESC')->paginate(15);
-
-		return view('pages.categories.index', compact(
-			'categories',
-			'create',
-			'edit',
-			'delete'
-		));
+        $categories = Category::orderBy('name')
+        ->where(function($query) use ($request)
+        {
+			if($request->has('searchtxt') && $request->searchtxt != '') 
+			{
+				$query->where('name', 'like', '%'.$request->searchtxt.'%' )
+				->orderBy('name');
+        	}
+        })
+        
+        ->paginate(15);
+        
+        return view('pages.categories.index', compact('categories', 'create', 'edit', 'delete'));
 	}
 
+	public function store(Request $request) {
 
-	public function store(Request $request)
-	{
-
-		$data = $this->validate($request, [
-			'name'			=> 'required'
+        $request->validate([
+            'name' => 'required'
+        ]);
+				
+		Category::create([
+			'name' => $request->name
 		]);
 
-		Category::create($data);
-
-		return redirect()->route('maintenance.categories.index')->with('success', 'Category has been saved!!');
+		return redirect()->route('maintenance.categories.index')->with('success', 'Category has been saved!!');	
 	}
 
-
-	public function update($id, Request $request)
-	{
-
-		$costcode = Category::find($id);
-
-		$costcode->update($request->except('_token', '_method'));
+    public function category_update(Request $request)
+    {
+		
+		Category::find($request->nameid)->update([
+			'name' => $request->name
+		]);
 
 		return redirect()->route('maintenance.categories.index')->with('success', 'Category has been updated!!');
-	}
+    }	
+
+
+
+	// public function update($id, Request $request)
+	// {
+
+	// 	$costcode = Category::find($id);
+
+	// 	$costcode->update($request->except('_token', '_method'));
+
+	// 	return redirect()->route('maintenance.categories.index')->with('success', 'Category has been updated!!');
+	// }
 }

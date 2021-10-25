@@ -44,43 +44,66 @@ class ItemsController extends Controller
         return view('pages.items.index', compact('items','categories','create', 'edit', 'delete'));
 	}
 
-	public function store(Request $request) {
 
-        $request->validate([
-            'code' => 'required',
-            'name' => 'required',
-            'uom' => 'required',
-            'category' => 'required',
-            'unit_cost' => 'required',            
-        ]);
-		                
-        Item::create([
-            'code' => $request->code,
-            'name' => $request->name,
-            'uom' => $request->uom,
-            'category' => $request->category,
-            'unit_cost' => $request->unit_cost,
-            'addedBy' => auth()->user()->name,
-            'addedDate' => \Carbon\Carbon::now(),
-            'isNotActive' => 0
-        ]);
+	public function store(Request $request) 
+	{
 
-        return redirect()->route('items.index')->with('success', 'Item has been saved!!');	
-	}    
+		$data = $this->validate($request, [
+			'code'			=> 'required' ,
+			'name'			=> 'required' ,
+			'uom'			=> 'required' ,
+			'category'		=> 'required' ,
+			'unit_cost'		=> 'required' ,
+		]);
 
-    public function item_update(Request $request)
-    {
-    
-        Item::find($request->nameid)->update([
-            'code' => $request->code,
-            'name' => $request->name,
-            'uom' => $request->uom,
-            'category' => $request->category,
-            'unit_cost' => $request->unit_cost
-        ]);
+		$data['addedBy'] 	= auth()->user()->name;
+		$data['addedDate']	= \Carbon\Carbon::now();
+		$data['isNotActive']	= 0;
 
-        return redirect()->route('items.index')->with('success', 'Item has been updated!!');
-    }    
+
+		Item::create($data);
+
+		return redirect()->route('items.index')->with('success', 'Item has been saved!!');
+
+	}
+
+
+	public function update($id, Request $request) {
+
+		$item = Item::find($id);
+
+		$data = $this->validate($request, [
+			'code'			=> 'required' ,
+			'name'			=> 'required' ,
+			'uom'			=> 'required' ,
+			'category'		=> 'required' ,
+			'unit_cost'		=> 'required' ,
+		]);
+
+		$item->update($data);
+
+		return redirect()->route('items.index')->with('success', 'Item has been updated!!');
+
+	}
+
+	public function item_update(Request $request) 
+	{
+
+		$item = Item::find($request->nameid);
+
+		$data = $this->validate($request, [
+			'code'			=> 'required' ,
+			'name'			=> 'required' ,
+			'uom'			=> 'required' ,
+			'category'		=> 'required' ,
+			'unit_cost'		=> 'required' ,
+		]);
+
+		$item->update($data);
+
+		return redirect()->route('items.index')->with('success', 'Item has been updated!!');
+
+	}
 
 
 	public function getItem($itemname) {

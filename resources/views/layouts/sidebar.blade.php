@@ -84,11 +84,14 @@
 							<i class="fa fa-lock"></i>
 							Cutoffs</a>
 					</li>
+					
 					<li class="@if (request()->routeIs('maintenance.categories*')) active @endif">
 						<a href="{{ route('maintenance.categories.index') }}">
-							<i class="fa fa-lock"></i>
-							Categories</a>
-					</li>					
+						<i class="fa fa-lock"></i>
+						Categories</a>
+					</li>
+
+
 					{{-- @if(\Auth::user()->can_open_sequence) --}}
 					<li class="@if (request()->routeIs('maintenance.sequence*')) active @endif">
 						<a href="{{ route('maintenance.sequence.index') }}">

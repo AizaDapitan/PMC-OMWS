@@ -27,30 +27,14 @@ class ReceiverController extends Controller
 		$edit = $rolesPermissions['edit'];
 		$delete = $rolesPermissions['delete'];
 
-		if ($request->receivername != null || $request->receivername != '') {
-
-			$receivers = Receiver::where('name', 'like', '%' . $request->receivername . '%')->get();
-		} else {
-
-			$receivers = Receiver::orderBy('name')->get();
-		}
-
-		$perPage = 10;
-
-		$currentPage = LengthAwarePaginator::resolveCurrentPage();
-
-		if ($currentPage == 1) {
-			$start = 0;
-		} else {
-			$start = ($currentPage - 1) * $perPage;
-		}
-
-		$currentPageCollection = $receivers->slice($start, $perPage)->all();
-
-		$receivers = new LengthAwarePaginator($currentPageCollection, count($receivers), $perPage);
-
-		$receivers->setPath(LengthAwarePaginator::resolveCurrentPath());
-
+		$receivers = Receiver::latest()
+		 	->where(function ($query) use ($request) {
+		 		if ($request->has('searchtxt') && $request->searchtxt != '') {
+		 			$query->where('name', 'like', '%' . $request->searchtxt . '%');
+		 		}
+		 	})
+			->paginate(15);
+		
 		return view('pages.receivers.index', compact(
 			'receivers',
 			'create',
@@ -59,55 +43,48 @@ class ReceiverController extends Controller
 		));
 	}
 
+	public function store(Request $request) 
+    {
 
-	public function store(Request $request)
-	{
+        $request->validate([
+            'lname' => 'required',
+            'fname' => 'required',
+            'mname' => 'required'
+        ]);
+		   
+        $name = "$request->lname, $request->fname  $request->mname";
 
-		$data = $this->validate($request, [
-			'lname'			=> 'required',
-			'fname'			=> 'required',
-			'mname'			=> ''
-		]);
+        Receiver::create([
+            'name' => strtoupper($name)
+        ]);
 
-		$name = "{$data['lname']}, {$data['fname']} {$data['mname']}";
+        return redirect()->route('maintenance.receivers.index')->with('success', 'Receiver has been saved!!');	
+	}        
 
-		Receiver::create(['name' => strtoupper($name)]);
+    public function receiver_update(Request $request)
+    {
+        
+        Receiver::find($request->nameid)->update([
+            'name' => strtoupper($request->name)
+        ]);
 
-		return redirect()->route('maintenance.receivers.index')->with('success', 'Receiver has been saved!!');
-	}
+        return redirect()->route('maintenance.receivers.index')->with('success', 'Receiver has been updated!!');
 
-	public function update($id, Request $request)
-	{
+    }	        
 
-		$receiver = Receiver::find($id);
+    public function change_status(Request $request)
+    {
+        
+		Receiver::find($request->receiverid)->update(['isActive' => $request->namestatus]);
 
-		$receiver->update($request->except(['_method', '_token']));
+        $status = "INACTIVE";
 
-		return redirect()->route('maintenance.receivers.index')->with('success', 'Receiver has been updated!!');
-	}
+        if($request->namestatus == 1)
+		{
+            $status = "ACTIVE";
+        }
+				
+        return back()->with('success', 'Receiver status has been changed into ' . $status);
+    }
 
-	public function rstore(Request $request)
-	{
-
-		$data = $this->validate($request, [
-			'lname'			=> 'required',
-			'fname'			=> 'required',
-			'mname'			=> ''
-		]);
-
-
-		$name = "{$data['lname']}, {$data['fname']} {$data['mname']}";
-
-		$existing = Receiver::where('name', $name)->first();
-
-		if ($existing) {
-
-			return back()->with('duplicate', 'Receiver already existing!!');
-		} else {
-
-			Receiver::create(['name' => strtoupper($name)]);
-
-			return back()->with('success', 'Receiver has been saved!!');
-		}
-	}
 }

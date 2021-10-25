@@ -84,11 +84,14 @@
 							<i class="fa fa-lock"></i>
 							Cutoffs</a>
 					</li>
+					
 					<li class="<?php if(request()->routeIs('maintenance.categories*')): ?> active <?php endif; ?>">
 						<a href="<?php echo e(route('maintenance.categories.index')); ?>">
-							<i class="fa fa-lock"></i>
-							Categories</a>
-					</li>					
+						<i class="fa fa-lock"></i>
+						Categories</a>
+					</li>
+
+
 					
 					<li class="<?php if(request()->routeIs('maintenance.sequence*')): ?> active <?php endif; ?>">
 						<a href="<?php echo e(route('maintenance.sequence.index')); ?>">
