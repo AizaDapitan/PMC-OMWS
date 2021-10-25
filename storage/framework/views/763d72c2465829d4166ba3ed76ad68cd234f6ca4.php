@@ -32,7 +32,7 @@
 
 			</li>
 			<li class="start <?php if(request()->route()->uri == 'dashboard'): ?> active <?php endif; ?>">
-				<a href="<?php echo e(env('APP_URL')); ?>">
+				<a href="<?php echo e(route('home')); ?>">
 					<i class="icon-home"></i>
 					<span class="title">Home</span>
 					<span class="selected"></span>
@@ -42,7 +42,7 @@
 			<li class="<?php if(request()->route()->uri == 'ppe-transactions' || request()->route()->uri == 'ppe-transaction/{id}'): ?> active <?php endif; ?>">
 				<a href="<?php echo e(route('ppe-transactions')); ?>">
 					<i class="icon-home"></i>
-					<span class="title">PPE Issuance Request</span>
+					<span class="title">PPE Issuance Requests</span>
 					<span class="title"></span>
 				</a>
 			</li>
@@ -82,18 +82,18 @@
 					<li class="<?php if(request()->routeIs('maintenance.cutoffs*')): ?> active <?php endif; ?>">
 						<a href="<?php echo e(route('maintenance.cutoffs.index')); ?>" }>
 							<i class="fa fa-lock"></i>
-							Cut off</a>
+							Cutoffs</a>
 					</li>
 					<li class="<?php if(request()->routeIs('maintenance.categories*')): ?> active <?php endif; ?>">
 						<a href="<?php echo e(route('maintenance.categories.index')); ?>">
 							<i class="fa fa-lock"></i>
-							Category</a>
+							Categories</a>
 					</li>					
 					
 					<li class="<?php if(request()->routeIs('maintenance.sequence*')): ?> active <?php endif; ?>">
 						<a href="<?php echo e(route('maintenance.sequence.index')); ?>">
 							<i class="fa fa-lock"></i>
-							Sequence Control</a>
+							Sequences Control</a>
 					</li>
 					
 					
@@ -104,7 +104,8 @@
 							<span class="arrow hide"></span>
 						</a>
 					</li>
-							<li class="<?php if(request()->routeIs('maintenance.roles*')): ?> active <?php endif; ?>">
+					
+					<li class="<?php if(request()->routeIs('maintenance.roles*')): ?> active <?php endif; ?>">
 						<a href="<?php echo e(route('maintenance.roles.index')); ?>">
 						<i class="fa fa-lock"></i>
 						Roles</a>
@@ -120,6 +121,18 @@
 						<a href="<?php echo e(route('maintenance.roleaccessrights.index')); ?>">
 						<i class="fa fa-lock"></i>
 						Role Access Rights</a>
+					</li>
+					
+					<li class="<?php if(request()->routeIs('maintenance.useraccessrights*')): ?> active <?php endif; ?>">
+						<a href="<?php echo e(route('maintenance.useraccessrights.index')); ?>">
+						<i class="fa fa-lock"></i>
+						User Access Rights</a>
+					</li>
+					
+					<li class="<?php if(request()->routeIs('maintenance.application*')): ?> active <?php endif; ?>">
+						<a href="<?php echo e(route('maintenance.application.index')); ?>">
+						<i class="fa fa-lock"></i>
+						Application</a>
 					</li>					
 										
 				</ul>
@@ -212,8 +225,8 @@
 							<span class="arrow hide"></span>
 						</a>
 					</li>
-					<li class="<?php if(request()->routeIs('rpt.issuance-by-status')): ?> active open <?php endif; ?>">
-						<a href="<?php echo e(route('rpt.issuance-by-status')); ?>?status=saved">
+					<li class="<?php if(request()->routeIs('rpt.unposted-transactions')): ?> active open <?php endif; ?>">
+						<a href="<?php echo e(route('rpt.unposted-transactions')); ?>?status=saved">
 							<i class="fa fa-calendar"></i>
 							<span class="title">Unposted Transactions</span>
 							<span class="arrow hide"></span>
@@ -223,6 +236,20 @@
 						<a href="<?php echo e(route('rpt.issuance-by-transactionID')); ?>">
 							<i class="fa fa-calendar"></i>
 							<span class="title">Summary per Transaction #</span>
+							<span class="arrow hide"></span>
+						</a>
+					</li>
+					<li class="<?php if(request()->routeIs('rpt.audit-logs')): ?> active open <?php endif; ?>">
+						<a href="<?php echo e(route('rpt.audit-logs')); ?>">
+							<i class="fa fa-calendar"></i>
+							<span class="title">User Action</span>
+							<span class="arrow hide"></span>
+						</a>
+					</li>
+					<li class="<?php if(request()->routeIs('rpt.error-logs')): ?> active open <?php endif; ?>">
+						<a href="<?php echo e(route('rpt.error-logs')); ?>">
+							<i class="fa fa-calendar"></i>
+							<span class="title">Error Logs</span>
 							<span class="arrow hide"></span>
 						</a>
 					</li>
