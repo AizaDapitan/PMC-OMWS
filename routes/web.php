@@ -82,11 +82,13 @@ Route::middleware(['auth'])->group(function () {
 
 		//Cost Code Routes		
 		Route::resource('costcodes', 'CostcodeController');
+		Route::post('store', 'CostcodeController@store')->name('costcodes.store');
 		Route::post('/costcode-update', 'CostcodeController@costcode_update')->name('costcodes.update');
 		Route::post('/costcode-change-status', 'CostcodeController@change_status')->name('costcode.change-status');
 
 		//Approver Routes		
 		Route::resource('approvers', 'ApproverController');
+		Route::post('store', 'ApproverController@store')->name('approvers.store');
 		Route::post('/approver-update', 'ApproverController@approver_update')->name('approvers.update');
 		Route::post('/approver-change-status', 'ApproverController@change_status')->name('approver.change-status');
 
