@@ -30,11 +30,11 @@
 
             <ul class="page-breadcrumb breadcrumb">
                 <li> 
-                @if($create)
-                <a class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" style="color:white;">Add New</a>
-                @else
-                <button disabled class="btn blue" data-backdrop="static" style="color:white;">Add New</button>
-                @endif
+                    @if($create)
+                        <a class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" onclick="addApprover()" style="color:white;">Add New</a>    
+                    @else
+                        <button disabled class="btn blue" data-toggle="modal" data-backdrop="static" href="#modalAdd" onclick="addApprover()" style="color:white;">Add New</button>
+                    @endif                
                 </li>
             </ul>
 
@@ -49,13 +49,23 @@
 
                 <div class="portlet-body">
 
+                    <form method="get" action="{{ route('maintenance.approvers.index') }}">
+                        <table width="100%">
+                            <tr>
+                                <td>Search:<input type="hidden" name="action" value="search"></td>
+                                <td><input type="text" name="searchtxt" id="searchtxt" class="form-control input " placeholder="Enter Name"></td>                                 
+                                <td align="left"><input type="submit" class="btn purple" value="Search"> </td>                                  
+                            </tr>
+                        </table>
+                    </form>                
+
                     <div class="table-scrollable">
                         
                         <table class="table table-hover">
 
                             <thead>
-                                <tr>                                    
-                                    <th>Name</th>
+                                <tr>                                                   
+                                    <th>Name</th>                                                                        
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -63,46 +73,30 @@
                             <tbody>
                                 @forelse($approvers as $approver)
                                     <tr>
-                                        <td>{{ $approver->name }}</td>
-                                        <td>
+										<td>
+                                            {{ $approver->name }}
+										</td>             
+                                        <td> 
                                             @if($edit)
-                                            <button class="btn btn-success btn-xs edit_item" data-toggle="modal" data-backdrop="static" 
-                                                href="#modalEdit" data-href="{{ route('maintenance.approvers.update', $approver->id) }}" 
-                                                data-name="{{ $approver->name }}" > Edit </button> 
-                                            
-                                            <form method="POST" action="{{ route('maintenance.approvers.update', $approver->id ) }}" style="display: inline-block;">
-                                                @csrf
-                                                @method('patch')
-                                                @if( $approver->isActive)
-                                                    <input type="hidden"  name="isActive" value="0">
-                                                    <button type="submit" class="btn red btn-xs">Deactivate</button>
+                                                @if($approver->isActive)
+                                                    <a href="#" class="btn btn-success btn-xs edit_item" onclick="update_approver('{{$approver->id}}','{{$approver->name}}')">Edit </a>
+                                                    <a href="#" class="btn btn-xs red" onclick="change_status('{{$approver->id}}',0)">Deactivate</a>                                            
                                                 @else
-                                                    <input type="hidden" name="isActive" value="1">
-                                                    <button type="submit" class="btn blue btn-xs">Activate</button>
+                                                    <a href="#" class="btn btn-xs green" onclick="change_status('{{$approver->id}}',1)">Activate</a>
                                                 @endif
-                                            </form>
                                             @else
-                                            <button disabled class="btn btn-success btn-xs edit_item" data-toggle="modal" data-backdrop="static" 
-                                                href="#modalEdit" data-href="{{ route('maintenance.approvers.update', $approver->id) }}" 
-                                                data-name="{{ $approver->name }}" > Edit </button> 
-                                            
-                                            <form method="POST" action="{{ route('maintenance.approvers.update', $approver->id ) }}" style="display: inline-block;">
-                                                @csrf
-                                                @method('patch')
-                                                @if( $approver->isActive)
-                                                    <input type="hidden"  name="isActive" value="0">
-                                                    <button disabled type="submit" class="btn red btn-xs">Deactivate</button>
+                                                @if($approver->isActive)
+                                                    <button disabled href="#" class="btn btn-success btn-xs edit_item">Edit </button>
+                                                    <button disabled href="#" class="btn btn-xs red" onclick="change_status('{{$approver->id}}','INACTIVE')">Deactivate</button>                                                
                                                 @else
-                                                    <input type="hidden" name="isActive" value="1">
-                                                    <button disabled type="submit" class="btn blue btn-xs">Activate</button>
+                                                    <button disabled href="#" class="btn btn-xs green" onclick="change_status('{{$approver->id}}','ACTIVE')">Activate</button>
                                                 @endif
-                                            </form>
                                             @endif
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td class="text-center" colspan="2"> No Approvers Found </td>
+                                        <td class="text-center" colspan="4"> No approvers Found </td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -142,22 +136,25 @@
                 <div class="modal-body">
 
                     <table width="100%">
+                    
+                        <tr>
+                            <td width="150"><label>Last Name <span class="required" aria-required="true"> * </span></label></td>
+                            <td><input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name" required maxlength="30"></td>                                       
+                        </tr>
+
+                        <tr>
+                            <td width="150"><label>First Name <span class="required" aria-required="true"> * </span></label></td>
+                            <td><input type="text" class="form-control" id="fname" name="fname" placeholder="First Name" required maxlength="30"></td>                                       
+                        </tr>
                         
                         <tr>
-                            <td width="150"><label>Last Name:</label></td>
-                            <td><input type="" name="lname" class="form-control col-md-4 input inline" placeholder="Last Name" required></td>                                       
-                        </tr>
-                        <tr>
-                            <td width="150"><label>First Name:</label></td>
-                            <td><input type="" name="fname" class="form-control col-md-4 input inline" placeholder="First Name" required></td>                                      
-                        </tr>
-                        <tr>
-                            <td width="150"><label>Middle Name:</label></td>
-                            <td><input type="" name="mname" class="form-control col-md-4 input inline" placeholder="Middle Name" required></td>                                     
-                        </tr>
+                            <td width="150"><label>Middle Name <span class="required" aria-required="true"> * </span></label></td>
+                            <td><input type="text" class="form-control" id="mname" name="mname" placeholder="Middle Name" required maxlength="30"></td>                                       
+                        </tr>      
+                        
                         <tr>
                             <td width="150"><label></label></td>
-                            <td><label class="label-control" style="font-size: 10px; color: blue"> Note: Extension names such as JR, SR, III, IV etc should be put adjacent next to first name (e.i: Jose Jr). Thank you!</label></td>                                      
+                            <td><label class="label-control" style="font-size: 10px; color: blue"> Note: Extension names such as JR, SR, III, IV etc should be put adjacent next to first name (e.i: Jose Jr). Thank you!</label></td>
                         </tr>
 
                     </table>
@@ -175,9 +172,8 @@
 
     <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <form method="post" action="" id="edit_form">
+            <form method="post" action="{{ route('maintenance.approvers.update') }}">
                 @csrf
-                @method('PATCH')
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title" id="modal_title">Update Approver</h3>
@@ -186,10 +182,15 @@
                     </button>
                 </div>
             
-                <div class="modal-body">
-
+                <div class="modal-body">                    
+                    <input type="hidden" name="nameid" id="nameid">
                     <table width="100%">
-                        <tr><td>Name</td><td><input type="text" class="form-control" id="edit_name" name="name" required></td></tr>
+                        
+                        <tr>
+                            <td width="150"><label>Name <span class="required" aria-required="true"> * </span></label></td>
+                            <td><input class="form-control" type="text" name="name" id="edit_name" placeholder="Name" required maxlength="30"></td>
+                        </tr>
+
                     </table>
 
                 </div>
@@ -202,6 +203,36 @@
             </form>
         </div>
     </div>
+
+	<div class="modal fade" id="name-status" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+			
+		<form method="post" action="{{ route('maintenance.approver.change-status') }}">
+			@csrf
+			<div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Confirmation</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+				<div class="modal-body">
+					<p>
+						You are about to change the status of the selected approver into						
+						<b><span id="name_status"></span></b>. Do you want to continue?
+					</p>
+				</div>
+				<div class="modal-footer">
+					<input type="hidden" name="approverid" id="approverid">
+					<input type="hidden" name="namestatus" id="namestatus">
+					<button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
+					<button type="submit" class="btn" id="btnStatus">Yes, <span id="status_btn"></span>!</button>
+				</div>
+			</div>
+		</form>
+		</div>
+	</div>
+
 
 @endsection
 
@@ -217,19 +248,46 @@
 
     <script type="text/javascript">
             
-        $(document).ready(function() {
+		function update_approver(id,name)
+		{
+			$('#nameid').val(id);			
+			$('#edit_name').val(name);
+			$('#modalEdit').modal('show');
+		}
 
-            $('.edit_item').click(function () {
 
-                let route = $(this).data('href');
-                let name = $(this).data('name');
+		function addApprover() 
+		{										
+			$('#nameid').val('');
+			$('#lname').val('');
+            $('#fname').val('');
+            $('#mname').val('');
+		}        
 
-                $('#edit_form').attr('action', route);
-                $('#edit_name').val(name);
+		function change_status(id,status)
+        {
+			$('#approverid').val(id);
+			$('#namestatus').val(status);
+			var status_str = "INACTIVE";
+			if(status == 1)
+			{
+				status_str = "ACTIVE";
+			}
+			$('#name_status').html(status_str);
 
-            });
+			if(status == 1){
+				$('#status_btn').html('activate');
+				$('#btnStatus').addClass('green');
+				$('#btnStatus').removeClass('red');
+			} else {
+				$('#status_btn').html('deactivate');
+				$('#btnStatus').addClass('red');
+				$('#btnStatus').removeClass('green');
+			}
 
-        });
+			$('#name-status').modal('show');
+		}
+
 
     </script>
 
