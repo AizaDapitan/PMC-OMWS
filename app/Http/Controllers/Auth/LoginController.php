@@ -70,7 +70,7 @@ class LoginController extends Controller
     }
     public function adminLogin()
     {
-        return view('auth.adminlogin');
+        return view('auth.adminLogin');
     }
     public function adminSubmit(Request $request)
     {
