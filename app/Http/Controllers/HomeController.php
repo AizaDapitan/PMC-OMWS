@@ -37,11 +37,17 @@ class HomeController extends Controller
 
         $validate = $request->validate([
             'current_password'      => 'required',
-            'new_password'          => 'required',
+            'new_password'          => [
+                'required', 'string', 'min:8', 'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*#?&._]/'
+            ],
             'new_confirm_password'  => 'same:new_password'
-        ]); 
+        ]);
 
         if ($hasher->check($request->current_password, $user->password)) {
+        
 
             $user->update([
                 'password'  => \Hash::make($request->new_password)
