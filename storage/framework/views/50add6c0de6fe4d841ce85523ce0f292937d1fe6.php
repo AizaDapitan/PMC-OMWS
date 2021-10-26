@@ -103,7 +103,7 @@
                         $.ajax({
 
                             type: "GET",
-                            url: "<?php echo route('sequence.close-open'); ?>",
+                            url: "<?php echo route('maintenance.sequence.close-open'); ?>",
                             
                             success: function(data){
 

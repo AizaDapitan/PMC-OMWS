@@ -226,6 +226,38 @@
 			$('#sequence_id').val('');
 		}
 
+        $('.btnToggleAction').click(function() {
+
+            let _action = $(this).text();
+            let _sequenceId = $(this).data('id');
+            let _url = "{!! route('maintenance.sequence.getAction') !!}";
+            let _that = $(this);
+
+            console.log(_action);
+
+            $.ajax({
+
+                type: "POST",
+                data: {"_token": "{{ csrf_token() }}", id : _sequenceId, action: _action},
+                url: _url,
+                
+                success: function(data){
+                    if(data == 'Open'){
+                        console.log('change to Open');
+                        _that.text('Open');
+                        $('#seq_stat'+_sequenceId).text('Close');
+                    } else {
+                        _that.text('Close');
+                        $('#seq_stat'+_sequenceId).text('Open');
+                        console.log('change to Close');
+                    }
+
+                }
+
+            });
+
+
+            });
     </script>
 
 @endsection

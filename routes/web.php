@@ -101,6 +101,11 @@ Route::middleware(['auth'])->group(function () {
 		Route::post('/sequence-update', 'SequenceController@sequence_update')->name('sequence.update');		
 		Route::get('/close-open-sequence', 'SequenceController@closeOpenSequence')->name('sequence.close-open');
 
+		
+		Route::post('sequence-action', 'SequenceController@getAction')->name('sequence.getAction');		
+		Route::post('sequence/fabricated-store', 'SequenceController@storefabnum')->name('fabricatednum.store');
+		Route::get('/sequence/fabricated-update/{id}', 'SequenceController@updatefabnum')->name('fabricatednum.update');
+
 		//Role Routes
 		Route::resource('roles', 'RoleController');
 		Route::post('/role-update', 'RoleController@role_update')->name('roles.update');

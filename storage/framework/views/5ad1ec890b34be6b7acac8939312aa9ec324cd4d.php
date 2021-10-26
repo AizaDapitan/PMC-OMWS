@@ -13,7 +13,9 @@
     <link id="style_color" href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/css/themes/default.css" rel="stylesheet" type="text/css"/>
     <link href="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
     <style type="text/css">
-        
+        table td {
+            padding-bottom: 10px; 
+        }
     </style>
 
 <?php $__env->stopSection(); ?>
@@ -24,25 +26,35 @@
 
         <div class="col-md-12">
 
-            <h3 class="page-title"> Sequence Control </h3>
-            
+            <h3 class="page-title"> Sequence Control Maintenance </h3>
+
             <div class="portlet box blue">
 
                 <div class="portlet-title">
                     <div class="caption">
                         <i class=" icon-list"></i> List of Sequences
                     </div>
+
                     <div class="actions">
                         <?php if($create): ?>
-                            <a class="btn green btn-sm" data-toggle="modal" href="#fabricatedseqnum"> Add Fabricated Number <i class="fa fa-plus"></i> </a>
+                            <a class="btn green btn-sm" data-toggle="modal" data-backdrop="static" href="#modalAdd" onclick="addSequence()" style="color:white;">Add Fabricated Number <i class="fa fa-plus"></i></a>    
                         <?php else: ?>
-                            <button disabled class="btn green btn-sm" data-toggle="modal" href="#fabricatedseqnum"> Add Fabricated Number <i class="fa fa-plus"></i> </button>
+                            <button disabled class="btn green btn-sm" data-toggle="modal" data-backdrop="static" href="#modalAdd" onclick="addSequence()" style="color:white;">Add Fabricated Number <i class="fa fa-plus"></i> </button>
                         <?php endif; ?>
                     </div>
-                            
                 </div>
 
                 <div class="portlet-body">
+
+                    <form method="get" action="<?php echo e(route('maintenance.sequence.index')); ?>">
+                        <table width="100%">
+                            <tr>
+                                <td>Search:<input type="hidden" name="action" value="search"></td>
+                                <td><input type="text" name="searchtxt" id="searchtxt" class="form-control input " placeholder="Enter Name"></td>                                 
+                                <td align="left"><input type="submit" class="btn purple" value="Search"> </td>                                  
+                            </tr>
+                        </table>
+                    </form>                
 
                     <div class="table-scrollable">
                         
@@ -53,7 +65,7 @@
                                     <th>Sequence Number</th>
                                     <th>Date Started</th>
                                     <th>Status</th>
-                                    <th align="center">Description</th>
+                                    <th align = "center">Description</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -61,23 +73,42 @@
                             <tbody>
                                 <?php $__empty_1 = true; $__currentLoopData = $sequences; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sequence): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                     <tr>
-                                        <td><?php echo e($sequence->sequence_id); ?></td>
-                                         <td><?php echo e(\Carbon\Carbon::parse($sequence->date_created)->format('Y-m-d H:s A')); ?></td>
-                                        <td><span id="seq_stat<?php echo e($sequence->id); ?>" class="label <?php echo e($sequence->is_open ? 'label-success':'label-default'); ?> "><?php echo e($sequence->is_open ? 'Open':'Close'); ?></span></td>
-                                        <td align="center"> <?php if($sequence->is_fabricated == 1): ?> <span class="badge badge-primary">FABRICATED</span> <br> added by: <?php echo e($sequence->created_by); ?> <?php endif; ?></td>
-                                        <td> <?php if(\Auth::user()->can_open_sequence): ?> <button class="btn btn-primary btnToggleAction" data-id="<?php echo e($sequence->id); ?>"><?php echo e($sequence->is_open ? 'Close':'Open'); ?></button> <?php endif; ?> 
-                                            <?php if($sequence->is_fabricated == 1): ?> 
+										<td>
+                                            <?php echo e($sequence->sequence_id); ?>
+
+										</td>
+
+                                        <td>
+                                            <?php echo e(\Carbon\Carbon::parse($sequence->date_created)->format('Y-m-d H:s A')); ?>             
+                                        </td>
+
+                                        <td>
+                                            <span id="seq_stat<?php echo e($sequence->id); ?>" class="label <?php echo e($sequence->is_open ? 'label-success':'label-default'); ?> "><?php echo e($sequence->is_open ? 'Open':'Close'); ?></span>
+                                        </td>
+
+                                        <td align="center">
+                                            <?php if($sequence->is_fabricated == 1): ?> <span class="badge badge-primary">FABRICATED</span> <br> added by: <?php echo e($sequence->created_by); ?> <?php endif; ?>
+                                        </td>
+
+                                        <td>                       
+                                            <?php if($edit): ?> 
+                                                <button class="btn btn-primary btnToggleAction" data-id="<?php echo e($sequence->id); ?>"><?php echo e($sequence->is_open ? 'Close':'Open'); ?></button> 
+                                            <?php else: ?>
+                                                <button disabled class="btn btn-primary btnToggleAction" data-id="<?php echo e($sequence->id); ?>"><?php echo e($sequence->is_open ? 'Close':'Open'); ?></button> 
+                                            <?php endif; ?> 
+                                                              
+                                            <?php if($sequence->is_fabricated == 1): ?>
                                                 <?php if($edit): ?>
-                                                    <button class="btn btn-warning editfabricatednum" href="#fabricatedseqnumedit" data-id="<?php echo e($sequence->id); ?>" data-seqnum="<?php echo e($sequence->sequence_id); ?>"> EDIT </button> 
+                                                    <a href="#" class="btn btn-warning edit_item" onclick="update_sequence('<?php echo e($sequence->id); ?>','<?php echo e($sequence->sequence_id); ?>')">Edit </a>
                                                 <?php else: ?>
-                                                    <button disabled class="btn btn-warning editfabricatednum" href="#fabricatedseqnumedit" data-id="<?php echo e($sequence->id); ?>" data-seqnum="<?php echo e($sequence->sequence_id); ?>"> EDIT </button> 
+                                                    <button disabled href="#" class="btn btn-warning edit_item">Edit </button>
                                                 <?php endif; ?>
                                             <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                     <tr>
-                                        <td colspan="4" class="text-center"> No Sequence Found </td>
+                                        <td class="text-center" colspan="4"> No sequence Found </td>
                                     </tr>
                                 <?php endif; ?>
                             </tbody>
@@ -86,92 +117,86 @@
 
                     </div>
 
-
                 </div>
                 
                 <div class="col-md-6" style="margin-top: 10px; padding-top: 10px;">
-                                     
+                    Items <?php echo e($sequences->firstItem()); ?> - <?php echo e($sequences->lastItem()); ?>                        
                 </div> 
 
                 <div class="col-md-6 text-right">
-
+                    <?php echo e($sequences->withQueryString()->links()); ?>                        
                 </div>   
 
              </div>
-             <div class="col-md-6" style="margin-top: 10px; padding-top: 10px;">
-                Items <?php echo e($sequences->firstItem()); ?> - <?php echo e($sequences->lastItem()); ?>
 
-            </div>
+        </div>
 
-            <div class="col-md-6 text-right">
-                <?php echo e($sequences->withQueryString()->links()); ?>
+    </div>
 
-            </div>
+    <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form method="post" action="<?php echo e(route('maintenance.sequence.store')); ?>">
+                <?php echo csrf_field(); ?>
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #0480be; ">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title" style="color: #5C2018"><i class="icon-list"></i> Add New Fabricated Number</h4>
+                </div>
             
-        </div>
+                <div class="modal-body">
 
-        <div class="modal fade" id="fabricatedseqnum" tabindex="-1" role="basic" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header" style="background-color: #0480be; ">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                        <h4 class="modal-title" style="color: #5C2018"><i class="icon-list"></i> Fabricated Number</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form action="sequence/fabricated-store" method="POST">
-                            <input type="hidden" class="form-control" name="created_by" value="<?php echo e(Auth::user()->username); ?>" readonly>
-                            <input type="hidden" class="form-control" name="is_fabricated" value="1" readonly>
-                            <input type="hidden" class="form-control" name="is_open" value="1" readonly>
-                            <?php echo csrf_field(); ?>
-                            <div class="form-group" style="align-self: center;">
-                                <div class="form-group row">
-                                    <div class="col-md-12">
-                                        <label class="control-label" style="font-size: 13px" >Fabricated Number: </label>
-                                        <input type="text" class="form-control" placeholder="Enter Fabricated Number" id="fabnumber" name="sequence_id" value="<?php echo e(isset($_GET['sequence_id']) ? $_GET['sequence_id'] : ''); ?>" ><span></span>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn green">Save </button>
-                                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                    <input type="hidden" class="form-control" name="created_by" id="created_by" value="<?php echo e(Auth::user()->username); ?>" readonly>
+                    <input type="hidden" class="form-control" name="is_fabricated" id="is_fabricated" value="1" readonly>
+                    <input type="hidden" class="form-control" name="is_open" id="is_open" value="1" readonly>                
+
+                    <table width="100%">
+                        <tr>
+                            <td width="150"><label>Fabricated Number <span class="required" aria-required="true"> * </span></label></td>
+                            <td><input type="number" class="form-control" id="sequence_id" name="sequence_id" step="any" placeholder="Enter Fabricated Number" value="<?php echo e(isset($_GET['sequence_id']) ? $_GET['sequence_id'] : ''); ?>" required></td>                                       
+                        </tr>
+                    </table>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="modal_action">Save Sequence</button>
                 </div>
             </div>
+            </form>
         </div>
+    </div>
 
-        <div class="modal fade" id="fabricatedseqnumedit" tabindex="-1" role="basic" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header" style="background-color: #0480be; ">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                        <h4 class="modal-title" style="color: #5C2018"><i class="icon-list"></i> Edit Fabricated Number</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form action="/sequence/fabricated-update/<?php echo e($sequence->id); ?>" method="GET">
-                            <input type="hidden" class="form-control" name="updated_by" value="<?php echo e(Auth::user()->username); ?>" readonly> 
-                            <input type="hidden" class="form-control" id="eid" name="id" readonly>                            
-                            <?php echo csrf_field(); ?>
-                            <?php echo method_field('PATCH'); ?>
-                            <div class="form-group" style="align-self: center;">
-                                <div class="form-group row">
-                                    <div class="col-md-12">
-                                        <label class="control-label" style="font-size: 13px" >Fabricated Number: </label>
-                                        <input type="text" class="form-control" placeholder="Enter Fabricated Number" id="efabnumber" name="sequence_id" value="<?php echo e(isset($_GET['sequence_id']) ? $_GET['sequence_id'] : ''); ?>" ><span></span>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn green">Save </button>
-                                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+    <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form method="post" action="<?php echo e(route('maintenance.sequence.update')); ?>">
+                <?php echo csrf_field(); ?>
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #0480be; ">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title" style="color: #5C2018"><i class="icon-list"></i> Update Fabricated Number</h4>
+                </div>
+            
+                <div class="modal-body">
+                    <input type="hidden" name="nameid" id="nameid">
+                    <input type="hidden" class="form-control" name="updated_by" id="updated_by" value="<?php echo e(Auth::user()->username); ?>" readonly> 
+                    
+                    <table width="100%">
+                        <tr>
+                            <td width="150"><label>Fabricated Number <span class="required" aria-required="true"> * </span></label></td>
+                            <td><input class="form-control" type="number" name="sequence_id" id="edit_sequence_id" step="any" placeholder="Enter Fabricated Number" value="<?php echo e(isset($_GET['sequence_id']) ? $_GET['sequence_id'] : ''); ?>" required></td>
+                        </tr>
+                    </table>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="modal_action">Update Sequence</button>
                 </div>
             </div>
+            </form>
         </div>
-
     </div>
 
 <?php $__env->stopSection(); ?>
@@ -187,7 +212,21 @@
     <script src="<?php echo e(env('APP_URL')); ?>/themes/metronic/assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
 
     <script type="text/javascript">
-        
+            
+		function update_sequence(id,sequence_id)
+		{
+			$('#nameid').val(id);			
+			$('#edit_sequence_id').val(sequence_id);
+			$('#modalEdit').modal('show');
+		}
+
+
+		function addSequence() 
+		{										
+			$('#nameid').val('');
+			$('#sequence_id').val('');
+		}
+
         $('.btnToggleAction').click(function() {
 
             let _action = $(this).text();
@@ -204,7 +243,6 @@
                 url: _url,
                 
                 success: function(data){
-
                     if(data == 'Open'){
                         console.log('change to Open');
                         _that.text('Open');
@@ -220,17 +258,8 @@
             });
 
 
-        });
-
+            });
     </script>
-
-    <script type="text/javascript">
-    $(document).on('click','.editfabricatednum',function() {
-        $('#fabricatedseqnumedit').modal('show');
-        $('#eid').val($(this).data('id'));
-        $('#efabnumber').val($(this).data('seqnum'));       
-    });
-</script>
 
 <?php $__env->stopSection(); ?>
 

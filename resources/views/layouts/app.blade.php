@@ -210,7 +210,7 @@
                     $.ajax({
 
                         type: "GET",
-                        url: "{!! route('sequence.close-open') !!}",
+                        url: "{!! route('maintenance.sequence.close-open') !!}",
 
                         success: function(data) {
 

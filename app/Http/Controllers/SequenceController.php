@@ -104,7 +104,6 @@ class SequenceController extends Controller
 
 	public function getAction(Request $request)
 	{
-
 		if ($request->action == 'Open') {
 
 			$seq = Sequence::find($request->id);

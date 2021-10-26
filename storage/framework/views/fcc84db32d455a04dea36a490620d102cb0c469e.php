@@ -90,9 +90,7 @@
 						<i class="fa fa-lock"></i>
 						Categories</a>
 					</li>
-
-
-					
+			
 					<li class="<?php if(request()->routeIs('maintenance.sequence*')): ?> active <?php endif; ?>">
 						<a href="<?php echo e(route('maintenance.sequence.index')); ?>">
 							<i class="fa fa-lock"></i>
