@@ -306,6 +306,7 @@
                 return false;
             }
 
+            console.log(url);
             $.ajax({
 
                 type: "GET",

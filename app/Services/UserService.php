@@ -42,6 +42,16 @@ class UserService
     {
         $roles = $this->repository->GetRoleName($fields->role_id);
 
+        if($roles->role_name == "ADMIN" || $roles->role_name == "admin" )
+        {
+            
+            $open_sequence = 1;
+        }
+        else
+        {
+            $open_sequence = 0;
+        }
+                
         $data = [
             'name' => $fields->firstname . ' ' . $fields->lastname,
             'username' => strtoupper($fields->username),
@@ -51,15 +61,21 @@ class UserService
             'role_id' => $fields->role_id,
             'email' => $fields->email,
             'active' => 1,
+            'can_open_sequence' => $open_sequence,
             'firstname' => $fields->firstname,
             'lastname' => $fields->lastname,
         ];
 
         $user = $this->repository->create($data);
 
-        if ($user) {
+        if ($user) 
+        {            
+            //return redirect()->back()->with('success', 'User has been added successfully! ' . $open_sequence);
+
             return redirect()->back()->with('success', 'User has been added successfully!');
-        } else {
+        } 
+        else 
+        {
             return redirect()->back()->with('errorMesssage', 'Adding user failed.');
         }
     }

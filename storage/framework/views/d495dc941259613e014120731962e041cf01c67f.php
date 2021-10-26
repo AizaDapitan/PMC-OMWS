@@ -162,6 +162,15 @@
                         </div>
                     </div>
                     <?php endif; ?>
+
+                    <?php if(session('down')): ?>
+                        <div id="errdiv" class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+                            <span class="fa fa-exclamation"></span>                
+                            <?php echo session('down'); ?>
+
+                        </div>
+                    <?php endif; ?>                    
                    
                     <?php echo $__env->yieldContent('content'); ?>
 

@@ -17,7 +17,7 @@ class SequenceController extends Controller
 	) {
 		$this->roleRightService = $roleRightService;
 	}
-	public function index(Request $request)
+	public function index()
 	{
 		$rolesPermissions = $this->roleRightService->hasPermissions("Sequences Control");
 
@@ -29,78 +29,56 @@ class SequenceController extends Controller
 		$edit = $rolesPermissions['edit'];
 		$delete = $rolesPermissions['delete'];
 
-        $sequences = Sequence::orderBy('created_at', 'DESC')
-        ->where(function($query) use ($request)
-        {
-			if($request->has('searchtxt') && $request->searchtxt != '') 
-			{
-				$query->where('sequence_id', 'like', '%'.$request->searchtxt.'%' )
-                ->orWhere('date_created', 'like', '%'.$request->searchtxt.'%')
-				->orderBy('created_at', 'DESC');
-        	}
-        })
-        
-        ->paginate(15);
-        
-        return view('pages.sequence.index', compact('sequences', 'create', 'edit', 'delete'));
+		// if(!\Auth::user()->can_open_sequence) return redirect('/');
+
+		$sequencess = Sequence::orderBy('created_at', 'DESC')->limit(50)->get();
+		//$sequences = $sequences->paginate(10);
+
+		// $sequences = Sequence::all();
+
+		$perPage = 10;
+
+		$currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+		if ($currentPage == 1) {
+			$start = 0;
+		} else {
+			$start = ($currentPage - 1) * $perPage;
+		}
+
+		$currentPageCollection = $sequencess->slice($start, $perPage)->all();
+
+		$sequences = new LengthAwarePaginator($currentPageCollection, count($sequencess), $perPage);
+
+		$sequences->setPath(LengthAwarePaginator::resolveCurrentPath());
+
+		return view('pages.sequence.index', compact(
+			'sequences',
+			'create',
+			'edit',
+			'delete'
+		));
 	}
 
-	//public function create()
-	//{
+	public function create()
+	{
+	}
 
-	//}
+	public function storefabnum(Request $request)
+	{
 
-	// public function storefabnum(Request $request)
-	// {
+		Sequence::create($request->all());
 
-	// 	Sequence::create($request->all());
+		return back();
+	}
 
-	// 	return back();
-	// }
+	public function updatefabnum(Request $request)
+	{
 
-	// public function updatefabnum(Request $request)
-	// {
+		Sequence::find($request->id)->update($request->all());
 
-	// 	Sequence::find($request->id)->update($request->all());
-
-	// 	return back();
-	// }
-
-	public function store(Request $request) 
-    {		        
-        $request->validate([
-            'sequence_id' => 'required|max:10'
-        ]);		
-
-        Sequence::create([
-            'sequence_id' => $request->sequence_id,
-            'is_open' => $request->is_open,
-            'is_manual' => 0,
-            'is_fabricated' => $request->is_fabricated,
-            'created_by' => $request->created_by
-        ]);
-
-        return redirect()->route('maintenance.sequence.index')->with('success', 'Sequence has been saved!!');
-
-	}    
-
-    public function sequence_update(Request $request)
-    {
-
-        $request->validate([
-            'sequence_id' => 'required|max:10'
-        ]);		
-        
-        Sequence::find($request->nameid)->update([            
-            'sequence_id' => $request->sequence_id,
-            'updated_by' => $request->updated_by
-        ]);
-
-        return redirect()->route('maintenance.sequence.index')->with('success', 'Sequence has been updated!!');
-
-    }    
-
-    
+		return back();
+	}
 
 	public function getAction(Request $request)
 	{

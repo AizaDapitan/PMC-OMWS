@@ -32,7 +32,6 @@ Route::post('login', 'Auth\LoginController@login')->name('login.submit'); // log
 
 Route::get('adminlogin/admin', 'Auth\LoginController@adminLogin')->name('login.adminLogin'); // login
 Route::post('adminsubmit/admin', 'Auth\LoginController@adminSubmit')->name('login.adminsubmit'); // login submit
-Route::get('/close-open-sequence', 'SequenceController@closeOpenSequence')->name('sequence.close-open');
 
 Route::middleware(['auth'])->group(function () {
 
@@ -45,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('/item-update', 'ItemsController@item_update')->name('items.update');	
 
 	
+	Route::get('/manual', 'HomeController@manual')->name('manual');
 
 	Route::name('maintenance.')->group(function () {
 				
@@ -58,10 +58,10 @@ Route::middleware(['auth'])->group(function () {
 		Route::get('/contractors/{id}/location/{locId}/remove', 'ContractorController@detachLocation')->name('contractors.detach-location');
 		Route::get('/contractors/{id}/location/{locId}/insert', 'ContractorController@attachLocation')->name('contractors.attach-location');
 
-		Route::resource('sequence', 'SequenceController');
-		Route::post('sequence-action', 'SequenceController@getAction')->name('sequence.getAction');		
-		Route::post('sequence/fabricated-store', 'SequenceController@storefabnum')->name('fabricatednum.store');
-		Route::get('/sequence/fabricated-update/{id}', 'SequenceController@updatefabnum')->name('fabricatednum.update');
+		// Route::resource('sequence', 'SequenceController');
+		// Route::post('sequence-action', 'SequenceController@getAction')->name('sequence.getAction');		
+		// Route::post('sequence/fabricated-store', 'SequenceController@storefabnum')->name('fabricatednum.store');
+		// Route::get('/sequence/fabricated-update/{id}', 'SequenceController@updatefabnum')->name('fabricatednum.update');
 
 
 
@@ -95,6 +95,11 @@ Route::middleware(['auth'])->group(function () {
 		//Categories Routes		
 		Route::resource('categories', 'CategoryController');				
 		Route::post('/category-update', 'CategoryController@category_update')->name('categories.update');
+
+		//Sequence Control Routes
+		Route::resource('sequence', 'SequenceController');
+		Route::post('/sequence-update', 'SequenceController@sequence_update')->name('sequence.update');		
+		Route::get('/close-open-sequence', 'SequenceController@closeOpenSequence')->name('sequence.close-open');
 
 		//Role Routes
 		Route::resource('roles', 'RoleController');
@@ -178,6 +183,6 @@ Route::get('/change-password', function () {
 	return view('pages.profile.change-pass', compact('id'));
 })->name('change-pass');
 
-Route::patch('/change-password', 'HomeController@updatePassword');
+Route::patch('/change-password', 'HomeController@updatePassword')->name('updatePassword');
 
 Route::get('/ttt', 'TransactionController@getAllTransaction11');

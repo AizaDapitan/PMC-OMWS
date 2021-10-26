@@ -26,6 +26,7 @@ class User extends Authenticatable implements AuditableContract, UserResolver
         'password',
         'role',
         'active',
+        'can_open_sequence',        
         'remember_token',
         'email',
         'role_id',

@@ -46,7 +46,7 @@ class LoginController extends Controller
     }
     public function index()
     {
-        return auth()->check() ? redirect()->route('issuances.index') : view('auth.login');
+        return auth()->check() ? redirect()->route('home') : view('auth.login');
     }
     public function login(Request $request)
     {

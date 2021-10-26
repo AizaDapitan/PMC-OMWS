@@ -90,15 +90,13 @@
 						<i class="fa fa-lock"></i>
 						Categories</a>
 					</li>
-
-
-					{{-- @if(\Auth::user()->can_open_sequence) --}}
+			
 					<li class="@if (request()->routeIs('maintenance.sequence*')) active @endif">
 						<a href="{{ route('maintenance.sequence.index') }}">
 							<i class="fa fa-lock"></i>
 							Sequences Control</a>
 					</li>
-					{{-- @endif --}}
+					
 					
 					<li class="@if (request()->routeIs('maintenance.users')) active @endif">
 						<a href="{{ route('maintenance.users.index') }}">
@@ -260,7 +258,7 @@
 			</li>
 			<!--Added dated 11-30-2017 to cater the link for manual by AAG -->
 			<li>
-				<a href="/">
+				<a href="{{ route('manual') }}">
 					<i class="icon-docs"></i>
 					<span class="usersmanual">OMWS Manual</span>
 					<span class="arrow hide"></span>

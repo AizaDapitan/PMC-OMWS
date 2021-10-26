@@ -84,11 +84,14 @@
 							<i class="fa fa-lock"></i>
 							Cutoffs</a>
 					</li>
+					
 					<li class="<?php if(request()->routeIs('maintenance.categories*')): ?> active <?php endif; ?>">
 						<a href="<?php echo e(route('maintenance.categories.index')); ?>">
-							<i class="fa fa-lock"></i>
-							Categories</a>
-					</li>					
+						<i class="fa fa-lock"></i>
+						Categories</a>
+					</li>
+
+
 					
 					<li class="<?php if(request()->routeIs('maintenance.sequence*')): ?> active <?php endif; ?>">
 						<a href="<?php echo e(route('maintenance.sequence.index')); ?>">
@@ -104,7 +107,8 @@
 							<span class="arrow hide"></span>
 						</a>
 					</li>
-							<li class="<?php if(request()->routeIs('maintenance.roles*')): ?> active <?php endif; ?>">
+					
+					<li class="<?php if(request()->routeIs('maintenance.roles*')): ?> active <?php endif; ?>">
 						<a href="<?php echo e(route('maintenance.roles.index')); ?>">
 						<i class="fa fa-lock"></i>
 						Roles</a>
@@ -224,8 +228,8 @@
 							<span class="arrow hide"></span>
 						</a>
 					</li>
-					<li class="<?php if(request()->routeIs('rpt.issuance-by-status')): ?> active open <?php endif; ?>">
-						<a href="<?php echo e(route('rpt.issuance-by-status')); ?>?status=saved">
+					<li class="<?php if(request()->routeIs('rpt.unposted-transactions')): ?> active open <?php endif; ?>">
+						<a href="<?php echo e(route('rpt.unposted-transactions')); ?>?status=saved">
 							<i class="fa fa-calendar"></i>
 							<span class="title">Unposted Transactions</span>
 							<span class="arrow hide"></span>
@@ -256,7 +260,7 @@
 			</li>
 			<!--Added dated 11-30-2017 to cater the link for manual by AAG -->
 			<li>
-				<a href="/">
+				<a href="<?php echo e(route('manual')); ?>">
 					<i class="icon-docs"></i>
 					<span class="usersmanual">OMWS Manual</span>
 					<span class="arrow hide"></span>

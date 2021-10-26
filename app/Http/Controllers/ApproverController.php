@@ -55,7 +55,8 @@ class ApproverController extends Controller
         $name = "$request->lname, $request->fname  $request->mname";
 
         Approver::create([
-            'name' => strtoupper($name)
+            'name' => strtoupper($name),
+			'isActive' => 1
         ]);
 
         return redirect()->route('maintenance.approvers.index')->with('success', 'Approver has been saved!!');	

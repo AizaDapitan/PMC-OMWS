@@ -1,3 +1,3 @@
 <?php
-header('location: WelcometoOnlineMaterialWithdrawa.html');
+header('location: WelcometoOnlineMaterialWithdrawal.html');
 ?>

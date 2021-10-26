@@ -55,7 +55,8 @@ class CostcodeController extends Controller
 		        
         Costcode::create([
             'name' => strtoupper($request->name),
-            'description' => $request->description
+            'description' => $request->description,
+			'isActive' => 1
         ]);
 
         return redirect()->route('maintenance.costcodes.index')->with('success', 'Costcode has been saved!!');	

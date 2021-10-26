@@ -55,7 +55,8 @@ class ReceiverController extends Controller
         $name = "$request->lname, $request->fname  $request->mname";
 
         Receiver::create([
-            'name' => strtoupper($name)
+            'name' => strtoupper($name),
+            'isActive' => 1
         ]);
 
         return redirect()->route('maintenance.receivers.index')->with('success', 'Receiver has been saved!!');	

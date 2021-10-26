@@ -30,7 +30,7 @@
             <br><br>
             <div class="col-md-6 col-md-offset-3">
 
-            <form method="POST" action="/change-password" role="form">
+            <form method="POST" action="{{ route('updatePassword') }}" role="form">
                 @csrf 
                 @method('PATCH')
 
